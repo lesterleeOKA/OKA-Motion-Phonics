@@ -1,0 +1,221 @@
+
+.gameWrapper {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: -100vh;
+  left: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: top 0.5s ease;
+}
+/*-----------------------------------------------------------------------------------------------*/
+.gameWrapper > .prepareBoardWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: calc(min(2vh, 2vw));
+  left: 0px;
+}
+
+.gameWrapper > .prepareBoardWrapper > .prepareBoard {
+  content: url(../images/prepareBoard.png);
+  height: calc(min(26.44vh, 26.44vw));
+  /*position: absolute;
+  top: calc(min(2vh, 2vw));*/
+}
+/*-----------------------------------------------------------------------------------------------*/
+.gameWrapper > .ansResult {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.gameWrapper > .ansResult > .ans {
+  color: white;
+  padding: calc(min(1.5vh, 1.5vw));
+  border-radius: calc(min(15vh, 15vw));
+  width: calc(min(20vh, 20vw));
+  text-align: center;
+  font-size: calc(min(3vh, 3vw));
+  font-weight: bold;
+  display: none;
+}
+.gameWrapper > .ansResult > .ans.show {
+  display: block;
+}
+.gameWrapper > .ansResult > .ans.correct {
+  background-color: #84BD3B;
+}
+.gameWrapper > .ansResult > .ans.wrong {
+  background-color: #EE4865;
+}
+/*-----------------------------------------------------------------------------------------------*/
+.gameWrapper > .outBoxBoardWrapper {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.gameWrapper > .outBoxBoardWrapper > .outBoxBoard {
+  content: url(../images/outBox.png);
+  height: calc(min(40vh, 40vw));
+}
+/*-----------------------------------------------------------------------------------------------*/
+.gameWrapper > .topLeftControl {
+  position: absolute;
+  top: calc(min(1vh, 2vw));
+  left: 0px;
+  justify-content: space-evenly;
+  display: flex;
+  align-items: baseline;
+  transition: all 0.5s ease;
+  opacity: 1;
+}
+
+.gameWrapper > .topLeftControl.hide { opacity: 0; }
+/*-----------------------------------------------------------------------------------------------*/
+.gameWrapper > .topLeftControl > .stageWrapper {
+  position: relative;
+}
+.gameWrapper > .topLeftControl > .stageWrapper > .stageStar {
+  height: calc(min(11.7vh, 11.7vw));
+  margin-left: calc(min(3vh, 3vw));
+  content: url(../images/stageStar1.png);
+}
+.gameWrapper > .topLeftControl > .stageWrapper > .stageStar.stage0 { content: url(../images/stageStar1.png); }
+.gameWrapper > .topLeftControl > .stageWrapper > .stageStar.stage1 { content: url(../images/stageStar2.png); }
+.gameWrapper > .topLeftControl > .stageWrapper > .stageStar.stage2 { content: url(../images/stageStar3.png); }
+/*-----------------------------------------------------------------------------------------------*/
+.gameWrapper > .topLeftControl > .scoreWrapper {
+  position: relative;
+}
+.gameWrapper > .topLeftControl > .scoreWrapper > .scoreBoard {
+  height: calc(min(11.7vh, 11.7vw));
+  margin-left: calc(min(3vh, 3vw));
+  content: url(../images/score.png);
+}
+/*-----------------------------------------------------------------------------------------------*/
+.gameWrapper > .topLeftControl > .scoreWrapper > .scoreText {
+  position: absolute;
+  color: #fff;
+  font-size: calc(min(3.5vh, 3.5vw));
+  top: calc(min(4.3vh, 4.3vw));
+  right: calc(min(9.7vh, 9.7vw));
+  font-family: "Chalkboard SE", "Comic Sans MS", "Comic Sans", cursive;
+  font-weight: bold;
+  text-shadow: calc(min(0.3vh, 0.3vw)) calc(min(0.3vh, 0.3vw)) #000;
+}
+/*-----------------------------------------------------------------------------------------------*/
+.gameWrapper > .topLeftControl > .timeWrapper {
+  position: relative;
+}
+.gameWrapper > .topLeftControl > .timeWrapper > .timeBoard {
+  height: calc(min(11.7vh, 11.7vw));
+  margin-left: calc(min(3vh, 3vw));
+  content: url(../images/time.png);
+}
+.gameWrapper > .topLeftControl > .timeWrapper > .timeText {
+  position: absolute;
+  color: #fff;
+  font-size: calc(min(3.5vh, 3.5vw));
+  top: calc(min(4.3vh, 4.3vw));
+  right: calc(min(5.5vh, 5.5vw));
+  font-family: "Chalkboard SE", "Comic Sans MS", "Comic Sans", cursive;
+  font-weight: bold;
+  text-shadow: calc(min(0.3vh, 0.3vw)) calc(min(0.3vh, 0.3vw)) #000;
+}
+/*-----------------------------------------------------------------------------------------------*/
+.gameWrapper > .topRightControl {
+  position: absolute;
+  top: calc(min(1vh, 2vw));
+  right: 0px;
+  justify-content: space-evenly;
+  display: flex;
+  align-items: baseline;
+}
+
+.gameWrapper > .topRightControl > .tips {
+  height: calc(min(11.7vh, 11.7vw));
+  transition: all 0.5s ease;
+  opacity: 1;
+  margin-right: calc(min(3vh, 3vw));
+}
+.gameWrapper > .topRightControl > .tips.hide { opacity: 0; }
+.gameWrapper > .topRightControl > .tips.tipsOutBox { content: url(../images/tipsOutBox.png); }
+.gameWrapper > .topRightControl > .tips.tipsReady { content: url(../images/tipsReady.png); }
+.gameWrapper > .topRightControl > .tips.tipsStart { content: url(../images/tipsStart.png); }
+
+.gameWrapper > .topRightControl > .musicBtn {
+  width: calc(min(9vh, 9vw));
+  margin-right: calc(min(3vh, 3vw));
+  cursor: pointer;
+}
+.gameWrapper > .topRightControl > .musicBtn:active {
+  width: calc(min(7vh, 7vw));
+  padding: calc(min(1vh, 1vw));
+}
+.gameWrapper > .topRightControl > .musicBtn.on {
+  content: url(../images/musicBtnOn.png);
+}
+.gameWrapper > .topRightControl > .musicBtn.off {
+  content: url(../images/musicBtnOff.png);
+}
+
+.gameWrapper > .topRightControl > .exitBtn {
+  content: url(../images/exitBtn.png);
+  width: calc(min(9vh, 9vw));
+  margin-right: calc(min(3vh, 3vw));
+  cursor: pointer;
+}
+.gameWrapper > .topRightControl > .exitBtn:active {
+  width: calc(min(7vh, 7vw));
+  padding: calc(min(1vh, 1vw));
+}
+/*-----------------------------------------------------------------------------------------------*/
+.gameWrapper > .count {
+  max-height: calc(min(20vh, 20vw));
+  transition: all 0.4s ease;
+  position: absolute;
+}
+.gameWrapper > .count.c0 {
+  content: url(../images/count0.png);
+}
+.gameWrapper > .count.c1 {
+  content: url(../images/count1.png);
+}
+.gameWrapper > .count.c2 {
+  content: url(../images/count2.png);
+}
+.gameWrapper > .count.c3 {
+  content: url(../images/count3.png);
+}
+
+/*-----------------------------------------------------------------------------------------------*/
+.gameWrapper > .stage {
+  max-height: calc(min(20vh, 20vw));
+  transition: all 0.4s ease;
+  position: absolute;
+}
+.gameWrapper > .stage.s0 {
+  content: url(../images/stage1.png);
+}
+.gameWrapper > .stage.s1 {
+  content: url(../images/stage2.png);
+}
+.gameWrapper > .stage.s2 {
+  content: url(../images/stage3.png);
+}
+/*-----------------------------------------------------------------------------------------------*/

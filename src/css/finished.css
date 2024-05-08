@@ -1,0 +1,100 @@
+.finishedWrapper {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: -100vh;
+  left: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: top 0.5s ease, opacity 0.1s ease 0.5s;
+  opacity: 0;
+  pointer-events: none;
+}
+.finishedWrapper.show {
+  top: 0px;
+  opacity: 1;
+  transition: top 0.5s ease, opacity 0.1s ease;
+  pointer-events: all;
+}
+/*-----------------------------------------------------------------------------------------------*/
+.finishedWrapper > .finishedBoardWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.finishedWrapper > .finishedBoardWrapper > .finishedBoard {
+  height: calc(min(90vh, 90vw));
+  content: url(../images/finished.png);
+}
+
+/*-----------------------------------------------------------------------------------------------*/
+.finishedWrapper > .finishedBoardWrapper > .scoreTimeWrapper {
+  position: absolute;
+  top: calc(50% + min(5vh, 5vw));
+  left: calc((100vw - min(45vh, 45vw))/2);
+  width: calc(min(45vh, 45vw));
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  font-size: calc(min(6vh, 6vw));
+  font-weight: bold;
+  color: #7C5729;
+}
+.finishedWrapper > .finishedBoardWrapper > .scoreTimeWrapper > .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: calc(min(9vh, 9vw));
+}
+.finishedWrapper > .finishedBoardWrapper > .scoreTimeWrapper > .row > .label {
+}
+.finishedWrapper > .finishedBoardWrapper > .scoreTimeWrapper > .row > .icon {
+  height: calc(min(5vh, 5vw));
+}
+.finishedWrapper > .finishedBoardWrapper > .scoreTimeWrapper > .row.score > .icon {
+  content: url(../images/iconScore.png);
+}
+.finishedWrapper > .finishedBoardWrapper > .scoreTimeWrapper > .row.time > .icon {
+  content: url(../images/iconTime.png);
+}
+.finishedWrapper > .finishedBoardWrapper > .scoreTimeWrapper > .row > .value {
+  font-family: "Chalkboard SE", "Comic Sans MS", "Comic Sans", cursive;
+}
+
+/*-----------------------------------------------------------------------------------------------*/
+.finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper {
+  position: absolute;
+  top: calc(50% + min(25vh, 25vw));
+  left: calc((100vw - min(70vh, 70vw))/2);
+  width: calc(min(70vh, 70vw));
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .backHomeBtn {
+  content: url(../images/backHomeBtnYellow.png);
+  width: calc(min(28.7vh, 28.7vw));
+  cursor: pointer;
+}
+
+.finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .backHomeBtn:active {
+  content: url(../images/backHomeBtnGreen.png);
+}
+
+.finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .playAgainBtn {
+  content: url(../images/playAgainBtnYellow.png);
+  width: calc(min(28.7vh, 28.7vw));
+  cursor: pointer;
+}
+
+.finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .playAgainBtn:active {
+  content: url(../images/playAgainBtnGreen.png);
+}
+
+/*-----------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------*/

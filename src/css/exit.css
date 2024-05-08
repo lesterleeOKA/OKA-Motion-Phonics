@@ -1,0 +1,64 @@
+.exitWrapper {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: -100vh;
+  left: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: top 0.5s ease, opacity 0.1s ease 0.5s;
+  opacity: 0;
+  pointer-events: none;
+  background-color: transparent;
+}
+.exitWrapper.show {
+  top: 0px;
+  opacity: 1;
+  transition: top 0.5s ease, opacity 0.1s ease, background-color 0.5s ease 0.5s;
+  pointer-events: all;
+  background-color: rgba(0,0,0,0.5);
+}
+/*-----------------------------------------------------------------------------------------------*/
+.exitWrapper > .exitBoard {
+  background-image: url(../images/exitBoard.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  width: calc(min(73.5vh, 73.5vw));
+  height: calc(min(39.5vh, 39.5vw));
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex-direction: column;
+  justify-content: start;
+}
+/*-----------------------------------------------------------------------------------------------*/
+.exitWrapper > .exitBoard  > .btnWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: calc(min(23vh, 23vw));
+}
+
+.exitWrapper > .exitBoard  > .btnWrapper > .continueBtn {
+  content: url(../images/continueBtnYellow.png);
+  width: calc(min(28.7vh, 28.7vw));
+  cursor: pointer;
+}
+
+.exitWrapper > .exitBoard  > .btnWrapper > .continueBtn:active {
+  content: url(../images/continueBtnGreen.png);
+}
+
+.exitWrapper > .exitBoard  > .btnWrapper > .backHomeBtn {
+  content: url(../images/backHomeBtnYellow.png);
+  width: calc(min(28.7vh, 28.7vw));
+  cursor: pointer;
+}
+
+.exitWrapper > .exitBoard  > .btnWrapper > .backHomeBtn:active {
+  content: url(../images/backHomeBtnGreen.png);
+}
+/*-----------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------*/

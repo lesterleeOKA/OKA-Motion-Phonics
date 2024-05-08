@@ -1,0 +1,68 @@
+
+.instructionWrapper {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: -100vh;
+  left: 0px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  transition: top 0.5s ease;
+}
+
+.instructionWrapper > .schoolLogo {
+  position: absolute;
+  top: calc(min(2vh, 2vw));
+  left: calc(min(2vh, 2vw));
+  content: url(../images/schoolLogo.png);
+  width: calc(min(15.7vh, 15.7vw));
+}
+
+.instructionWrapper > .gameTitle {
+  background-image: url(../images/gameTitle.png);
+  height: calc(min(16.5vh, 16.5vw));
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.instructionWrapper > .instructionBoard {
+  background-image: url(../images/instructionBoard.png);
+  height: calc(min(53vh, 53vw));
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.instructionWrapper > .startBtn {
+  content: url(../images/startBtnYellow.png);
+  width: calc(min(28.7vh, 28.7vw));
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  cursor: pointer;
+  animation-name: startBtnAnimation;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+  animation-duration: 1s;
+}
+
+@keyframes startBtnAnimation {
+  0% {
+    content: url(../images/startBtnYellow.png);
+  }
+  51% { 
+    content: url(../images/startBtnGreen.png)
+  }
+}
+
+.instructionWrapper > .startBtn:active {
+  content: url(../images/startBtnGreen.png);
+}
