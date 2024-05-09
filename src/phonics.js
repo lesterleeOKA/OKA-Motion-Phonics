@@ -5,6 +5,7 @@ import State from './state';
 export default {
   fallingId: 0,
   questionWord: '',
+  itemDistance: 200,
   score: 0,
   time: 0,
   timer: null,
@@ -16,6 +17,7 @@ export default {
   init() {
     this.fallingId = 0;
     this.questionWord = '';
+    this.itemDistance = 200;
     this.score = 0;
     this.time = 0;
     this.addScore(0);
@@ -62,18 +64,12 @@ export default {
 
       // Check if the item has reached the bottom
       if (item.y >= View.canvas.height) {
-        // Handle item reaching the bottom (e.g., remove item, etc.)
         this.handleItemReachedBottom(item);
       }
     });
 
-    // Remove items that have reached the bottom
     this.fallingItems = this.fallingItems.filter((item) => item.y < View.canvas.height);
-
-    // Render the updated falling items
     this.renderFallingItems();
-
-    // Call the update function again on the next animation frame
     requestAnimationFrame(this.updateFallingItems.bind(this));
   },
 
@@ -83,20 +79,45 @@ export default {
   },
 
   createRandomItem(char) {
-
-    if (char && char.length > 0) {
-      console.log(char);
+    if (char && char.length !== 0) {
       const word = char;
-      const x = Math.random() * View.canvas.width * 0.75;
-      const y = 0;
-      const speed = this.getRandomSpeed(1, 5);
-      const id = `fallingItem-${this.fallingItems.length}`;
-      const optionWrapper = this.createOptionWrapper(word, id);
-      this.fallingId += 1;
-      const option = { x, y, optionWrapper, id, speed };
 
-      this.fallingItems.push(option);
+      const generatePosition = () => {
+        const x = Math.random() * View.canvas.width * 0.75;
+        const y = 0;
+        const speed = this.getRandomSpeed(0.5, 2);
+        const id = `fallingItem-${this.fallingItems.length}`;
+        const optionWrapper = this.createOptionWrapper(word, id);
+        const newFallingItem = {
+          x,
+          y,
+          optionWrapper,
+          id,
+          speed
+        };
+
+        if (this.IsTooClose(newFallingItem)) {
+          newFallingItem.x = Math.random() * View.canvas.width * 0.75;
+        }
+
+        return newFallingItem;
+      };
+
+      const newFallingItem = generatePosition();
+      this.fallingItems.push(newFallingItem);
     }
+  },
+
+  IsTooClose(newFallingItem) {
+    return this.fallingItems.some((item) => {
+      const distance = Math.abs(item.x - newFallingItem.x);
+
+      if (distance < this.itemDistance) {
+        console.log(newFallingItem.id, item.id);
+        return true;
+      }
+
+    });
   },
 
   generatePrefixesAndSuffixes(word) {
@@ -138,12 +159,12 @@ export default {
   renderFallingItems() {
 
     View.optionArea.innerHTML = '';
-    // Render each falling item on the canvas
     this.fallingItems.forEach((item) => {
       View.optionArea.appendChild(item.optionWrapper);
       item.optionWrapper.classList.add("show");
       item.optionWrapper.style.left = item.x + 'px';
-      item.optionWrapper.style.top = item.y + 'px';
+      //item.optionWrapper.style.top = item.y + 'px';
+      item.optionWrapper.style.transform = `translateY(${item.y}px)`;
     });
   },
 
@@ -153,8 +174,15 @@ export default {
   },
 
   handleItemReachedBottom(item) {
+    item.x = Math.random() * View.canvas.width * 0.75;
+    item.y = 0;
+
+    if (this.IsTooClose(item)) {
+      item.x = Math.random() * View.canvas.width * 0.75;
+      item.y = 0;
+    }
     // Handle the item reaching the bottom (e.g., remove item)
-    this.removeFallingItem(item);
+    //this.removeFallingItem(item);
   },
 
   removeFallingItem(item) {

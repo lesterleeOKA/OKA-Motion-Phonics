@@ -1,4 +1,4 @@
-import * as posedetection from './tensorflow-models/pose-detection';
+import * as posedetection from '@tensorflow-models/pose-detection';
 import Camera from './camera';
 import { RendererCanvas2d } from './renderer';
 import Util from './util';
@@ -11,10 +11,10 @@ let rafId;
 
 async function createDetector() {
   const runtime = 'mediapipe';
-  return posedetection.createDetector('BlazePose', {
+  return posedetection.createDetector(posedetection.SupportedModels.BlazePose, {
     runtime,
     modelType: 'lite',
-    solutionPath: `@mediapipe/pose@0.4.1633558788`
+    solutionPath: `@mediapipe/pose@0.5.1675469404`
     //solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/pose@${mpPose.VERSION}`
   });
 }
@@ -139,16 +139,21 @@ function init() {
   ]);
 }
 
+
 async function app() {
   console.log('in app()');
   if (location.protocol !== 'https:') {
     location.replace(`https:${location.href.substring(location.protocol.length)}`);
   }
+
   init().then(() => {
     Util.loadingStart();
     setTimeout(() => {
       Camera.setup();
+
       createDetector().then((detector) => {
+
+        console.log(detector);
         //const canvas = document.getElementById('output');
         View.renderer = new RendererCanvas2d(View.canvas);
 

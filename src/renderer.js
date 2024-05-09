@@ -109,12 +109,23 @@ export class RendererCanvas2d {
 
         for (let point of checkKeypoints) {
           for (let option of optionWrappers) {
-            if (
+
+            /*if (
               !touchingImg &&
               point.x > option.offsetLeft &&
               point.x < (option.offsetLeft + option.offsetWidth) &&
               point.y > option.offsetTop &&
               point.y < (option.offsetTop + option.offsetHeight)
+            ) {
+              touchingImg = option;
+            }*/
+            const optionRect = option.getBoundingClientRect();
+
+            if (!touchingImg &&
+              point.x > optionRect.left &&
+              point.x < optionRect.right &&
+              point.y > optionRect.top &&
+              point.y < optionRect.bottom
             ) {
               touchingImg = option;
             }
