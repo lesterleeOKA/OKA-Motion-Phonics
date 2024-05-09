@@ -13,7 +13,8 @@
     "@tensorflow-models/pose-detection": "^2.1.0",
     "@tensorflow/tfjs-converter": "^4.2.0",
     "@tensorflow/tfjs-core": "^4.2.0",
-    "is-svg": "5.0.0"
+    "is-svg": "5.0.0",
+    "tensorflow-models": "^0.0.1"
   },
   "scripts": {
     "watch": "parcel index.html --no-hmr --open --https",

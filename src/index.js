@@ -1,6 +1,6 @@
-import * as posedetection from '@tensorflow-models/pose-detection';
+import * as posedetection from './tensorflow-models/pose-detection';
 import Camera from './camera';
-import {RendererCanvas2d} from './renderer';
+import { RendererCanvas2d } from './renderer';
 import Util from './util';
 import View from './view';
 import State from './state';
@@ -50,14 +50,14 @@ async function renderResult() {
   // from a URL that does not exist).
   if (detector != null) {
     try {
-      poses = await detector.estimatePoses(Camera.video, {maxPoses: 1, flipHorizontal: false});
+      poses = await detector.estimatePoses(Camera.video, { maxPoses: 1, flipHorizontal: false });
     } catch (error) {
       detector.dispose();
       detector = null;
       alert(error);
     }
   }
-  
+
   View.renderer.draw([Camera.video, poses, false]);
 }
 
@@ -78,29 +78,29 @@ function init() {
 
   const clickHandler = ('ontouchstart' in document.documentElement ? "touchend" : "click");
 
-  View.startBtn.addEventListener(clickHandler, ()=>{
+  View.startBtn.addEventListener(clickHandler, () => {
     if (State.isSoundOn) Sound.play('btnClick');
     State.changeState('prepare');
   });
-  
-  View.exitBtn.addEventListener(clickHandler, ()=>{
+
+  View.exitBtn.addEventListener(clickHandler, () => {
     if (State.isSoundOn) Sound.play('btnClick');
     State.gamePauseData.state = State.state;
     State.gamePauseData.stateType = State.stateType;
     State.changeState('pause');
   });
 
-  View.musicBtn.addEventListener(clickHandler, ()=>{
+  View.musicBtn.addEventListener(clickHandler, () => {
     if (State.isSoundOn) Sound.play('btnClick');
     toggleSound();
   });
-  
-  View.backHomeBtnOfFinished.addEventListener(clickHandler, ()=>{
+
+  View.backHomeBtnOfFinished.addEventListener(clickHandler, () => {
     if (State.isSoundOn) Sound.play('btnClick');
     State.changeState('instruction');
   });
 
-  View.playAgainBtn.addEventListener(clickHandler, ()=>{
+  View.playAgainBtn.addEventListener(clickHandler, () => {
     if (State.isSoundOn) {
       Sound.play('btnClick');
       Sound.play('bgm', true);
@@ -108,13 +108,13 @@ function init() {
     State.changeState('prepare');
   });
 
-  View.backHomeBtnOfExit.addEventListener(clickHandler, ()=>{
+  View.backHomeBtnOfExit.addEventListener(clickHandler, () => {
     if (State.isSoundOn) Sound.play('btnClick');
     View.hideExit();
     State.changeState('instruction');
   });
 
-  View.continuebtn.addEventListener(clickHandler, ()=>{
+  View.continuebtn.addEventListener(clickHandler, () => {
     if (State.isSoundOn) Sound.play('btnClick');
     View.hideExit();
     State.changeState(State.gamePauseData.state, State.gamePauseData.stateType);
@@ -144,16 +144,16 @@ async function app() {
   if (location.protocol !== 'https:') {
     location.replace(`https:${location.href.substring(location.protocol.length)}`);
   }
-  init().then(()=>{
+  init().then(() => {
     Util.loadingStart();
-    setTimeout(()=>{
+    setTimeout(() => {
       Camera.setup();
-      createDetector().then((detector)=>{
+      createDetector().then((detector) => {
         //const canvas = document.getElementById('output');
         View.renderer = new RendererCanvas2d(View.canvas);
-      
-        renderPrediction().then(()=>{
-          Util.loadingComplete().then(()=>{
+
+        renderPrediction().then(() => {
+          Util.loadingComplete().then(() => {
             State.changeState('instruction');
           });
         })
