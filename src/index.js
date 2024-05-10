@@ -141,7 +141,7 @@ function init() {
 
 
 async function app() {
-  console.log('in app()');
+  //console.log('in app()');
   if (location.protocol !== 'https:') {
     location.replace(`https:${location.href.substring(location.protocol.length)}`);
   }
@@ -171,7 +171,7 @@ async function app() {
 //-------------------------------------------------------------------------------------------------
 function toggleSound() {
   State.isSoundOn = !State.isSoundOn;
-  console.log('State.isSoundOn: ' + State.isSoundOn);
+  //console.log('State.isSoundOn: ' + State.isSoundOn);
   if (State.isSoundOn) {
     View.musicBtn.classList.add('on');
     View.musicBtn.classList.remove('off');

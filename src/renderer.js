@@ -103,53 +103,39 @@ export class RendererCanvas2d {
 
       //檢查是否有選到圖
       let optionWrappers = document.querySelectorAll('.canvasWrapper > .optionArea > .optionWrapper.show');
-      if (State.state == 'playing' && ['waitAns', 'touched1', 'touched2'].includes(State.stateType)) {
+
+      if (State.state == 'playing' && ['waitAns'].includes(State.stateType)) {
         let checkKeypoints = pose.keypoints.filter(k => ['right_index', 'left_index'].includes(k.name) && k.score > passScore);
-        let touchingImg = null;
+        let touchingWord = [];
 
         for (let point of checkKeypoints) {
           for (let option of optionWrappers) {
-
-            /*if (
-              !touchingImg &&
-              point.x > option.offsetLeft &&
-              point.x < (option.offsetLeft + option.offsetWidth) &&
-              point.y > option.offsetTop &&
-              point.y < (option.offsetTop + option.offsetHeight)
-            ) {
-              touchingImg = option;
-            }*/
             const optionRect = option.getBoundingClientRect();
 
-            if (!touchingImg &&
+            if (
               point.x > optionRect.left &&
               point.x < optionRect.right &&
               point.y > optionRect.top &&
               point.y < optionRect.bottom
             ) {
-              touchingImg = option;
+              touchingWord.push(option);
             }
           }
         }
 
         for (let option of optionWrappers) {
-          if (option == touchingImg) {
-            var optionId = option.id;
-            console.log("touched!!!!!!!!!!!!!!!!!!", optionId);
+          if (touchingWord.includes(option) && !option.classList.contains('touch')) {
             State.setPoseState('selectedImg', option);
-            option.classList.add('touch');
-            Game.removeFallingItemByIndex(optionId);
-          } else {
-            option.classList.remove('touch');
+            Game.mergeWord(option);
           }
         }
 
-        if (!touchingImg) State.setPoseState('selectedImg', '');
-      } else if (State.selectedImg.value) {
-        State.setPoseState('selectedImg', null);
+        if (touchingWord.length === 0) State.setPoseState('selectedImg', '');
+      }
+      else if (State.state == 'playing' && ['wrong'].includes(State.stateType)) {
         for (let option of optionWrappers) option.classList.remove('touch');
-      };
-
+        State.changeState('playing', 'waitAns');
+      }
 
       //檢查有沒有面向鏡頭
       /*let nose = pose.keypoints.find(k=>k.name=='nose' && k.score>passScore); //鼻尖
@@ -310,7 +296,7 @@ export class RendererCanvas2d {
     this.ctx.strokeStyle = color;
     this.ctx.lineWidth = 2;
 
-    posedetection.util.getAdjacentPairs('BlazePose').forEach(([i, j]) => {
+    posedetection.util.getAdjacentPairs(posedetection.SupportedModels.BlazePose).forEach(([i, j]) => {
       const kp1 = keypoints[i];
       const kp2 = keypoints[j];
 

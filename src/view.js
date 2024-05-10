@@ -32,7 +32,7 @@ export default {
   stageStar: document.querySelector('.gameWrapper > .topLeftControl > .stageWrapper > .stageStar'),
   scoreBoard: document.querySelector('.gameWrapper > .topLeftControl > .scoreWrapper > .scoreBoard'),
   scoreText: document.querySelector('.gameWrapper > .topLeftControl > .scoreWrapper > .scoreText'),
-  //timeText: document.querySelector('.gameWrapper > .topLeftControl > .timeWrapper > .timeText'),
+  timeText: document.querySelector('.gameWrapper > .topLeftControl > .timeWrapper > .timeText'),
   finishedScore: document.querySelector('.finishedWrapper > .finishedBoardWrapper > .scoreTimeWrapper > .row.score > .value'),
   finishedTime: document.querySelector('.finishedWrapper > .finishedBoardWrapper > .scoreTimeWrapper > .row.time > .value'),
   topLeftControl: document.querySelector('.gameWrapper > .topLeftControl'),
@@ -51,7 +51,7 @@ export default {
   },
   hideCanvas() {
     this.canvasWrapper.style.opacity = 0;
-    setTimeout(()=>{
+    setTimeout(() => {
       this.canvasWrapper.style.visibility = "visible";
     }, 500);
   },
@@ -78,10 +78,10 @@ export default {
   },*/
   //-----------------------------------------------------------------------------------------------
   showCount(num) {
-    this.countImg.className ="count c" + num;
+    this.countImg.className = "count c" + num;
     this.countImg.style.opacity = 1;
     this.countImg.style.maxHeight = "calc(min(40vh, 40vw))";
-    setTimeout(()=>this.hideCount(), 600);
+    setTimeout(() => this.hideCount(), 600);
   },
   hideCount() {
     this.countImg.style.opacity = 0;
@@ -90,13 +90,13 @@ export default {
   //-----------------------------------------------------------------------------------------------
   showStage() {
     Game.addScore(0);
-    this.stageStar.className ="stageStar stage" + Game.stage
+    this.stageStar.className = "stageStar stage" + Game.stage
     //this.scoreBoard.className ="scoreBoard stage" + Game.stage;
 
-    this.stageImg.className ="stage s" + Game.stage;
+    this.stageImg.className = "stage s" + Game.stage;
     this.stageImg.style.opacity = 1;
     this.stageImg.style.maxHeight = "calc(min(40vh, 40vw))";
-    setTimeout(()=>this.hideStage(), 600);
+    setTimeout(() => this.hideStage(), 600);
   },
   hideStage() {
     this.stageImg.style.opacity = 0;
@@ -105,16 +105,16 @@ export default {
   //-----------------------------------------------------------------------------------------------
   showFinished() {
     this.finishedWrapper.classList.add("show");
-    let fullScore = 0;
+    /*let fullScore = 0;
     for (let stage of Game.stages) for (let question of stage.questions) fullScore += question.correctImgNum;
     let ttlScore = 0;
     for (let score of Game.score) ttlScore += score;
-    this.finishedScore.innerText = ttlScore + "/" + fullScore;
+    this.finishedScore.innerText = ttlScore + "/" + fullScore;*/
     //this.finishedTime.innerText = Game.getCurTimeString();
   },
   hideFinished() {
     this.finishedWrapper.classList.remove("show");
-    setTimeout(()=>{
+    setTimeout(() => {
       this.finishedScore.innerText = "";
       //this.finishedTime.innerText = "";
     }, 1000);
@@ -150,12 +150,12 @@ export default {
     let correct = document.querySelector('.gameWrapper > .ansResult > .ans.correct');
     if (correct) {
       correct.classList.remove('show');
-      if (result=='correct') correct.classList.add('show');
+      if (result == 'correct') correct.classList.add('show');
     }
     let wrong = document.querySelector('.gameWrapper > .ansResult > .ans.wrong');
     if (wrong) {
       wrong.classList.remove('show');
-      if (result=='wrong') wrong.classList.add('show');
+      if (result == 'wrong') wrong.classList.add('show');
     }
 
     //顯示所選答案的color border
@@ -163,7 +163,7 @@ export default {
       if (optionWrapper.classList.contains('showColorBorder')) optionWrapper.classList.remove('showColorBorder');
     }
     if (result && State.selectedImg.value && !State.selectedImg.value.classList.contains('showColorBorder')) {
-        State.selectedImg.value.classList.add('showColorBorder');
+      State.selectedImg.value.classList.add('showColorBorder');
     }
   },
   //-----------------------------------------------------------------------------------------------

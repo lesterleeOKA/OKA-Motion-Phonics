@@ -46,15 +46,17 @@
   opacity: 1;
   text-align: center;
   font-size: -webkit-xxx-large;
-  width: 200px;
+  width: 300px;
   height: 85px;
 }
 
 .canvasWrapper > .optionArea > .optionWrapper.show {
+  position: absolute;
   opacity: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  /*animation: fallingAnimation 8s linear;*/
 }
 
 .canvasWrapper > .optionArea > .optionWrapper > .option {
@@ -65,6 +67,52 @@
   text-align: center;
   font-size: 5vh;
   aspect-ratio: 1/1;
+}
+
+:root {
+  --top-height: 0px;
+  --bottom-height: 200px;
+}
+
+.fadeIn {
+  animation: fade-In;
+  animation-duration: 1s;
+}
+
+.fadeOut {
+  animation: fade-Out;
+  animation-duration: 1s;
+}
+
+@keyframes fallingAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(var(--top-height));
+  }
+  5% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(var(--bottom-height));
+  }
+}
+
+@keyframes fade-In{
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-Out{
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .canvasWrapper > .optionArea > .optionWrapper > .selectCount {
