@@ -5,10 +5,10 @@ import Sound from './sound';
 export default {
   randPositions: [],
   questionWord: '',
-  itemDistance: 400,
   score: 0,
   time: 0,
   remainingTime: 60,
+  optionSize: 10,
   timer: null,
   timerRunning: false,
   nextQuestion: true,
@@ -16,6 +16,7 @@ export default {
   wordParts: [],
   defaultStrings: ['apple', 'banana', 'cherry', 'orange', 'pear'],
   questionWrapper: null,
+  startedGame: false,
   fillwordTime: 0,
 
   init() {
@@ -24,7 +25,6 @@ export default {
     View.timeText.innerText = this.remainingTime;
     View.showTips('tipsReady');
     this.questionWord = '';
-    this.itemDistance = 400;
     this.score = 0;
     this.time = 0;
     this.timerRunning = false;
@@ -38,6 +38,8 @@ export default {
     this.fillwordTime = 0;
     View.stageImg.innerHTML = '';
     View.optionArea.innerHTML = '';
+    this.startedGame = false;
+    this.optionSize = View.canvas.width / 8;
   },
 
   addScore(mark) {
@@ -49,13 +51,17 @@ export default {
   },
 
   startCountTime() {
+    if(!this.startedGame) {
+      this.time = this.remainingTime;
+      this.startedGame = true;
+    }
+
     if (!this.timerRunning) {
       this.showQuestions(true);
-      let gameTime = this.remainingTime;
 
       this.timer = setInterval(() => {
-        // this.wordParts.splice(0);
-        //View.optionArea.innerHTML = '';
+        //this.wordParts.splice(0);
+       // View.optionArea.innerHTML = '';
 
         if (this.nextQuestion) {
           this.setQuestions();
@@ -68,16 +74,13 @@ export default {
           }
         }
 
-        gameTime--;
-        View.timeText.innerText = gameTime;
+        this.time--;
+        View.timeText.innerText = this.time;
 
-        if (gameTime <= 0) {
+        if (this.time <= 0) {
           this.stopCountTime();
           State.changeState('finished');
-          //console.log("Game Over");
         }
-
-        this.time++;
       }, 1000);
       this.timerRunning = true;
     }
@@ -96,16 +99,15 @@ export default {
   createRandomPartWord(char) {
     if (char && char.length !== 0) {
       const word = char;
-      const position = this.getRandomPosition();
+      const id = this.generateUniqueId();
+      const optionWrapper = this.createOptionWrapper(word, id);
+      const position = this.getRandomPosition(optionWrapper);
       if (position) {
         const generatePosition = () => {
-          const id = this.generateUniqueId();
-          const optionWrapper = this.createOptionWrapper(word, id);
           const newPart = {
             x: position.x,
             y: position.y,
-            width: 200,
-            height: 200,
+            size: this.optionSize,
             word: word,
             optionWrapper,
             id,
@@ -129,7 +131,7 @@ export default {
           this.wordParts.push(newPartWord);
           this.renderPartItem(newPartWord);
         } else {
-          console.log('Collision detected. Skipping item creation.');
+          //console.log('Collision detected. Skipping item creation.');
           this.createRandomPartWord(char);
         }
       }
@@ -138,10 +140,10 @@ export default {
 
   checkCollision(item1, item2) {
     return (
-      item1.x < item2.x + item2.width &&
-      item1.x + item1.width > item2.x &&
-      item1.y < item2.y + item2.height &&
-      item1.y + item1.height > item2.y
+      item1.x < item2.x + item2.size &&
+      item1.x + item1.size> item2.x &&
+      item1.y < item2.y + item2.size &&
+      item1.y + item1.size > item2.y
     );
   },
   getRandomInt(min, max) {
@@ -162,26 +164,52 @@ export default {
     return positionsArray;
   },
 
-  getRandomPosition() {
-    var position = this.generatePositionsArray(
-      4,
-      View.canvas.width,
-      View.canvas.height,
-      200,
-    )[0];
-    return position;
+  getRandomPosition(optionWrapper) {
+
+    if(optionWrapper) {
+      //console.log("ow", optionWrapper);
+      const positionsArray = this.generatePositionsArray(
+        4,
+        View.canvas.width,
+        View.canvas.height,
+        this.optionSize,
+      );
+    
+      for (const position of positionsArray) {
+        const { x, y } = position;  
+        const redBoxX = View.canvas.width / 3;
+        const redBoxY = (View.canvas.height / 5) * 3;
+        const redBoxWidth = View.canvas.width / 3;
+        const redBoxHeight = (View.canvas.height / 5) * 2;
+  
+        if (
+          x + this.optionSize < redBoxX ||    
+          x - this.optionSize > redBoxX + redBoxWidth ||
+          y - this.optionSize > redBoxY + redBoxHeight
+        ) {
+          return position;
+        }
+      }  
+    }
+    
+    return this.getRandomPosition(optionWrapper);
   },
 
   createOptionWrapper(text, id) {
     let optionWrapper = document.createElement('div');
     optionWrapper.classList.add('optionWrapper');
     optionWrapper.classList.add('fadeIn');
+    optionWrapper.style.width = `${this.optionSize}px`;
+    optionWrapper.style.height = `${this.optionSize}px`;
     optionWrapper.id = id;
     optionWrapper.value = text;
     let option = document.createElement('input');
     option.classList.add('option');
     option.type = 'text';
     option.value = text;
+    option.style.width = `${this.optionSize-20}px`;
+    option.style.height = `${this.optionSize-20}px`;
+    option.style.border = `${this.optionSize}px solid transparent`;
     optionWrapper.appendChild(option);
     return optionWrapper;
   },
@@ -247,10 +275,6 @@ export default {
     View.stageImg.style.display = status ? '' : 'none';
     View.optionArea.style.display = status ? '' : 'none';
   },
-  finishedGame() {
-    this.init();
-  },
-
   ///////////////////////////////////////////Merge words//////////////////////////////////
 
   mergeWord(option) {

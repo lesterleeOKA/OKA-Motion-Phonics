@@ -31,7 +31,6 @@
   background-position: center;
   background-size: cover;
   overflow: hidden;
-  width: 15%;
 }
 
 .questionWrapper{
@@ -60,13 +59,12 @@
 }
 
 .canvasWrapper > .optionArea > .optionWrapper > .option {
-  width: calc(100% - min(0.79vw, 0.79vh) * 2);
+  /*width: calc(100% - min(0.79vw, 0.79vh) * 2);
   height: calc(100% - min(0.79vw, 0.79vh) * 2);
-  border: calc(min(0.79vw, 0.79vh)) solid transparent;
+  border: calc(min(0.79vw, 0.79vh)) solid transparent;*/
   border-radius: 50%;
   text-align: center;
-  font-size: 5vh;
-  aspect-ratio: 1/1;
+  font-size: 3vw;
 }
 
 :root {
