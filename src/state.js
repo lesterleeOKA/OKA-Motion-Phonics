@@ -88,10 +88,10 @@ export default {
       View.showCount(0);
       if (this.isSoundOn) {
         Sound.stopAll('bgm');
-        Sound.play('start');
+        //Sound.play('start');
       }
     } else if (state == 'playing') {
-      View.showTips('tipsReady');
+      //View.showTips('tipsReady');
       View.showTopLeftControl();
       switch (stateType) {
         case 'showStage':
@@ -122,7 +122,9 @@ export default {
           setTimeout(() => {
             this.setPoseState('selectedImg', '');
             this.changeState('playing', 'waitAns');
-            Game.moveToNextQuestion();
+
+            if(state == 'playing')
+              Game.moveToNextQuestion();
           }, 2000);
           break;
       }
@@ -134,7 +136,7 @@ export default {
     } else if (state == 'outBox') {
       if (stateType == 'outBox') {
         if (this.isSoundOn) Sound.play('outBox');
-        View.showTips('tipsOutBox');
+        //View.showTips('tipsOutBox');
       }
     } else if (state == 'finished') {
       View.hideTopLeftControl();

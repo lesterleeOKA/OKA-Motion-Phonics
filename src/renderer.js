@@ -112,14 +112,24 @@ export class RendererCanvas2d {
           for (let option of optionWrappers) {
             const optionRect = option.getBoundingClientRect();
 
-            if (
+            /*if (
               point.x > optionRect.left &&
               point.x < optionRect.right &&
               point.y > optionRect.top &&
               point.y < optionRect.bottom
             ) {
               touchingWord.push(option);
+            }*/
+
+            if (
+              point.x > option.offsetLeft &&
+              point.x < (option.offsetLeft + option.offsetWidth) &&
+              point.y > option.offsetTop &&
+              point.y < (option.offsetTop + option.offsetHeight)
+            ) {
+              touchingWord.push(option);
             }
+
           }
         }
 

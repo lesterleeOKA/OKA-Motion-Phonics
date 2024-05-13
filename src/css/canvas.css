@@ -46,8 +46,21 @@
   text-align: center;
   font-size: -webkit-xxx-large;
   width: 300px;
-  height: 85px;
+  height: 75px;
 }
+
+.correct {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url(../images/ans_tick.png);
+}
+.wrong {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url(../images/ans_cross.png);
+}
+
+
 
 .canvasWrapper > .optionArea > .optionWrapper.show {
   position: absolute;

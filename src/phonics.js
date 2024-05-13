@@ -8,22 +8,24 @@ export default {
   score: 0,
   time: 0,
   remainingTime: 60,
-  optionSize: 10,
+  optionSize: 0,
   timer: null,
   timerRunning: false,
   nextQuestion: true,
   randomPair: [],
   wordParts: [],
-  defaultStrings: ['apple', 'banana', 'cherry', 'orange', 'pear'],
+  defaultStrings: ['ap/ple', 'ba/na/na', 'ch/erry', 'or/ange', 'pe/ar'],
+  answerLength: 0,
+  maxOpition: 4,
   questionWrapper: null,
+  questionResult: null,
   startedGame: false,
   fillwordTime: 0,
 
   init() {
     this.randPositions = [];
-    this.remainingTime = 60;
     View.timeText.innerText = this.remainingTime;
-    View.showTips('tipsReady');
+    //View.showTips('tipsReady');
     this.questionWord = '';
     this.score = 0;
     this.time = 0;
@@ -35,11 +37,13 @@ export default {
     this.stopCountTime();
     View.scoreBoard.className = "scoreBoard";
     this.questionWrapper = null;
+    this.questionResult = null;
     this.fillwordTime = 0;
     View.stageImg.innerHTML = '';
     View.optionArea.innerHTML = '';
     this.startedGame = false;
     this.optionSize = View.canvas.width / 8;
+    this.answerLength = 0;
   },
 
   addScore(mark) {
@@ -210,6 +214,7 @@ export default {
     option.style.width = `${this.optionSize-20}px`;
     option.style.height = `${this.optionSize-20}px`;
     option.style.border = `${this.optionSize}px solid transparent`;
+    option.style.fontSize = `${this.optionSize / 3.5}px`;
     optionWrapper.appendChild(option);
     return optionWrapper;
   },
@@ -219,7 +224,6 @@ export default {
     item.optionWrapper.style.left = item.x + 'px';
     item.optionWrapper.style.top = item.y + 'px';
   },
-
   removePartItem(item) {
     const index = this.wordParts.indexOf(item);
     if (index > -1) {
@@ -240,36 +244,52 @@ export default {
     const randomIndex = Math.floor(Math.random() * string.length);
     return string[randomIndex];
   },
-
-  generatePrefixesAndSuffixes(word) {
-    const prefixSuffixPairs = [];
-
-    for (let i = 1; i < word.length; i++) {
-      const prefix = word.substring(0, i);
-      const suffix = word.substring(i);
-      prefixSuffixPairs.push([prefix, suffix]);
+  splitByString(source, splitBy) {
+    var splitter = source.split(splitBy);
+    return splitter;
+  },
+  generateRandomWrongWords(length) {
+    var result = '';
+    var characters = 'abcdefghijklmnopqrstuvwxyz';
+    for (let i = 0; i < length; i++) {
+      var randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters.charAt(randomIndex);
     }
-
-    return prefixSuffixPairs;
+    return result;
+  },
+  generatePrefixesAndSuffixes(defaultStrings) {
+    var splitArray = this.splitByString(defaultStrings, '/');
+    return splitArray;
   },
   getRandomPair(prefixSuffixPairs) {
-    const correctPairIndex = Math.floor(Math.random() * prefixSuffixPairs.length);
-    const correctPair = prefixSuffixPairs[correctPairIndex];
-    prefixSuffixPairs.splice(correctPairIndex, 1);
-    const incorrectPairIndex = Math.floor(Math.random() * prefixSuffixPairs.length);
-    const incorrectPair = prefixSuffixPairs[incorrectPairIndex];
-    return [correctPair[0], correctPair[1], incorrectPair[0], incorrectPair[1]];
+    var pairs = [];
+    for(let i=0; i< prefixSuffixPairs.length; i++){
+      pairs.push(prefixSuffixPairs[i]);
+    }
+
+    var wrongPairLength = prefixSuffixPairs.length > 2 ? (this.maxOpition - prefixSuffixPairs.length) : 
+                                                         (prefixSuffixPairs.length);
+    console.log("wrong length:", wrongPairLength);
+    for (let i = 0; i < wrongPairLength; i++) {
+      var incorrectPart = this.generateRandomWrongWords(wrongPairLength);
+      pairs.push(incorrectPart);
+    }
+    return pairs;
   },
   setQuestions() {
     this.questionWord = this.getRandomWord(this.defaultStrings);
     const prefixSuffixPairs = this.generatePrefixesAndSuffixes(this.questionWord);
+    this.answerLength = prefixSuffixPairs.length;
     this.randomPair = this.getRandomPair(prefixSuffixPairs);
-    this.questionWrapper = document.createElement('input');
+    this.questionWrapper = document.createElement('span');
     this.questionWrapper.classList.add('questionWrapper');
     this.questionWrapper.classList.add('fadeIn');
-    this.questionWrapper.setAttribute('answer', this.questionWord);
-    //questionWrapper.textContent = this.questionWord;
+    this.questionWrapper.setAttribute('answer', this.questionWord.replace(/\//g, ""));
     View.stageImg.appendChild(this.questionWrapper);
+    //this.questionResult = document.createElement('div');
+    //this.questionResult.classList.add('answerResult');
+    //this.questionWrapper.appendChild(this.questionResult);
+    //View.stageImg.appendChild(this.questionResult);
   },
   showQuestions(status) {
     View.stageImg.style.display = status ? '' : 'none';
@@ -279,17 +299,17 @@ export default {
 
   mergeWord(option) {
     if (this.questionWrapper) {
-      if (this.fillwordTime < 2) {
-        this.questionWrapper.value += option.value;
+      if (this.fillwordTime < this.answerLength) {
+        this.questionWrapper.textContent += option.value;
         option.classList.add('touch');
         this.fillwordTime += 1;
         if (State.isSoundOn) {
           Sound.stopAll('bgm');
           Sound.play('btnClick');
         }
-        if (this.fillwordTime == 2) {
+        if (this.fillwordTime == this.answerLength) {
           setTimeout(() => {
-            this.checkAnswer(this.questionWrapper.value);
+            this.checkAnswer(this.questionWrapper.textContent);
           }, 1000);
         }
       }
@@ -297,7 +317,9 @@ export default {
   },
 
   resetFillWord() {
-    this.questionWrapper.value = '';
+    this.questionWrapper.classList.remove('correct');
+    this.questionWrapper.classList.remove('wrong');
+    this.questionWrapper.textContent = '';
     this.fillwordTime = 0;
   },
 
@@ -306,22 +328,22 @@ export default {
       if (answer === this.questionWrapper.getAttribute('answer')) {
         //答岩1分，答錯唔扣分
         this.addScore(1);
+        this.questionWrapper.classList.add('correct');
         State.changeState('playing', 'ansCorrect');
       } else {
         //this.addScore(-1);
+        this.questionWrapper.classList.add('wrong');
         State.changeState('playing', 'ansWrong');
       }
     }
   },
 
   moveToNextQuestion() {
-    setTimeout(() => {
-      this.resetFillWord();
-      this.nextQuestion = true;
-      View.optionArea.innerHTML = '';
-      View.stageImg.innerHTML = '';
-      this.wordParts.splice(0);
-    }, 1000);
+    this.resetFillWord();
+    this.nextQuestion = true;
+    View.optionArea.innerHTML = '';
+    View.stageImg.innerHTML = '';
+    this.wordParts.splice(0);
   }
 
 }
