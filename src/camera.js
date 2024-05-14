@@ -1,5 +1,3 @@
-import State from './state';
-import View from './view';
 
 export default {
   video: document.getElementById('video'),
@@ -18,21 +16,21 @@ export default {
   getVideo() {
     console.log('in getVideo()');
 
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject) => {
       if (!navigator.mediaDevices.getUserMedia && !navigator.mediaDevices) {
         const errMsg = 'Browser API navigator.mediaDevices.getUserMedia not available';
         console.log(errMsg)
         reject(errMsg);
       } else {
         console.log('start getUserMedia');
-        navigator.mediaDevices.getUserMedia(this.constraints).then(stream=>{
+        navigator.mediaDevices.getUserMedia(this.constraints).then(stream => {
           console.log('got stream from getUserMedia');
           this.video.srcObject = stream;
-          try { this.video.play() } catch(e){
+          try { this.video.play() } catch (e) {
             console.log(e);
           }
           resolve(this.video);
-        }).catch((e)=>{
+        }).catch((e) => {
           console.log(e);
           if (e.message.toLowerCase().indexOf('permission denied') == 0) {
             alert("沒有攝影機使用權限，請於瀏覽器設定此網站的攝影機使用權限");
@@ -40,7 +38,7 @@ export default {
           } else if (e.message.toLowerCase().indexOf('could not start video source') == 0) {
             alert("請確保您的攝影機尚未被其他軟件/瀏覽器使用");
             reject('couldNotStartVideoSource');
-          }else {
+          } else {
             alert("獲取攝影機時發生錯誤");
             reject('errInGetVideo');
           }
@@ -51,7 +49,7 @@ export default {
 
   setup() {
     this.resetSize(this.video);
-    addEventListener("resize", (event)=>this.resetSize(this.video));
+    addEventListener("resize", (event) => this.resetSize(this.video));
     return this;
   },
 
@@ -97,7 +95,7 @@ export class Camera {
       } else {
 
       }
-  
+
       const videoConfig = {
         'audio': false,
         'video': {
@@ -109,7 +107,7 @@ export class Camera {
           }
         }
       };
-    
+
       navigator.mediaDevices.getUserMedia(videoConfig).then(stream=>{
         this.video.srcObject = stream;
         resolve();

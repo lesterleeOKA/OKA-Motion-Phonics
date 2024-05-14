@@ -7,7 +7,7 @@ export default {
   questionWord: '',
   score: 0,
   time: 0,
-  remainingTime: 60,
+  remainingTime: 1000,
   optionSize: 0,
   timer: null,
   timerRunning: false,
@@ -44,7 +44,9 @@ export default {
     this.startedGame = false;
     this.optionSize = View.canvas.width / 8;
     this.answerLength = 0;
+
   },
+
 
   addScore(mark) {
     let newScore = this.score + mark;
@@ -55,7 +57,7 @@ export default {
   },
 
   startCountTime() {
-    if(!this.startedGame) {
+    if (!this.startedGame) {
       this.time = this.remainingTime;
       this.startedGame = true;
     }
@@ -65,8 +67,7 @@ export default {
 
       this.timer = setInterval(() => {
         //this.wordParts.splice(0);
-       // View.optionArea.innerHTML = '';
-
+        // View.optionArea.innerHTML = '';
         if (this.nextQuestion) {
           this.setQuestions();
           this.nextQuestion = false;
@@ -145,7 +146,7 @@ export default {
   checkCollision(item1, item2) {
     return (
       item1.x < item2.x + item2.size &&
-      item1.x + item1.size> item2.x &&
+      item1.x + item1.size > item2.x &&
       item1.y < item2.y + item2.size &&
       item1.y + item1.size > item2.y
     );
@@ -170,7 +171,7 @@ export default {
 
   getRandomPosition(optionWrapper) {
 
-    if(optionWrapper) {
+    if (optionWrapper) {
       //console.log("ow", optionWrapper);
       const positionsArray = this.generatePositionsArray(
         4,
@@ -178,24 +179,24 @@ export default {
         View.canvas.height,
         this.optionSize,
       );
-    
+
       for (const position of positionsArray) {
-        const { x, y } = position;  
+        const { x, y } = position;
         const redBoxX = View.canvas.width / 3;
         const redBoxY = (View.canvas.height / 5) * 3;
         const redBoxWidth = View.canvas.width / 3;
         const redBoxHeight = (View.canvas.height / 5) * 2;
-  
+
         if (
-          x + this.optionSize < redBoxX ||    
+          x + this.optionSize < redBoxX ||
           x - this.optionSize > redBoxX + redBoxWidth ||
           y - this.optionSize > redBoxY + redBoxHeight
         ) {
           return position;
         }
-      }  
+      }
     }
-    
+
     return this.getRandomPosition(optionWrapper);
   },
 
@@ -211,9 +212,9 @@ export default {
     option.classList.add('option');
     option.type = 'text';
     option.value = text;
-    option.style.width = `${this.optionSize-20}px`;
-    option.style.height = `${this.optionSize-20}px`;
-    option.style.border = `${this.optionSize}px solid transparent`;
+    option.style.width = `${90}%`;
+    option.style.height = `${90}%`;
+    option.style.border = `${5}px solid transparent`;
     option.style.fontSize = `${this.optionSize / 3.5}px`;
     optionWrapper.appendChild(option);
     return optionWrapper;
@@ -263,12 +264,12 @@ export default {
   },
   getRandomPair(prefixSuffixPairs) {
     var pairs = [];
-    for(let i=0; i< prefixSuffixPairs.length; i++){
+    for (let i = 0; i < prefixSuffixPairs.length; i++) {
       pairs.push(prefixSuffixPairs[i]);
     }
 
-    var wrongPairLength = prefixSuffixPairs.length > 2 ? (this.maxOpition - prefixSuffixPairs.length) : 
-                                                         (prefixSuffixPairs.length);
+    var wrongPairLength = prefixSuffixPairs.length > 2 ? (this.maxOpition - prefixSuffixPairs.length) :
+      (prefixSuffixPairs.length);
     console.log("wrong length:", wrongPairLength);
     for (let i = 0; i < wrongPairLength; i++) {
       var incorrectPart = this.generateRandomWrongWords(wrongPairLength);

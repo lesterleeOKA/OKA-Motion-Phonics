@@ -4,12 +4,15 @@ import Sound from './sound';
 import Camera from './camera';
 import Game from './phonics';
 
+
 export class RendererCanvas2d {
   constructor(canvas) {
     this.ctx = canvas.getContext('2d');
     this.videoWidth = canvas.width;
     this.videoHeight = canvas.height;
     this.lastPoseValidValue = false;
+    this.modelType = posedetection.SupportedModels.BlazePose;
+    this.scoreThreshold = 0.4;
   }
 
   draw(rendererParams) {
@@ -260,7 +263,7 @@ export class RendererCanvas2d {
   }
 
   drawKeypoints(keypoints) {
-    const keypointInd = posedetection.util.getKeypointIndexBySide('BlazePose');
+    const keypointInd = posedetection.util.getKeypointIndexBySide(this.modelType);
     this.ctx.fillStyle = 'Red';
     this.ctx.strokeStyle = 'White';
     this.ctx.lineWidth = 2;
@@ -292,7 +295,7 @@ export class RendererCanvas2d {
     const score = keypoint.score != null ? keypoint.score : 1;
     //const scoreThreshold = params.STATE.modelConfig.scoreThreshold || 0;
 
-    if (score >= 0.65) {
+    if (score >= this.scoreThreshold) {
       const circle = new Path2D();
       circle.arc(keypoint.x, keypoint.y, 4, 0, 2 * Math.PI);
       this.ctx.fill(circle);
@@ -306,16 +309,15 @@ export class RendererCanvas2d {
     this.ctx.strokeStyle = color;
     this.ctx.lineWidth = 2;
 
-    posedetection.util.getAdjacentPairs(posedetection.SupportedModels.BlazePose).forEach(([i, j]) => {
+    posedetection.util.getAdjacentPairs(this.modelType).forEach(([i, j]) => {
       const kp1 = keypoints[i];
       const kp2 = keypoints[j];
 
       // If score is null, just show the keypoint.
       const score1 = kp1.score != null ? kp1.score : 1;
       const score2 = kp2.score != null ? kp2.score : 1;
-      const scoreThreshold = 0.65;
 
-      if (score1 >= scoreThreshold && score2 >= scoreThreshold) {
+      if (score1 >= this.scoreThreshold && score2 >= this.scoreThreshold) {
         this.ctx.beginPath();
         this.ctx.moveTo(kp1.x, kp1.y);
         this.ctx.lineTo(kp2.x, kp2.y);

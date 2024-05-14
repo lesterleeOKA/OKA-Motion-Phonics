@@ -5,6 +5,7 @@ import Util from './util';
 import View from './view';
 import State from './state';
 import Sound from './sound';
+import FPSMeter from 'fps-m';
 
 let detector
 let rafId;
@@ -14,10 +15,28 @@ async function createDetector() {
   return posedetection.createDetector(posedetection.SupportedModels.BlazePose, {
     runtime,
     modelType: 'lite',
-    solutionPath: `@mediapipe/pose@0.5.1675469404`
+    solutionPath: `@mediapipe/pose@0.5.1675469404`,
     //solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/pose@${mpPose.VERSION}`
   });
 }
+
+/*async function createDetector() {
+  let modelType = posedetection.movenet.modelType.SINGLEPOSE_LIGHTNING;
+  const modelConfig = { modelType };
+  return await posedetection.createDetector(posedetection.SupportedModels.MoveNet, modelConfig);
+}
+*/
+/*async function createDetector() {
+  const modelConfig = {
+    quantBytes: 4,
+    architecture: 'MobileNetV1',
+    outputStride: 16,
+    inputResolution: { width: 250, height: 250 },
+    multiplier: 0.75
+  };
+  return await posedetection.createDetector(posedetection.SupportedModels.PoseNet, modelConfig);
+}*/
+
 
 async function checkGuiUpdate() {
   window.cancelAnimationFrame(rafId);
@@ -51,6 +70,7 @@ async function renderResult() {
   if (detector != null) {
     try {
       poses = await detector.estimatePoses(Camera.video, { maxPoses: 1, flipHorizontal: false });
+      //console.log(poses[0]);
     } catch (error) {
       detector.dispose();
       detector = null;
@@ -150,10 +170,10 @@ async function app() {
     Util.loadingStart();
     setTimeout(() => {
       Camera.setup();
-
+      (new FPSMeter({ ui: true })).start();
       createDetector().then((detector) => {
 
-        console.log(detector);
+        //console.log(detector);
         //const canvas = document.getElementById('output');
         View.renderer = new RendererCanvas2d(View.canvas);
 
@@ -165,6 +185,40 @@ async function app() {
       });
     }, 2000);
   });
+
+  /* init().then(() => {
+     Util.loadingStart();
+     setTimeout(async () => {
+       (new FPSMeter({ ui: true })).start();
+       await Camera.setup();
+       await tf.setBackend('wasm');
+       await tf.ready();
+
+       await createDetector().then((detector) => {
+         console.log(detector);
+         //var poses = detector.estimatePoses(Camera.video);
+         //console.log(poses[0]);
+         //const canvas = document.getElementById('output');
+         //View.renderer = new RendererCanvas2d(View.canvas);
+
+         renderPrediction().then(() => {
+           Util.loadingComplete().then(() => {
+             State.changeState('instruction');
+           });
+         })
+       });
+       //const poses = await detector.estimatePoses(Camera.video);
+       //console.log(poses[0]);
+       //const canvas = document.getElementById('output');
+       View.renderer = new RendererCanvas2d(View.canvas);
+
+       await renderPrediction(detector);
+
+       Util.loadingComplete().then(() => {
+         State.changeState('instruction');
+       });
+     }, 2000);
+   });*/
 
 };
 
