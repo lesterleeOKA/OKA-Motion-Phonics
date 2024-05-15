@@ -54,6 +54,8 @@ export default {
   },
 
   resetSize(video) {
+    console.log("video.videoWidth", video.videoWidth);
+    console.log("video.videoWidth", video.videoHeight);
     const videoRatio = video.videoWidth / video.videoHeight;
     const screenRatio = document.body.clientWidth / document.body.clientHeight;
 

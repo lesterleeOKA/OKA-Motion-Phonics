@@ -113,16 +113,15 @@ export class RendererCanvas2d {
 
         for (let point of checkKeypoints) {
           for (let option of optionWrappers) {
-            const optionRect = option.getBoundingClientRect();
-
-            /*if (
-              point.x > optionRect.left &&
-              point.x < optionRect.right &&
-              point.y > optionRect.top &&
-              point.y < optionRect.bottom
-            ) {
-              touchingWord.push(option);
-            }*/
+            /*const optionRect = option.getBoundingClientRect();
+             if (
+               point.x > optionRect.left &&
+               point.x < optionRect.right &&
+               point.y > optionRect.top &&
+               point.y < optionRect.bottom
+             ) {
+               touchingWord.push(option);
+             }*/
 
             if (
               point.x > option.offsetLeft &&

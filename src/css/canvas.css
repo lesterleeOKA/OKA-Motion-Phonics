@@ -12,25 +12,25 @@
   top: 0px;
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .canvasWrapper > .optionArea > .optionWrapper {
-  position: absolute;
+  position: relative;
   top: 0px;
   left: 0px;
-  /*height: calc(min(20vh, 20vw));
-  width: calc(min(20vh, 20vw));*/
+  width: 80%;
+  height: 80%;
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 50%;
   box-shadow: 0px 0px 10px 0px #000;
   transition: opacity 0.1s ease;
   opacity: 0;
-  /*border-width: calc(min(0.79vh, 0.79vw));
-  border-style: solid;
-  border-color: #FFF;*/
   background-position: center;
   background-size: cover;
-  overflow: hidden;
+  background: white;
 }
 
 .questionWrapper{
@@ -72,17 +72,22 @@
 }
 
 .canvasWrapper > .optionArea > .optionWrapper > .option {
-  /*width: calc(100% - min(0.79vw, 0.79vh) * 2);
-  height: calc(100% - min(0.79vw, 0.79vh) * 2);
-  border: calc(min(0.79vw, 0.79vh)) solid transparent;*/
-  border-radius: 50%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height: 90%;
   text-align: center;
-  font-size: 3vw;
+  font-size: var(--font-size);
+  background: transparent;
+  border: none;
 }
 
 :root {
   --top-height: 0px;
   --bottom-height: 200px;
+  --font-size: 3vw;
 }
 
 .fadeIn {
@@ -143,17 +148,7 @@
 }
 
 .canvasWrapper > .optionArea > .optionWrapper.show.touch:not(.showColorBorder) {
-  /*animation: optionBlinkYellow 0.3s;
-  animation-iteration-count: infinite;*/
-
-  /*background: conic-gradient(#FCC946 calc(var(--p)*1%),#FFF 0);
-  animation: p 3s linear ;*/
-
-  /*background-image: url(../images/onTouch.gif);*/
-}
-
-.canvasWrapper > .optionArea > .optionWrapper.show.touch:not(.showColorBorder) > .option {
-  animation: optionBlinkYellow 0.3s;
+  animation: optionBlinkInnerYellow 0.2s;
   animation-iteration-count: infinite;
 }
 
@@ -195,6 +190,17 @@
   background-image: url(../images/ans_cross.png);
 }
 
+@keyframes optionBlinkInnerYellow {
+  0% {
+    box-shadow: 0px 0px 10px 0px #000000, inset 0 0 0 10px #FCC946;
+  }
+  50% {
+    box-shadow: 0px 0px 10px 0px #000000, inset 0 0 0 10px transparent;
+  }
+  100% {
+    box-shadow: 0px 0px 10px 0px #000000, inset 0 0 0 10px #FCC946;
+  }
+}
 @keyframes optionBlinkYellow { 50% { border-color:#FCC946; }  }
 
 @keyframes p {

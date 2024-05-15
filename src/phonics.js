@@ -44,7 +44,6 @@ export default {
     this.startedGame = false;
     this.optionSize = View.canvas.width / 8;
     this.answerLength = 0;
-
   },
 
 
@@ -57,6 +56,49 @@ export default {
   },
 
   startCountTime() {
+    if (!this.startedGame) {
+      this.time = this.remainingTime;
+      this.startedGame = true;
+    }
+
+    if (!this.timerRunning) {
+      this.showQuestions(true);
+      this.timerRunning = true;
+      this.countTime();
+    }
+  },
+  countTime() {
+    if (this.timerRunning) {
+      if (this.nextQuestion) {
+        this.setQuestions();
+        this.nextQuestion = false;
+      }
+
+      if (this.wordParts.length === 0) {
+        for (var i = 0; i < this.randomPair.length; i++) {
+          this.createRandomPartWord(this.randomPair[i]);
+        }
+      }
+
+      this.time--;
+      View.timeText.innerText = this.time;
+
+      if (this.time <= 0) {
+        this.stopCountTime();
+        State.changeState('finished');
+      } else {
+        this.timer = setTimeout(this.countTime.bind(this), 1000);
+      }
+    }
+  },
+  stopCountTime() {
+    if (this.timerRunning) {
+      clearTimeout(this.timer);
+      this.timerRunning = false;
+      this.showQuestions(false);
+    }
+  },
+  /*startCountTime() {
     if (!this.startedGame) {
       this.time = this.remainingTime;
       this.startedGame = true;
@@ -96,7 +138,7 @@ export default {
       this.showQuestions(false);
       this.timerRunning = false;
     }
-  },
+  },*/
 
   generateUniqueId() {
     return Math.random().toString(16).slice(2);
@@ -212,9 +254,9 @@ export default {
     option.classList.add('option');
     option.type = 'text';
     option.value = text;
-    option.style.width = `${90}%`;
+    /*option.style.width = `${90}%`;
     option.style.height = `${90}%`;
-    option.style.border = `${5}px solid transparent`;
+    option.style.border = `${5}px solid transparent`;*/
     option.style.fontSize = `${this.optionSize / 3.5}px`;
     optionWrapper.appendChild(option);
     return optionWrapper;
