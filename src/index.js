@@ -5,10 +5,13 @@ import Util from './util';
 import View from './view';
 import State from './state';
 import Sound from './sound';
-import FPSMeter from 'fps-m';
+import { setupStats } from './stats_panel';
 
 let detector
 let rafId;
+let stats;
+let startInferenceTime, numInferences = 0;
+let inferenceTimeSum = 0, lastPanelUpdate = 0;
 
 async function createDetector() {
   const runtime = 'mediapipe';
@@ -68,6 +71,7 @@ async function renderResult() {
   // Detector can be null if initialization failed (for example when loading
   // from a URL that does not exist).
   if (detector != null) {
+    beginEstimatePosesStats();
     try {
       poses = await detector.estimatePoses(Camera.video, { maxPoses: 1, flipHorizontal: false });
       //console.log(poses[0]);
@@ -76,9 +80,31 @@ async function renderResult() {
       detector = null;
       alert(error);
     }
+
+    endEstimatePosesStats();
   }
 
   View.renderer.draw([Camera.video, poses, false]);
+}
+
+function beginEstimatePosesStats() {
+  startInferenceTime = (performance || Date).now();
+}
+
+function endEstimatePosesStats() {
+  const endInferenceTime = (performance || Date).now();
+  inferenceTimeSum += endInferenceTime - startInferenceTime;
+  ++numInferences;
+
+  const panelUpdateMilliseconds = 1000;
+  if (endInferenceTime - lastPanelUpdate >= panelUpdateMilliseconds) {
+    const averageInferenceTime = inferenceTimeSum / numInferences;
+    inferenceTimeSum = 0;
+    numInferences = 0;
+    stats.customFpsPanel.update(
+      1000.0 / averageInferenceTime, 120 /* maxValue */);
+    lastPanelUpdate = endInferenceTime;
+  }
 }
 
 async function renderPrediction() {
@@ -169,8 +195,9 @@ async function app() {
   init().then(() => {
     Util.loadingStart();
     setTimeout(() => {
+      stats = setupStats();
       Camera.setup();
-      (new FPSMeter({ ui: true })).start();
+      //(new FPSMeter({ ui: true })).start();
       createDetector().then((detector) => {
 
         //console.log(detector);
@@ -219,7 +246,6 @@ async function app() {
        });
      }, 2000);
    });*/
-
 };
 
 //-------------------------------------------------------------------------------------------------

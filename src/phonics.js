@@ -21,6 +21,11 @@ export default {
   questionResult: null,
   startedGame: false,
   fillwordTime: 0,
+  redBoxX: 0,
+  redBoxY: 0,
+  redBoxWidth: 0,
+  redBoxHeight: 0,
+
 
   init() {
     this.randPositions = [];
@@ -44,6 +49,16 @@ export default {
     this.startedGame = false;
     this.optionSize = View.canvas.width / 8;
     this.answerLength = 0;
+
+    this.redBoxX = View.canvas.width / 3;
+    this.redBoxY = (View.canvas.height / 5) * 3;
+    this.redBoxWidth = View.canvas.width / 3;
+    this.redBoxHeight = (View.canvas.height / 5) * 2;
+
+    //console.log('redBox-left-X', this.redBoxX);
+    //console.log('redBox-right-X', this.redBoxX + this.redBoxWidth);
+
+    //console.log(this.redBoxX, this.redBoxY, this.redBoxWidth, this.redBoxHeight);
   },
 
 
@@ -74,9 +89,14 @@ export default {
         this.nextQuestion = false;
       }
 
+      //this.wordParts.splice(0);
+      //View.optionArea.innerHTML = '';
       if (this.wordParts.length === 0) {
         for (var i = 0; i < this.randomPair.length; i++) {
-          this.createRandomPartWord(this.randomPair[i]);
+          if (i < 2)
+            this.createRandomPartWord(this.randomPair[i], true);
+          else
+            this.createRandomPartWord(this.randomPair[i], false);
         }
       }
 
@@ -98,57 +118,15 @@ export default {
       this.showQuestions(false);
     }
   },
-  /*startCountTime() {
-    if (!this.startedGame) {
-      this.time = this.remainingTime;
-      this.startedGame = true;
-    }
-
-    if (!this.timerRunning) {
-      this.showQuestions(true);
-
-      this.timer = setInterval(() => {
-        //this.wordParts.splice(0);
-        // View.optionArea.innerHTML = '';
-        if (this.nextQuestion) {
-          this.setQuestions();
-          this.nextQuestion = false;
-        }
-
-        if (this.wordParts.length === 0) {
-          for (var i = 0; i < this.randomPair.length; i++) {
-            this.createRandomPartWord(this.randomPair[i]);
-          }
-        }
-
-        this.time--;
-        View.timeText.innerText = this.time;
-
-        if (this.time <= 0) {
-          this.stopCountTime();
-          State.changeState('finished');
-        }
-      }, 1000);
-      this.timerRunning = true;
-    }
-  },
-  stopCountTime() {
-    if (this.timerRunning) {
-      clearInterval(this.timer);
-      this.showQuestions(false);
-      this.timerRunning = false;
-    }
-  },*/
-
   generateUniqueId() {
     return Math.random().toString(16).slice(2);
   },
-  createRandomPartWord(char) {
+  createRandomPartWord(char, isLeft) {
     if (char && char.length !== 0) {
       const word = char;
       const id = this.generateUniqueId();
       const optionWrapper = this.createOptionWrapper(word, id);
-      const position = this.getRandomPosition(optionWrapper);
+      const position = this.getRandomPosition(optionWrapper, isLeft);
       if (position) {
         const generatePosition = () => {
           const newPart = {
@@ -161,9 +139,7 @@ export default {
           };
           return newPart;
         };
-
         const newPartWord = generatePosition();
-
         // Check for collisions with existing items
         let collision = false;
         for (let i = 0; i < this.wordParts.length; i++) {
@@ -179,7 +155,7 @@ export default {
           this.renderPartItem(newPartWord);
         } else {
           //console.log('Collision detected. Skipping item creation.');
-          this.createRandomPartWord(char);
+          this.createRandomPartWord(char, isLeft);
         }
       }
     }
@@ -196,52 +172,29 @@ export default {
   getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   },
-
-  generatePositionsArray(numItems, maxX, maxY, objectSize) {
-    // declarations
-    var positionsArray = [];
-    var i;
-    for (i = 0; i < numItems; i++) {
-      positionsArray.push({
-        x: Math.round(this.getRandomInt(0, maxX - objectSize)),
-        y: Math.round(this.getRandomInt(220, maxY - objectSize)),
-      });
-    }
-    // return array
-    return positionsArray;
-  },
-
-  getRandomPosition(optionWrapper) {
-
-    if (optionWrapper) {
-      //console.log("ow", optionWrapper);
-      const positionsArray = this.generatePositionsArray(
-        4,
-        View.canvas.width,
-        View.canvas.height,
-        this.optionSize,
-      );
-
-      for (const position of positionsArray) {
-        const { x, y } = position;
-        const redBoxX = View.canvas.width / 3;
-        const redBoxY = (View.canvas.height / 5) * 3;
-        const redBoxWidth = View.canvas.width / 3;
-        const redBoxHeight = (View.canvas.height / 5) * 2;
-
-        if (
-          x + this.optionSize < redBoxX ||
-          x - this.optionSize > redBoxX + redBoxWidth ||
-          y - this.optionSize > redBoxY + redBoxHeight
-        ) {
-          return position;
-        }
+  randPosition(isLeft) {
+    if (isLeft) {
+      return {
+        x: Math.round(this.getRandomInt(0, this.redBoxX - this.optionSize)),
+        y: Math.round(this.getRandomInt(150, View.canvas.height - this.optionSize)),
       }
     }
-
-    return this.getRandomPosition(optionWrapper);
+    else {
+      return {
+        x: Math.round(this.getRandomInt((this.redBoxX + this.redBoxWidth) + this.optionSize,
+          View.canvas.width - this.optionSize)),
+        y: Math.round(this.getRandomInt(150, View.canvas.height - this.optionSize)),
+      }
+    }
   },
-
+  getRandomPosition(optionWrapper, isLeft) {
+    if (optionWrapper) {
+      let position = this.randPosition(isLeft);
+      return position;
+    }
+    else
+      return null;
+  },
   createOptionWrapper(text, id) {
     let optionWrapper = document.createElement('div');
     optionWrapper.classList.add('optionWrapper');
@@ -254,9 +207,6 @@ export default {
     option.classList.add('option');
     option.type = 'text';
     option.value = text;
-    /*option.style.width = `${90}%`;
-    option.style.height = `${90}%`;
-    option.style.border = `${5}px solid transparent`;*/
     option.style.fontSize = `${this.optionSize / 3.5}px`;
     optionWrapper.appendChild(option);
     return optionWrapper;
@@ -312,10 +262,14 @@ export default {
 
     var wrongPairLength = prefixSuffixPairs.length > 2 ? (this.maxOpition - prefixSuffixPairs.length) :
       (prefixSuffixPairs.length);
-    console.log("wrong length:", wrongPairLength);
     for (let i = 0; i < wrongPairLength; i++) {
-      var incorrectPart = this.generateRandomWrongWords(wrongPairLength);
+      var incorrectPart = this.generateRandomWrongWords(pairs[i].length);
       pairs.push(incorrectPart);
+    }
+
+    for (let i = pairs.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pairs[i], pairs[j]] = [pairs[j], pairs[i]];
     }
     return pairs;
   },
@@ -329,10 +283,6 @@ export default {
     this.questionWrapper.classList.add('fadeIn');
     this.questionWrapper.setAttribute('answer', this.questionWord.replace(/\//g, ""));
     View.stageImg.appendChild(this.questionWrapper);
-    //this.questionResult = document.createElement('div');
-    //this.questionResult.classList.add('answerResult');
-    //this.questionWrapper.appendChild(this.questionResult);
-    //View.stageImg.appendChild(this.questionResult);
   },
   showQuestions(status) {
     View.stageImg.style.display = status ? '' : 'none';

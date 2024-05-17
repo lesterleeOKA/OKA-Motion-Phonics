@@ -14,7 +14,7 @@ export default {
   },
   //-----------------------------------------------------------------------------------------------
   getVideo() {
-    console.log('in getVideo()');
+    //console.log('in getVideo()');
 
     return new Promise((resolve, reject) => {
       if (!navigator.mediaDevices.getUserMedia && !navigator.mediaDevices) {
