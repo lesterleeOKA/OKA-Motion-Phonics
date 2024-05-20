@@ -7,7 +7,7 @@ export default {
   questionWord: '',
   score: 0,
   time: 0,
-  remainingTime: 1000,
+  remainingTime: 60,
   optionSize: 0,
   timer: null,
   timerRunning: false,
@@ -274,11 +274,13 @@ export default {
     return pairs;
   },
   setQuestions() {
+    console.log("this.redBoxWidth", this.redBoxWidth);
     this.questionWord = this.getRandomWord(this.defaultStrings);
     const prefixSuffixPairs = this.generatePrefixesAndSuffixes(this.questionWord);
     this.answerLength = prefixSuffixPairs.length;
     this.randomPair = this.getRandomPair(prefixSuffixPairs);
     this.questionWrapper = document.createElement('span');
+    this.questionWrapper.style.width = this.redBoxWidth + 'px';
     this.questionWrapper.classList.add('questionWrapper');
     this.questionWrapper.classList.add('fadeIn');
     this.questionWrapper.setAttribute('answer', this.questionWord.replace(/\//g, ""));

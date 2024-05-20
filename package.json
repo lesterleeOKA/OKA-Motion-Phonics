@@ -12,6 +12,7 @@
     "@mediapipe/pose": "^0.5.1675469404",
     "@tensorflow-models/pose-detection": "^2.1.0",
     "@tensorflow/tfjs": "^4.19.0",
+    "@tensorflow/tfjs-backend-webgpu": "^4.19.0",
     "@tensorflow/tfjs-converter": "^4.2.0",
     "@tensorflow/tfjs-core": "^4.2.0",
     "is-svg": "5.0.0",
