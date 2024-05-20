@@ -54,11 +54,6 @@ export default {
     this.redBoxY = (View.canvas.height / 5) * 3;
     this.redBoxWidth = View.canvas.width / 3;
     this.redBoxHeight = (View.canvas.height / 5) * 2;
-
-    //console.log('redBox-left-X', this.redBoxX);
-    //console.log('redBox-right-X', this.redBoxX + this.redBoxWidth);
-
-    //console.log(this.redBoxX, this.redBoxY, this.redBoxWidth, this.redBoxHeight);
   },
 
 
