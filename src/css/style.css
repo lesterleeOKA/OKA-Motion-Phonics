@@ -41,4 +41,5 @@ body > .debug {
   bottom: 0px;
   right: 0px;
   pointer-events: none;
+  opacity: 0;
 }

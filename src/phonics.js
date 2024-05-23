@@ -1,10 +1,13 @@
 import View from './view';
 import State from './state';
 import Sound from './sound';
+import QuestionManager from './question';
 
 export default {
   randPositions: [],
-  questionWord: '',
+  questionWord: null,
+  questionField: null,
+  answeredNum: 0,
   score: 0,
   time: 0,
   remainingTime: 60,
@@ -14,7 +17,6 @@ export default {
   nextQuestion: true,
   randomPair: [],
   wordParts: [],
-  defaultStrings: ['ap/ple', 'ba/na/na', 'ch/erry', 'or/ange', 'pe/ar'],
   answerLength: 0,
   maxOpition: 4,
   questionWrapper: null,
@@ -31,7 +33,8 @@ export default {
     this.randPositions = [];
     View.timeText.innerText = this.remainingTime;
     //View.showTips('tipsReady');
-    this.questionWord = '';
+    this.questionWord = null;
+    this.questionField = null;
     this.score = 0;
     this.time = 0;
     this.timerRunning = false;
@@ -49,7 +52,7 @@ export default {
     this.startedGame = false;
     this.optionSize = View.canvas.width / 8;
     this.answerLength = 0;
-
+    this.answeredNum = 0;
     this.redBoxX = View.canvas.width / 3;
     this.redBoxY = (View.canvas.height / 5) * 3;
     this.redBoxWidth = View.canvas.width / 3;
@@ -68,6 +71,8 @@ export default {
   startCountTime() {
     if (!this.startedGame) {
       this.time = this.remainingTime;
+      QuestionManager.loadQuestionData();
+      this.questionField = QuestionManager.questionType();
       this.startedGame = true;
     }
 
@@ -268,17 +273,50 @@ export default {
     }
     return pairs;
   },
+
+  randQuestion() {
+    if (this.questionField === null)
+      return null;
+
+    const questionType = Object.keys(this.questionField)[0];
+    let questions = this.questionField.Pair;
+    if (this.answeredNum === 0) {
+      questions = questions.sort(() => Math.random() - 0.5);
+      console.log("questions", questions);
+    }
+
+    const _QID = questions[this.answeredNum].QID;
+    const _question = questions[this.answeredNum].question;
+    const _answers = questions[this.answeredNum].answers;
+    const _correctAnswer = questions[this.answeredNum].correctAnswer;
+    const _media = questions[this.answeredNum].media;
+
+    if (this.answeredNum < questions.length - 1) {
+      this.answeredNum += 1;
+    }
+    else {
+      this.answeredNum = 0;
+    }
+    //console.log("answered count", this.answeredNum);
+    return {
+      type: questionType,
+      QID: _QID,
+      question: _question,
+      answers: _answers,
+      correctAnswer: _correctAnswer,
+      media: _media,
+    };
+  },
   setQuestions() {
-    console.log("this.redBoxWidth", this.redBoxWidth);
-    this.questionWord = this.getRandomWord(this.defaultStrings);
-    const prefixSuffixPairs = this.generatePrefixesAndSuffixes(this.questionWord);
+    //console.log("this.redBoxWidth", this.redBoxWidth);
+    this.questionWord = this.randQuestion();
+    const prefixSuffixPairs = this.generatePrefixesAndSuffixes(this.questionWord.question);
     this.answerLength = prefixSuffixPairs.length;
     this.randomPair = this.getRandomPair(prefixSuffixPairs);
     this.questionWrapper = document.createElement('span');
     this.questionWrapper.style.width = this.redBoxWidth + 'px';
     this.questionWrapper.classList.add('questionWrapper');
     this.questionWrapper.classList.add('fadeIn');
-    this.questionWrapper.setAttribute('answer', this.questionWord.replace(/\//g, ""));
     View.stageImg.appendChild(this.questionWrapper);
   },
   showQuestions(status) {
@@ -315,7 +353,7 @@ export default {
 
   checkAnswer(answer) {
     if (this.questionWrapper) {
-      if (answer === this.questionWrapper.getAttribute('answer')) {
+      if (answer === this.questionWord.correctAnswer) {
         //答岩1分，答錯唔扣分
         this.addScore(1);
         this.questionWrapper.classList.add('correct');
