@@ -12,7 +12,7 @@ export default {
   prepareBoard: document.querySelector('.gameWrapper > .prepareBoardWrapper'),
   //outBoxBoard: document.querySelector('.gameWrapper > .outBoxBoardWrapper'),
   countImg: document.querySelector('.gameWrapper > .count'),
-  stageImg: document.querySelector('.gameWrapper > .stage'),
+  stageImg: document.querySelector('.gameWrapper > .questionBoard'),
   startBtn: document.querySelector('.startBtn'),
   musicBtn: document.querySelector('.gameWrapper > .topRightControl > .musicBtn'),
   exitBtn: document.querySelector('.gameWrapper > .topRightControl > .exitBtn'),

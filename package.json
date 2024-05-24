@@ -15,6 +15,7 @@
     "@tensorflow/tfjs-backend-webgpu": "^4.19.0",
     "@tensorflow/tfjs-converter": "^4.2.0",
     "@tensorflow/tfjs-core": "^4.2.0",
+    "inspector": "^0.5.0",
     "is-svg": "5.0.0",
     "tensorflow-models": "^0.0.1"
   },

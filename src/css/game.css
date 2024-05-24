@@ -219,3 +219,17 @@
   content: url(../images/stage3.png);
 }
 /*-----------------------------------------------------------------------------------------------*/
+
+.gameWrapper > .questionBoard {
+  position: absolute;
+  width: calc(min(38.7vh, 38.7vw));
+  height: calc(min(35.7vh, 35.7vw));
+  top: calc(min(1vh, 2vw));
+  opacity: 0;
+}
+
+.questionBg{
+  width: 100%;
+  height: auto;
+  content: url(../images/phonics/board1.png);
+}

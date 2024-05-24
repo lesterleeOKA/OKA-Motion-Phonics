@@ -3,13 +3,13 @@ import questions from './questions.json'
 
 const QuestionManager = {
   QUESTION_TYPE: Object.freeze({
-    Pair: [],
+    QA: [],
   }),
 
   loadQuestionData: function () {
     try {
       this.QUESTION_TYPE = {
-        Pair: questions.Pair,
+        QA: questions.QA,
       };
     } catch (error) {
       console.error('Error loading JSON data:', error);
@@ -20,20 +20,15 @@ const QuestionManager = {
     let level = loadLevel();
     let question = null;
     let questionField = null;
-    if (level.includes('p1u1')) {
-      switch (level) {
-        case 'p1u1':
-          question = {
-            Pair: this.QUESTION_TYPE.Pair.filter(item => item.QID.includes(level)),
-          };
-          if (question.Pair.length > 0) questionField = Object.freeze(question);
-          break;
-      }
+    if (level !== '') {
+      question = {
+        QA: this.QUESTION_TYPE.QA.filter(item => item.QID.includes(level)),
+      };
     }
     else {
-      console.log("All Type Question mode");
-      questionField = this.QUESTION_TYPE;
+      question = { QA: this.QUESTION_TYPE.QA };
     }
+    if (question.QA.length > 0) questionField = Object.freeze(question);
     console.log(questionField);
     return questionField;
   }

@@ -30,23 +30,40 @@
   opacity: 0;
   background-position: center;
   background-size: cover;
-  background: white;
+  background: url(../images/phonics/candy1.png);
+}
+
+.questionText{
+  position: fixed;
+  top: 13%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  transition: opacity 0.1s ease;
+  text-align: center;
+  font-size: calc(min(5.5vh, 5.5vw));
+  font-family: "Rowdies", cursive;
+  font-weight: bold;
+  width: calc(min(30.7vh, 30.7vw));
+  height: calc(min(4.7vh, 4.7vw));
+  color: rgb(192 134 97);
 }
 
 .questionWrapper{
   position: fixed;
-  top: 15%;
+  top: 23%;
   left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(255, 255, 255, 1);
-  border-radius: 3.5%;
-  box-shadow: 0px 0px 10px 0px #000;
+  transform: translate(-50%, 50%);
   transition: opacity 0.1s ease;
-  opacity: 1;
   text-align: center;
-  font-size: -webkit-xxx-large;
-  width: 0px;
-  height: 75px;
+  background-color: rgb(192 134 97);
+  border-radius: 4%;
+  font-size: calc(min(3.5vh, 3.5vw));
+  font-family: "Rowdies", cursive;
+  font-weight: bold;
+  width: calc(min(30.7vh, 30.7vw));
+  height: calc(min(4.7vh, 4.7vw));
+  color: white;
+  padding-bottom: 8px;
 }
 
 .correct {
@@ -80,6 +97,8 @@
   height: 90%;
   text-align: center;
   font-size: var(--font-size);
+  font-family: "Rowdies", cursive;
+  font-weight: bold;
   background: transparent;
   border: none;
 }

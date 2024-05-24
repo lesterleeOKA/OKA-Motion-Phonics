@@ -10,7 +10,7 @@ export default {
   answeredNum: 0,
   score: 0,
   time: 0,
-  remainingTime: 60,
+  remainingTime: 1000,
   optionSize: 0,
   timer: null,
   timerRunning: false,
@@ -199,6 +199,7 @@ export default {
     let optionWrapper = document.createElement('div');
     optionWrapper.classList.add('optionWrapper');
     optionWrapper.classList.add('fadeIn');
+    //optionWrapper.style.background = `url(../images/phonics/candy1.png)`;
     optionWrapper.style.width = `${this.optionSize}px`;
     optionWrapper.style.height = `${this.optionSize}px`;
     optionWrapper.id = id;
@@ -278,13 +279,12 @@ export default {
     if (this.questionField === null)
       return null;
 
-    const questionType = Object.keys(this.questionField)[0];
-    let questions = this.questionField.Pair;
+    let questions = this.questionField.QA;
     if (this.answeredNum === 0) {
       questions = questions.sort(() => Math.random() - 0.5);
-      console.log("questions", questions);
+      //console.log("questions", questions);
     }
-
+    const _type = questions[this.answeredNum].type;
     const _QID = questions[this.answeredNum].QID;
     const _question = questions[this.answeredNum].question;
     const _answers = questions[this.answeredNum].answers;
@@ -299,7 +299,7 @@ export default {
     }
     //console.log("answered count", this.answeredNum);
     return {
-      type: questionType,
+      type: _type,
       QID: _QID,
       question: _question,
       answers: _answers,
@@ -313,11 +313,19 @@ export default {
     const prefixSuffixPairs = this.generatePrefixesAndSuffixes(this.questionWord.question);
     this.answerLength = prefixSuffixPairs.length;
     this.randomPair = this.getRandomPair(prefixSuffixPairs);
+    let questionBg = document.createElement('div');
+    let questionText = document.createElement('span');
+    questionBg.classList.add('questionBg');
+    questionText.classList.add('questionText');
+    questionText.textContent = this.questionWord.correctAnswer;
     this.questionWrapper = document.createElement('span');
-    this.questionWrapper.style.width = this.redBoxWidth + 'px';
+    //this.questionWrapper.style.width = this.redBoxWidth + 'px';
     this.questionWrapper.classList.add('questionWrapper');
-    this.questionWrapper.classList.add('fadeIn');
+    View.stageImg.appendChild(questionBg);
+    View.stageImg.appendChild(questionText);
     View.stageImg.appendChild(this.questionWrapper);
+    View.stageImg.classList.add('fadeIn');
+    View.stageImg.style.opacity = 1;
   },
   showQuestions(status) {
     View.stageImg.style.display = status ? '' : 'none';

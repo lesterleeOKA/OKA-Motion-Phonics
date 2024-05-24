@@ -1,4 +1,4 @@
-let LEVEL_KEY = 'all';
+let LEVEL_KEY = '';
 
 function loadLevel() {
   const currentURL = window.location.href;
