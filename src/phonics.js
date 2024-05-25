@@ -4,6 +4,13 @@ import Sound from './sound';
 import QuestionManager from './question';
 
 export default {
+  optionImages: [
+    require("./images/phonics/candy1.png"),
+    require("./images/phonics/candy2.png"),
+    require("./images/phonics/candy3.png"),
+    require("./images/phonics/candy4.png"),
+    require("./images/phonics/candy5.png"),
+  ],
   randPositions: [],
   questionWord: null,
   questionField: null,
@@ -92,11 +99,13 @@ export default {
       //this.wordParts.splice(0);
       //View.optionArea.innerHTML = '';
       if (this.wordParts.length === 0) {
+        this.optionImages = this.optionImages.sort(() => Math.random() - 0.5);
+        console.log(this.optionImages);
         for (var i = 0; i < this.randomPair.length; i++) {
           if (i < 2)
-            this.createRandomPartWord(this.randomPair[i], true);
+            this.createRandomPartWord(this.randomPair[i], true, this.optionImages[i]);
           else
-            this.createRandomPartWord(this.randomPair[i], false);
+            this.createRandomPartWord(this.randomPair[i], false, this.optionImages[i]);
         }
       }
 
@@ -121,11 +130,11 @@ export default {
   generateUniqueId() {
     return Math.random().toString(16).slice(2);
   },
-  createRandomPartWord(char, isLeft) {
+  createRandomPartWord(char, isLeft, optionImage) {
     if (char && char.length !== 0) {
       const word = char;
       const id = this.generateUniqueId();
-      const optionWrapper = this.createOptionWrapper(word, id);
+      const optionWrapper = this.createOptionWrapper(word, id, optionImage);
       const position = this.getRandomPosition(optionWrapper, isLeft);
       if (position) {
         const generatePosition = () => {
@@ -155,7 +164,7 @@ export default {
           this.renderPartItem(newPartWord);
         } else {
           //console.log('Collision detected. Skipping item creation.');
-          this.createRandomPartWord(char, isLeft);
+          this.createRandomPartWord(char, isLeft, optionImage);
         }
       }
     }
@@ -195,11 +204,13 @@ export default {
     else
       return null;
   },
-  createOptionWrapper(text, id) {
+  createOptionWrapper(text, id, optionImage) {
     let optionWrapper = document.createElement('div');
     optionWrapper.classList.add('optionWrapper');
     optionWrapper.classList.add('fadeIn');
-    //optionWrapper.style.background = `url(../images/phonics/candy1.png)`;
+    console.log(optionImage);
+    if (optionImage !== '' && optionImage !== 'undefined')
+      optionWrapper.style.backgroundImage = `url(${optionImage})`;
     optionWrapper.style.width = `${this.optionSize}px`;
     optionWrapper.style.height = `${this.optionSize}px`;
     optionWrapper.id = id;
