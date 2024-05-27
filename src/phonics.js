@@ -17,7 +17,7 @@ export default {
   answeredNum: 0,
   score: 0,
   time: 0,
-  remainingTime: 1000,
+  remainingTime: 60,
   optionSize: 0,
   timer: null,
   timerRunning: false,
@@ -25,7 +25,6 @@ export default {
   randomPair: [],
   wordParts: [],
   answerLength: 0,
-  maxOpition: 4,
   questionWrapper: null,
   questionResult: null,
   startedGame: false,
@@ -38,7 +37,7 @@ export default {
 
   init() {
     this.randPositions = [];
-    View.timeText.innerText = this.remainingTime;
+    this.updateTimerDisplay(this.remainingTime);
     //View.showTips('tipsReady');
     this.questionWord = null;
     this.questionField = null;
@@ -100,17 +99,24 @@ export default {
       //View.optionArea.innerHTML = '';
       if (this.wordParts.length === 0) {
         this.optionImages = this.optionImages.sort(() => Math.random() - 0.5);
-        console.log(this.optionImages);
-        for (var i = 0; i < this.randomPair.length; i++) {
-          if (i < 2)
-            this.createRandomPartWord(this.randomPair[i], true, this.optionImages[i]);
-          else
-            this.createRandomPartWord(this.randomPair[i], false, this.optionImages[i]);
+        //console.log(this.optionImages);
+        const halfLength = Math.floor(this.randomPair.length / 2);
+        for (let i = 0; i < this.randomPair.length; i++) {
+          const optionImageIndex = i % this.optionImages.length;
+          let isLeft;
+          if (i < halfLength) {
+            isLeft = true;
+          } else if (i < this.randomPair.length - (this.randomPair.length % 2)) {
+            isLeft = false;
+          } else {
+            isLeft = Math.random() < 0.5; // Randomly assign left or right
+          }
+          this.createRandomPartWord(this.randomPair[i], isLeft, this.optionImages[optionImageIndex]);
         }
       }
 
       this.time--;
-      View.timeText.innerText = this.time;
+      this.updateTimerDisplay(this.time);
 
       if (this.time <= 0) {
         this.stopCountTime();
@@ -127,49 +133,57 @@ export default {
       this.showQuestions(false);
     }
   },
+  updateTimerDisplay(countdownTime) {
+    // Calculate the minutes and seconds
+    const minutes = Math.floor(countdownTime / 60);
+    const seconds = countdownTime % 60;
+    const timeString = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    View.timeText.innerText = timeString;
+  },
   generateUniqueId() {
     return Math.random().toString(16).slice(2);
   },
-  createRandomPartWord(char, isLeft, optionImage) {
+  createRandomPartWord(char, isLeft, optionImage, id = null) {
     if (char && char.length !== 0) {
-      const word = char;
-      const id = this.generateUniqueId();
-      const optionWrapper = this.createOptionWrapper(word, id, optionImage);
-      const position = this.getRandomPosition(optionWrapper, isLeft);
+      const localId = id || this.generateUniqueId();
+      let position = this.randPosition(isLeft, localId);
       if (position) {
-        const generatePosition = () => {
-          const newPart = {
-            x: position.x,
-            y: position.y,
-            size: this.optionSize,
-            word: word,
-            optionWrapper,
-            id,
-          };
-          return newPart;
+        const word = char;
+        const optionWrapper = this.createOptionWrapper(word, localId, optionImage);
+        const newPartWord = {
+          x: position.x,
+          y: position.y,
+          size: this.optionSize,
+          word: word,
+          optionWrapper,
+          id: localId,
         };
-        const newPartWord = generatePosition();
         // Check for collisions with existing items
-        let collision = false;
-        for (let i = 0; i < this.wordParts.length; i++) {
-          const existingPart = this.wordParts[i];
-          if (this.checkCollision(newPartWord, existingPart)) {
-            collision = true;
-            break;
-          }
-        }
+        let collision = this.checkCollisionWithExistingItems(newPartWord);
 
         if (!collision) {
           this.wordParts.push(newPartWord);
           this.renderPartItem(newPartWord);
         } else {
-          //console.log('Collision detected. Skipping item creation.');
-          this.createRandomPartWord(char, isLeft, optionImage);
+          position = this.randPosition(isLeft, localId);
+          newPartWord.x = position.x;
+          newPartWord.y = position.y;
+          this.createRandomPartWord(char, isLeft, optionImage, localId);
         }
       }
     }
   },
-
+  checkCollisionWithExistingItems(newPartWord) {
+    let collision = false;
+    for (let i = 0; i < this.wordParts.length; i++) {
+      const existingPart = this.wordParts[i];
+      if (this.checkCollision(newPartWord, existingPart)) {
+        collision = true;
+        break;
+      }
+    }
+    return collision;
+  },
   checkCollision(item1, item2) {
     return (
       item1.x < item2.x + item2.size &&
@@ -181,11 +195,12 @@ export default {
   getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   },
-  randPosition(isLeft) {
+  randPosition(isLeft, id) {
     if (isLeft) {
       return {
         x: Math.round(this.getRandomInt(0, this.redBoxX - this.optionSize)),
         y: Math.round(this.getRandomInt(150, View.canvas.height - this.optionSize)),
+        id,
       }
     }
     else {
@@ -193,22 +208,15 @@ export default {
         x: Math.round(this.getRandomInt((this.redBoxX + this.redBoxWidth) + this.optionSize,
           View.canvas.width - this.optionSize)),
         y: Math.round(this.getRandomInt(150, View.canvas.height - this.optionSize)),
+        id,
       }
     }
-  },
-  getRandomPosition(optionWrapper, isLeft) {
-    if (optionWrapper) {
-      let position = this.randPosition(isLeft);
-      return position;
-    }
-    else
-      return null;
   },
   createOptionWrapper(text, id, optionImage) {
     let optionWrapper = document.createElement('div');
     optionWrapper.classList.add('optionWrapper');
     optionWrapper.classList.add('fadeIn');
-    console.log(optionImage);
+    //console.log(optionImage);
     if (optionImage !== '' && optionImage !== 'undefined')
       optionWrapper.style.backgroundImage = `url(${optionImage})`;
     optionWrapper.style.width = `${this.optionSize}px`;
@@ -244,7 +252,7 @@ export default {
       View.optionArea.removeChild(item.optionWrapper);
     }
   },
-  /////////////////////////////////////////QUestions///////////////////////////////
+  /////////////////////////////////////////Questions///////////////////////////////
   getRandomWord(string) {
     const randomIndex = Math.floor(Math.random() * string.length);
     return string[randomIndex];
@@ -253,12 +261,16 @@ export default {
     var splitter = source.split(splitBy);
     return splitter;
   },
-  generateRandomWrongWords(length) {
+  generateRandomWrongWords(length, isUpper = false) {
     var result = '';
     var characters = 'abcdefghijklmnopqrstuvwxyz';
     for (let i = 0; i < length; i++) {
       var randomIndex = Math.floor(Math.random() * characters.length);
-      result += characters.charAt(randomIndex);
+      if (i === 0 && isUpper) {
+        result += characters.charAt(randomIndex).toUpperCase();
+      } else {
+        result += characters.charAt(randomIndex);
+      }
     }
     return result;
   },
@@ -272,10 +284,9 @@ export default {
       pairs.push(prefixSuffixPairs[i]);
     }
 
-    var wrongPairLength = prefixSuffixPairs.length > 2 ? (this.maxOpition - prefixSuffixPairs.length) :
-      (prefixSuffixPairs.length);
+    var wrongPairLength = prefixSuffixPairs.length + 1;
     for (let i = 0; i < wrongPairLength; i++) {
-      var incorrectPart = this.generateRandomWrongWords(pairs[i].length);
+      var incorrectPart = this.generateRandomWrongWords(pairs[i].length, i === 0 ? true : false);
       pairs.push(incorrectPart);
     }
 
@@ -362,14 +373,12 @@ export default {
       }
     }
   },
-
   resetFillWord() {
     this.questionWrapper.classList.remove('correct');
     this.questionWrapper.classList.remove('wrong');
     this.questionWrapper.textContent = '';
     this.fillwordTime = 0;
   },
-
   checkAnswer(answer) {
     if (this.questionWrapper) {
       if (answer === this.questionWord.correctAnswer) {
@@ -384,7 +393,6 @@ export default {
       }
     }
   },
-
   moveToNextQuestion() {
     this.resetFillWord();
     this.nextQuestion = true;

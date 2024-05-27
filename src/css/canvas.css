@@ -102,6 +102,7 @@
   background: transparent;
   border: none;
   color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 :root {
@@ -213,12 +214,15 @@
 @keyframes optionBlinkInnerYellow {
   0% {
     box-shadow: 0px 0px 10px 0px #000000, inset 0 0 0 10px #FCC946;
+    border-radius: 50%;
   }
   50% {
     box-shadow: 0px 0px 10px 0px #000000, inset 0 0 0 10px transparent;
+    border-radius: 50%;
   }
   100% {
     box-shadow: 0px 0px 10px 0px #000000, inset 0 0 0 10px #FCC946;
+    border-radius: 50%;
   }
 }
 @keyframes optionBlinkYellow { 50% { border-color:#FCC946; }  }

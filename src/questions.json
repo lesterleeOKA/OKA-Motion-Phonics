@@ -3,56 +3,56 @@
       {
          "QID":"p1u1-j1",
          "type":"Pair",
-         "question":"app/le",
-         "correctAnswer":"apple"
+         "question":"App/le",
+         "correctAnswer":"Apple"
       },
       {
          "QID":"p1u1-j2",
          "type":"Pair",
-         "question":"ba/na/na",
-         "correctAnswer":"banana"
+         "question":"Ba/na/na",
+         "correctAnswer":"Banana"
       },
       {
          "QID":"p1u1-j3",
          "type":"Pair",
-         "question":"ch/erry",
-         "correctAnswer":"cherry"
+         "question":"Ch/erry",
+         "correctAnswer":"Cherry"
       },
       {
          "QID":"p1u1-j4",
          "type":"Pair",
-         "question":"or/ange",
-         "correctAnswer":"orange"
+         "question":"Or/ange",
+         "correctAnswer":"Orange"
       },
       {
          "QID":"p1u1-j5",
          "type":"Pair",
-         "question":"pe/ar",
-         "correctAnswer":"pear"
+         "question":"Pe/ar",
+         "correctAnswer":"Pear"
       },
       {
         "QID":"p1u1-j6",
         "type":"Pair",
-        "question":"man/go",
-        "correctAnswer":"mango"
+        "question":"Man/go",
+        "correctAnswer":"Mango"
       },
       {
         "QID":"p1u1-j7",
         "type":"Pair",
-        "question":"le/mon",
-        "correctAnswer":"lemon"
+        "question":"Le/mon",
+        "correctAnswer":"Lemon"
       },
       {
         "QID":"p1u1-j8",
         "type":"Pair",
-        "question":"pl/um",
-        "correctAnswer":"plum"
+        "question":"Pl/um",
+        "correctAnswer":"Plum"
       },
       {
         "QID":"p1u1-j9",
         "type":"Pair",
-        "question":"pe/ach",
-        "correctAnswer":"peach"
+        "question":"Pe/ach",
+        "correctAnswer":"Peach"
       }
    ]
 }
