@@ -41,8 +41,8 @@
   transition: opacity 0.1s ease;
   text-align: center;
   font-size: calc(min(5.5vh, 5.5vw));
-  font-family: "Rowdies", cursive;
-  font-weight: bold;
+  font-family: "Arzachel", system-ui;
+  font-weight: bolder;
   width: calc(min(30.7vh, 30.7vw));
   height: calc(min(4.7vh, 4.7vw));
   color: rgb(192 134 97);
@@ -58,8 +58,8 @@
   background-color: rgb(192 134 97);
   border-radius: 4%;
   font-size: calc(min(3.5vh, 3.5vw));
-  font-family: "Rowdies", cursive;
-  font-weight: bold;
+  font-family: "Arzachel", system-ui;
+  font-weight: bolder;
   width: calc(min(30.7vh, 30.7vw));
   height: calc(min(4.7vh, 4.7vw));
   color: white;
@@ -97,8 +97,8 @@
   height: 90%;
   text-align: center;
   font-size: var(--font-size);
-  font-family: "Rowdies", cursive;
-  font-weight: bold;
+  font-family: "Arzachel", system-ui;
+  font-weight: bolder;
   background: transparent;
   border: none;
   color: white;

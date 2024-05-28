@@ -35,7 +35,7 @@ export class RendererCanvas2d {
         //this.isPoseValid(poses, video.width / video.videoWidth);
         isCurPoseValid = this.isPoseValid(poses, video.width / video.videoWidth);
         if (isCurPoseValid && State.bodyInsideRedBox.value == true) {
-          if (State.state == 'prepare' && State.getStateLastFor() > 2000) {
+          if (State.state == 'prepare' && State.getStateLastFor() > 6000) {
             State.changeState('counting3');
           } else if (State.state == 'counting3' && State.getStateLastFor() > 1000) {
             State.changeState('counting2');
