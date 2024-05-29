@@ -15,7 +15,7 @@
 </head>
 <body>
   <div class="loadingBarWrapper">
-    <img class="loadingText"></img>
+    <div class="loadingFont">Loading...</div>
     <div id="loadingBar" class="loadingBar">
       <div class="brownBar"></div>
       <div class="greenBar" id="greenBar"></div>
@@ -41,7 +41,8 @@
     <!--<img class="schoolLogo"></img>-->
     <!--<div class="gameTitle"></div>-->
     <!--<div class="instructionBoard"></div>-->
-    <img class="startBtn"></img>
+    <img class="startBtn" alt="Start Button">
+    <span class="startBtnText">Start</span>
   </div>
 
   <div class="gameWrapper">
@@ -80,8 +81,12 @@
   <div class="exitWrapper">
     <div class="exitBoard">
       <div class="btnWrapper">
-        <img class="continueBtn"></img>
-        <img class="backHomeBtn"></img>
+        <div class="continueBtn">
+          <div class="continueText">Continue</div>
+        </div>
+        <div class="backHomeBtn">
+          <div class="backHomeText">Home</div>
+        </div>
       </div>
     </div>
   </div>
@@ -91,7 +96,7 @@
       <img class="finishedBoard"></img>
       <div class="scoreTimeWrapper">
         <div class="row score">
-          <div class="label">成績：</div>
+          <div class="label">Score：</div>
           <img class="icon"></img>
           <div class="value"></div>
         </div>
@@ -102,13 +107,17 @@
         </div>-->
       </div>
       <div class="finishedBtnWrapper">
-        <img class="playAgainBtn"></img>
-        <img class="backHomeBtn"></img>
+        <div class="playAgainBtn">
+          <div class="playAgainText">Replay</div>
+        </div>
+        <div class="backHomeBtn">
+          <div class="playAgainText">Home</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="version">Ver:1</div>
+  <div class="version">Ver:1.01</div>
   <!--<div class="debug"></div>-->
   <div class="debug" id="stats"></div>
 </body>

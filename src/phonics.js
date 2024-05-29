@@ -284,7 +284,7 @@ export default {
       pairs.push(prefixSuffixPairs[i]);
     }
 
-    var wrongPairLength = prefixSuffixPairs.length + 1;
+    var wrongPairLength = prefixSuffixPairs.length < 3 ? prefixSuffixPairs.length + 1 : prefixSuffixPairs.length;
     for (let i = 0; i < wrongPairLength; i++) {
       var incorrectPart = this.generateRandomWrongWords(pairs[i].length, i === 0 ? true : false);
       pairs.push(incorrectPart);

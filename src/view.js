@@ -115,7 +115,7 @@ export default {
   hideFinished() {
     this.finishedWrapper.classList.remove("show");
     setTimeout(() => {
-      this.finishedScore.innerText = "";
+      this.finishedScore.innerText = "0";
       //this.finishedTime.innerText = "";
     }, 1000);
   },

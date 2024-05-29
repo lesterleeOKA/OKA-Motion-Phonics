@@ -143,6 +143,7 @@ function init() {
 
   View.backHomeBtnOfFinished.addEventListener(clickHandler, () => {
     if (State.isSoundOn) Sound.play('btnClick');
+    State.state = '';
     State.changeState('instruction');
   });
 
@@ -151,12 +152,14 @@ function init() {
       Sound.play('btnClick');
       Sound.play('bgm', true);
     }
+    State.state = '';
     State.changeState('prepare');
   });
 
   View.backHomeBtnOfExit.addEventListener(clickHandler, () => {
     if (State.isSoundOn) Sound.play('btnClick');
     View.hideExit();
+    State.state = '';
     State.changeState('instruction');
   });
 
@@ -174,7 +177,7 @@ function init() {
       ['instruction', require('./audio/instruction.mp3')],
       ['prepare', require('./audio/prepare.mp3')],
       ['start', require('./audio/start.mp3')],
-      ['dontMove', require('./audio/dontMove.mp3')],
+      /*['dontMove', require('./audio/dontMove.mp3')],*/
       ['finished', require('./audio/finished.mp3')],
       ['outBox', require('./audio/outBox.mp3')],
       ['poseValid', require('./audio/poseValid.mp3')],

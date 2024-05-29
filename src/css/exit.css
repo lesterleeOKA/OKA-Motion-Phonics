@@ -36,29 +36,61 @@
 /*-----------------------------------------------------------------------------------------------*/
 .exitWrapper > .exitBoard  > .btnWrapper {
   width: 100%;
+  height: calc(min(10vh, 10vw));
   display: flex;
   justify-content: space-evenly;
   margin-top: calc(min(23vh, 23vw));
 }
 
 .exitWrapper > .exitBoard  > .btnWrapper > .continueBtn {
-  content: url(../images/continueBtnYellow.png);
-  width: calc(min(28.7vh, 28.7vw));
+  background: url(../images/btnYellow.png);
+  background-size: contain;
+  width: calc(min(25.7vh, 25.7vw));
+  height: 100%;
   cursor: pointer;
+  background-repeat: no-repeat;
 }
 
 .exitWrapper > .exitBoard  > .btnWrapper > .continueBtn:active {
-  content: url(../images/continueBtnGreen.png);
+  background: url(../images/btnGreen.png);
+  background-size: contain;
+  width: calc(min(25.7vh, 25.7vw));
+  height: 100%;
+  cursor: pointer;
+  background-repeat: no-repeat;
 }
 
 .exitWrapper > .exitBoard  > .btnWrapper > .backHomeBtn {
-  content: url(../images/backHomeBtnYellow.png);
-  width: calc(min(28.7vh, 28.7vw));
+  background: url(../images/btnYellow.png);
+  background-size: contain;
+  width: calc(min(25.7vh, 25.7vw));
+  height: 100%;
   cursor: pointer;
+  background-repeat: no-repeat;
 }
 
 .exitWrapper > .exitBoard  > .btnWrapper > .backHomeBtn:active {
-  content: url(../images/backHomeBtnGreen.png);
+  background: url(../images/btnGreen.png);
+  background-size: contain;
+  width: calc(min(25.7vh, 25.7vw));
+  height: 100%;
+  cursor: pointer;
+  background-repeat: no-repeat;
+}
+
+.continueText,
+.backHomeText {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -70%);
+  font-family: "Arzachel", system-ui;
+  font-weight: bolder;
+  font-size: calc(min(4.5vh, 4.5vw));
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  -webkit-text-stroke: 2px #797979;
+  text-align: center;
 }
 /*-----------------------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------------------*/

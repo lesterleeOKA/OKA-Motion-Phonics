@@ -52,6 +52,8 @@
   height: calc(min(9vh, 9vw));
 }
 .finishedWrapper > .finishedBoardWrapper > .scoreTimeWrapper > .row > .label {
+  font-family: "Arzachel", system-ui;
+  font-weight: bolder;
 }
 .finishedWrapper > .finishedBoardWrapper > .scoreTimeWrapper > .row > .icon {
   height: calc(min(5vh, 5vw));
@@ -72,28 +74,60 @@
   top: calc(50% + min(25vh, 25vw));
   left: calc((100vw - min(70vh, 70vw))/2);
   width: calc(min(70vh, 70vw));
+  height: calc(min(10vh, 10vw));
   display: flex;
   justify-content: space-evenly;
 }
 
 .finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .backHomeBtn {
-  content: url(../images/backHomeBtnYellow.png);
+  background: url(../images/btnYellow.png);
+  background-size: contain;
   width: calc(min(28.7vh, 28.7vw));
+  height: 100%;
   cursor: pointer;
+  background-repeat: no-repeat;
 }
 
 .finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .backHomeBtn:active {
-  content: url(../images/backHomeBtnGreen.png);
+  background: url(../images/btnGreen.png);
+  background-size: contain;
+  width: calc(min(28.7vh, 28.7vw));
+  height: 100%;
+  cursor: pointer;
+  background-repeat: no-repeat;
 }
 
 .finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .playAgainBtn {
-  content: url(../images/playAgainBtnYellow.png);
+  background: url(../images/btnYellow.png);
+  background-size: contain;
   width: calc(min(28.7vh, 28.7vw));
+  height: 100%;
   cursor: pointer;
+  background-repeat: no-repeat;
 }
 
 .finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .playAgainBtn:active {
-  content: url(../images/playAgainBtnGreen.png);
+  background: url(../images/btnGreen.png);
+  background-size: contain;
+  width: calc(min(28.7vh, 28.7vw));
+  height: 100%;
+  cursor: pointer;
+  background-repeat: no-repeat;
+}
+
+.playAgainText,
+.backHomeText {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -70%);
+  font-family: "Arzachel", system-ui;
+  font-weight: bolder;
+  font-size: calc(min(4.5vh, 4.5vw));
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  -webkit-text-stroke: 2px #797979;
+  text-align: center;
 }
 
 /*-----------------------------------------------------------------------------------------------*/

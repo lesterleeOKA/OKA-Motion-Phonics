@@ -42,7 +42,7 @@
 }
 
 .instructionWrapper > .startBtn {
-  content: url(../images/startBtnYellow.png);
+  content: url(../images/btnYellow.png);
   width: calc(min(28.7vh, 28.7vw));
   background-repeat: no-repeat;
   background-position: center;
@@ -53,16 +53,28 @@
   animation-iteration-count: infinite;
   animation-duration: 1s;
 }
+.instructionWrapper > .startBtnText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -70%);
+  font-family: "Arzachel", system-ui;
+  font-weight: bolder;
+  font-size: calc(min(4.5vh, 4.5vw));
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  -webkit-text-stroke: 2px #797979;
+}
 
 @keyframes startBtnAnimation {
   0% {
-    content: url(../images/startBtnYellow.png);
+    content: url(../images/btnYellow.png);
   }
-  51% { 
-    content: url(../images/startBtnGreen.png)
+  51% {
+    content: url(../images/btnGreen.png)
   }
 }
 
 .instructionWrapper > .startBtn:active {
-  content: url(../images/startBtnGreen.png);
+  content: url(../images/btnGreen.png);
 }
