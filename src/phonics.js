@@ -17,7 +17,7 @@ export default {
   answeredNum: 0,
   score: 0,
   time: 0,
-  remainingTime: 60,
+  remainingTime: 180,
   optionSize: 0,
   timer: null,
   timerRunning: false,
@@ -143,13 +143,13 @@ export default {
   generateUniqueId() {
     return Math.random().toString(16).slice(2);
   },
-  createRandomPartWord(char, isLeft, optionImage, id = null) {
+  createRandomPartWord(char, isLeft, optionImage, id = null, _optionWrapper = null) {
     if (char && char.length !== 0) {
       const localId = id || this.generateUniqueId();
       let position = this.randPosition(isLeft, localId);
       if (position) {
         const word = char;
-        const optionWrapper = this.createOptionWrapper(word, localId, optionImage);
+        const optionWrapper = _optionWrapper || this.createOptionWrapper(word, localId, optionImage);
         const newPartWord = {
           x: position.x,
           y: position.y,
@@ -168,7 +168,7 @@ export default {
           position = this.randPosition(isLeft, localId);
           newPartWord.x = position.x;
           newPartWord.y = position.y;
-          this.createRandomPartWord(char, isLeft, optionImage, localId);
+          this.createRandomPartWord(char, isLeft, optionImage, localId, optionWrapper);
         }
       }
     }
@@ -368,7 +368,7 @@ export default {
         if (this.fillwordTime == this.answerLength) {
           setTimeout(() => {
             this.checkAnswer(this.questionWrapper.textContent);
-          }, 1000);
+          }, 300);
         }
       }
     }

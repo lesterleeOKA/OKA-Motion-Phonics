@@ -60,10 +60,11 @@
   transform: translate(-50%, -70%);
   font-family: "Arzachel", system-ui;
   font-weight: bolder;
-  font-size: calc(min(4.5vh, 4.5vw));
+  font-size: calc(min(5.5vh, 5.5vw));
   color: #fff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  -webkit-text-stroke: 2px #797979;
+  /*-webkit-text-stroke: 2px #797979;*/
+  pointer-events: none;
 }
 
 @keyframes startBtnAnimation {

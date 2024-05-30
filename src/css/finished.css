@@ -28,8 +28,24 @@
 }
 
 .finishedWrapper > .finishedBoardWrapper > .finishedBoard {
+  position: relative;
   height: calc(min(90vh, 90vw));
-  content: url(../images/finished.png);
+  content: url(../images/finished_new.png);
+}
+
+.finishedBoardText{
+  position: absolute;
+  top: calc(25% + min(5vh, 5vw));
+  width: calc(min(70vh, 70vw));
+  display: flex;
+  font-family:  "Arzachel", system-ui;
+  justify-content: space-evenly;
+  flex-direction: column;
+  font-size: calc(min(4.5vh, 4.5vw));
+  font-weight: bold;
+  color: white;
+  pointer-events: none;
+  text-align: center;
 }
 
 /*-----------------------------------------------------------------------------------------------*/
@@ -126,8 +142,9 @@
   font-size: calc(min(4.5vh, 4.5vw));
   color: #fff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  -webkit-text-stroke: 2px #797979;
+  /*-webkit-text-stroke: 2px #797979;*/
   text-align: center;
+  pointer-events: none;
 }
 
 /*-----------------------------------------------------------------------------------------------*/

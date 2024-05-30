@@ -105,7 +105,7 @@
 .gameWrapper > .topLeftControl > .scoreWrapper > .scoreBoard {
   height: calc(min(11.7vh, 11.7vw));
   margin-left: calc(min(3vh, 3vw));
-  content: url(../images/score.png);
+  content: url(../images/public_score_P1_en.png);
 }
 /*-----------------------------------------------------------------------------------------------*/
 .gameWrapper > .topLeftControl > .scoreWrapper > .scoreText {

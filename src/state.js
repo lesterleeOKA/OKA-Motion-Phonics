@@ -130,7 +130,7 @@ export default {
             this.setPoseState('selectedImg', '');
             if (state == 'playing')
               Game.moveToNextQuestion();
-          }, 2000);
+          }, 1000);
           break;
       }
 
