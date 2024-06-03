@@ -126,6 +126,10 @@ export class RendererCanvas2d {
               point.y > resetBtn.offsetTop &&
               point.y < (resetBtn.offsetTop + resetBtn.offsetHeight)
             ) {
+              if (State.isSoundOn) {
+                Sound.stopAll('bgm');
+                Sound.play('btnClick');
+              }
               resetBtn.classList.add('active');
               for (let option of optionWrappers) option.classList.remove('touch');
               Game.resetFillWord();
