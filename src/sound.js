@@ -1,10 +1,19 @@
 export default {
-  audioContext: new (window.AudioContext || window.webkitAudioContext)(),
+  audioContext: null,
   audios: {},
-  preloadAudio(key, url, createAudioContext=false, volume=1) {
-    return new Promise((resolve, reject)=>{
-      let audio = {volume: volume, audioBuffer: null, audioContext: createAudioContext,}
-      
+  init() {
+    try {
+      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      console.log("Your browser support the Web Audio API");
+    } catch (error) {
+      alert("Your browser does not support the Web Audio API. Audio playback will not be available.");
+      console.error("Error initializing AudioContext:", error);
+    }
+  },
+  preloadAudio(key, url, createAudioContext = false, volume = 1) {
+    return new Promise((resolve, reject) => {
+      let audio = { volume: volume, audioBuffer: null, audioContext: createAudioContext, }
+
       let ajax = new XMLHttpRequest();
       ajax.open("GET", url, true);
       ajax.responseType = "arraybuffer"
@@ -14,19 +23,19 @@ export default {
           (buffer) => {
             audio.audioBuffer = buffer;
             this.audios[key] = audio;
-            resolve (audio);
+            resolve(audio);
           },
           (error) => { debugger }
         )
       }
-  
+
       ajax.onerror = () => { debugger }
-  
+
       ajax.send()
- 
+
     });
   },
-  play(key, loop=false, volume=null) {
+  play(key, loop = false, volume = null) {
     //console.log('Play sound: ' + key);
     if (!this.audios[key]) return;
     let audio = this.audios[key];
@@ -36,17 +45,17 @@ export default {
     if (!source) return false;
     source.buffer = audio.audioBuffer;
     source.loop = loop;
-    if(!source.start) source.start = source.noteOn;
-    if(!source.start) return false
+    if (!source.start) source.start = source.noteOn;
+    if (!source.start) return false
     let gainNode = audioContext.createGain()
     gainNode.gain.value = volume || audio.volume
     source.connect(gainNode)
     gainNode.connect(audioContext.destination);
     source.start(0);
-    
+
     audio.gainNode = gainNode
     return true
-    
+
     /*if (this.audios[key] && this.audios[key].readyState>2) {
       this.stop(key);
       if (force) this.audios[key].currentTime = 0;
@@ -56,7 +65,7 @@ export default {
   stop(key) {
     if (!this.audios[key]) return;
     let audio = this.audios[key];
-    if(audio.gainNode) audio.gainNode.gain.value = 0;
+    if (audio.gainNode) audio.gainNode.gain.value = 0;
   },
   pause(key) {
     if (!this.audios[key]) return;
@@ -73,7 +82,7 @@ export default {
   },
   /*function setSoundVolume(sound, volume) {
   sound.volume = volume
-  
+
   if(sound.gainNode)
     sound.gainNode.gain.value = volume
   }*/
@@ -86,13 +95,13 @@ export default {
   //document.body.addEventListener('touchstart', function(){playSound(emptySound)}, false)
 
   //-----------------------------------------------------------------------------------------------
-  preloadAudio_old(key, url, loop=false) {
+  preloadAudio_old(key, url, loop = false) {
     console.log('in preloadAudio(' + key + ')');
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject) => {
       let audio = new Audio(url);
       audio.preload = "auto";
       audio.loop = loop;
-      audio.oncanplaythrough = ()=>{
+      audio.oncanplaythrough = () => {
         console.log('audio(' + key + ') loaded.');
         resolve(audio);
       }
@@ -111,7 +120,7 @@ export default {
   },
   //-----------------------------------------------------------------------------------------------
   play_old(key, force) {
-    if (this.audios[key] && this.audios[key].readyState>2) {
+    if (this.audios[key] && this.audios[key].readyState > 2) {
       this.stop(key);
       if (force) this.audios[key].currentTime = 0;
       this.audios[key].play();
@@ -119,10 +128,10 @@ export default {
   },
   //-----------------------------------------------------------------------------------------------
   stop_old(key) {
-    if (this.audios[key] && this.audios[key].readyState>2) this.audios[key].pause();
+    if (this.audios[key] && this.audios[key].readyState > 2) this.audios[key].pause();
   },
   //-----------------------------------------------------------------------------------------------
-  stopAll(except=[]) {
+  stopAll(except = []) {
     for (let key in this.audios) if (!except.includes(key)) this.stop(key);
   },
   //-----------------------------------------------------------------------------------------------

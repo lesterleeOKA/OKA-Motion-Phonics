@@ -53,6 +53,60 @@
         "type":"Pair",
         "question":"Pe/ach",
         "correctAnswer":"Peach"
-      }
+      },
+      {
+        "QID":"p1u2-j1",
+        "type":"Pair",
+        "question":"Ba/na/na",
+        "correctAnswer":"Banana"
+     },
+     {
+        "QID":"p1u2-j2",
+        "type":"Pair",
+        "question":"Ba/na/na",
+        "correctAnswer":"Banana"
+     },
+     {
+        "QID":"p1u2-j3",
+        "type":"Pair",
+        "question":"Ch/erry",
+        "correctAnswer":"Cherry"
+     },
+     {
+        "QID":"p1u2-j4",
+        "type":"Pair",
+        "question":"Or/ange",
+        "correctAnswer":"Orange"
+     },
+     {
+        "QID":"p1u2-j5",
+        "type":"Pair",
+        "question":"Pe/ar",
+        "correctAnswer":"Pear"
+     },
+     {
+       "QID":"p1u2-j6",
+       "type":"Pair",
+       "question":"Man/go",
+       "correctAnswer":"Mango"
+     },
+     {
+       "QID":"p1u2-j7",
+       "type":"Pair",
+       "question":"Le/mon",
+       "correctAnswer":"Lemon"
+     },
+     {
+       "QID":"p1u2-j8",
+       "type":"Pair",
+       "question":"Pl/um",
+       "correctAnswer":"Plum"
+     },
+     {
+       "QID":"p1u2-j9",
+       "type":"Pair",
+       "question":"Pe/ach",
+       "correctAnswer":"Peach"
+     }
    ]
 }

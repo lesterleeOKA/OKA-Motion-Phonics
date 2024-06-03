@@ -21,7 +21,7 @@
 }
 
 .instructionWrapper > .gameTitle {
-  background-image: url(../images/gameTitle.png);
+  /*background-image: url(../images/gameTitle.png);*/
   height: calc(min(16.5vh, 16.5vw));
   width: 100%;
   background-repeat: no-repeat;
@@ -29,8 +29,22 @@
   background-size: contain;
 }
 
+.instructionWrapper > .gameTextTitle {
+  font-family: "Arzachel", system-ui;
+  font-weight: bolder;
+  text-shadow: 5px 5px 4px rgba(0, 0, 0, 0.5);
+  font-size: calc(min(8.5vh, 8.5vw));
+  /* height: calc(min(16.5vh, 16.5vw)); */
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  text-align: center;
+  color: #9c6334;
+}
+
 .instructionWrapper > .instructionBoard {
-  background-image: url(../images/instructionBoard.png);
+  background-image: url(../images/instructionBoard_phonics.png);
   height: calc(min(53vh, 53vw));
   width: 100%;
   background-repeat: no-repeat;
@@ -40,10 +54,34 @@
   display: flex;
   justify-content: center;
 }
+.instructionWrapper > .instructionBoard > .instructionText {
+  font-family: "Arzachel", system-ui;
+  font-weight: bolder;
+  font-size: calc(min(4.5vh, 4.5vw));
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  /*-webkit-text-stroke: 2px #797979;*/
+  pointer-events: none;
+  text-align: center;
+  height: fit-content;
+  transform: translateY(5%);
+}
+.instructionWrapper > .instructionBoard > .instructionContent {
+  position: absolute;
+  font-family: "Arzachel", system-ui;
+  font-weight: bold;
+  font-size: calc(min(2.5vh, 2.5vw));
+  color: #7C5729;
+  pointer-events: none;
+  text-align: center;
+  height: fit-content;
+  bottom: 10%;
+}
 
 .instructionWrapper > .startBtn {
-  content: url(../images/btnYellow.png);
-  width: calc(min(28.7vh, 28.7vw));
+  content: url(../images/start_yellow.png);
+  width: calc(min(20.7vh, 20.7vw));
+  height: calc(min(8.7vh, 8.7vw));;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -52,30 +90,35 @@
   animation-timing-function: ease;
   animation-iteration-count: infinite;
   animation-duration: 1s;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
-.instructionWrapper > .startBtnText {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -70%);
+.instructionWrapper > .startBtn > .startBtnText {
+  transform: translateY(-5%);
   font-family: "Arzachel", system-ui;
   font-weight: bolder;
   font-size: calc(min(5.5vh, 5.5vw));
   color: #fff;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
   /*-webkit-text-stroke: 2px #797979;*/
   pointer-events: none;
+  text-align: center;
 }
 
 @keyframes startBtnAnimation {
   0% {
-    content: url(../images/btnYellow.png);
+    content: url(../images/start_yellow.png);
   }
   51% {
-    content: url(../images/btnGreen.png)
+    content: url(../images/start_green.png);
   }
 }
 
 .instructionWrapper > .startBtn:active {
-  content: url(../images/btnGreen.png);
+  content: url(../images/start_green.png);
 }
+

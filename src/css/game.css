@@ -22,10 +22,61 @@
 }
 
 .gameWrapper > .prepareBoardWrapper > .prepareBoard {
-  content: url(../images/prepareBoard.png);
+  content: url(../images/prepareBoard_new.png);
   height: calc(min(26.44vh, 26.44vw));
   /*position: absolute;
   top: calc(min(2vh, 2vw));*/
+}
+
+.gameWrapper > .prepareBoardWrapper >.prepareTitle {
+  position: absolute;
+  bottom: 78%;
+  font-family: "Arzachel", system-ui;
+  font-weight: 800;
+  font-size: calc(min(4.5vh, 4.5vw));
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  /*-webkit-text-stroke: 3px #582c02;*/
+  pointer-events: none;
+}
+.gameWrapper > .prepareBoardWrapper >.rule-1 {
+  position: absolute;
+  top: 30%;
+  font-family: "Arzachel", system-ui;
+  font-weight: bold;
+  font-size: calc(min(2.5vh, 2.5vw));
+  color: #391d02;
+  pointer-events: none;
+  line-height: 1;
+  width: calc(min(55vh, 55vw));
+  text-align: left;
+  padding-left: calc(min(5vh, 5vw));
+}
+.gameWrapper > .prepareBoardWrapper >.rule-2 {
+  position: absolute;
+  top: 45%;
+  font-family: "Arzachel", system-ui;
+  font-weight: bold;
+  font-size: calc(min(2.5vh, 2.5vw));
+  color: #391d02;
+  pointer-events: none;
+  line-height: 1;
+  width: calc(min(55vh, 55vw));
+  text-align: left;
+  padding-left: calc(min(5vh, 5vw));
+}
+.gameWrapper > .prepareBoardWrapper >.rule-3 {
+  position: absolute;
+  top: 70%;
+  font-family: "Arzachel", system-ui;
+  font-weight: bold;
+  font-size: calc(min(2.5vh, 2.5vw));
+  color: #391d02;
+  pointer-events: none;
+  line-height: 1;
+  width: calc(min(55vh, 55vw));
+  text-align: left;
+  padding-left: calc(min(5vh, 5vw));
 }
 /*-----------------------------------------------------------------------------------------------*/
 .gameWrapper > .ansResult {
@@ -162,6 +213,12 @@
   width: calc(min(9vh, 9vw));
   margin-right: calc(min(3vh, 3vw));
   cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .gameWrapper > .topRightControl > .musicBtn:active {
   width: calc(min(7vh, 7vw));
@@ -179,6 +236,12 @@
   width: calc(min(9vh, 9vw));
   margin-right: calc(min(3vh, 3vw));
   cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .gameWrapper > .topRightControl > .exitBtn:active {
   width: calc(min(7vh, 7vw));

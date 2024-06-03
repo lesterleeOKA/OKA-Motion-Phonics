@@ -104,6 +104,9 @@ export class RendererCanvas2d {
         return false;
       }
 
+      let resetBtn = document.querySelector('.resetBtn');
+
+
       //檢查是否有選到圖
       let optionWrappers = document.querySelectorAll('.canvasWrapper > .optionArea > .optionWrapper.show');
 
@@ -111,7 +114,29 @@ export class RendererCanvas2d {
         let checkKeypoints = pose.keypoints.filter(k => ['right_index', 'left_index'].includes(k.name) && k.score > passScore);
         let touchingWord = [];
 
+
         for (let point of checkKeypoints) {
+          //console.log(resetBtn.offsetLeft * 2, resetBtn.offsetWidth * 2);
+          //console.log(resetBtn.offsetTop, resetBtn.offsetHeight);
+          //console.log(point);
+          if (resetBtn) {
+            if (
+              point.x > resetBtn.offsetLeft * 2 &&
+              point.x < (resetBtn.offsetLeft * 2 + resetBtn.offsetWidth * 2) &&
+              point.y > resetBtn.offsetTop &&
+              point.y < (resetBtn.offsetTop + resetBtn.offsetHeight)
+            ) {
+              resetBtn.classList.add('active');
+              for (let option of optionWrappers) option.classList.remove('touch');
+              Game.resetFillWord();
+              //console.log("reset word");
+            } else {
+              resetBtn.classList.remove('active');
+            }
+          }
+
+
+
           for (let option of optionWrappers) {
             /*const optionRect = option.getBoundingClientRect();
              if (

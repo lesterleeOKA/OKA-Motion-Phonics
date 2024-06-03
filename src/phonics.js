@@ -337,7 +337,9 @@ export default {
     this.randomPair = this.getRandomPair(prefixSuffixPairs);
     let questionBg = document.createElement('div');
     let questionText = document.createElement('span');
+    let resetBtn = document.createElement('div');
     questionBg.classList.add('questionBg');
+    resetBtn.classList.add('resetBtn');
     questionText.classList.add('questionText');
     questionText.textContent = this.questionWord.correctAnswer;
     this.questionWrapper = document.createElement('span');
@@ -345,6 +347,7 @@ export default {
     this.questionWrapper.classList.add('questionWrapper');
     View.stageImg.appendChild(questionBg);
     View.stageImg.appendChild(questionText);
+    View.stageImg.appendChild(resetBtn);
     View.stageImg.appendChild(this.questionWrapper);
     View.stageImg.classList.add('fadeIn');
     View.stageImg.style.opacity = 1;

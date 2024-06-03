@@ -47,6 +47,21 @@
   height: calc(min(4.7vh, 4.7vw));
   color: rgb(192 134 97);
 }
+.resetBtn{
+  background: url(../images/reset_btn.png);
+  background-position: center;
+  background-size: cover;
+  width: 25%;
+  height: 25%;
+  position: absolute;
+  bottom: -10%;
+  right:  -15%;
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+}
+.active {
+  transform: scale(0.9);
+  border: none;
+}
 
 .questionWrapper{
   position: fixed;

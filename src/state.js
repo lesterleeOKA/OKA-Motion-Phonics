@@ -105,6 +105,7 @@ export default {
         case 'showQstImg':
           this.changeState('playing', 'waitAns');
         case 'waitAns':
+          View.hideTips();
           Game.startCountTime();
           break;
         case 'ansWrong':
@@ -117,7 +118,7 @@ export default {
           setTimeout(() => {
             this.setPoseState('selectedImg', '');
             Game.resetFillWord();
-          }, 2000);
+          }, 1000);
           break;
         case 'ansCorrect':
           if (this.isSoundOn) {
@@ -141,7 +142,7 @@ export default {
     } else if (state == 'outBox') {
       if (stateType == 'outBox') {
         if (this.isSoundOn) Sound.play('outBox');
-        //View.showTips('tipsOutBox');
+        View.showTips('tipsOutBox');
       }
     } else if (state == 'finished') {
       View.hideTopLeftControl();
