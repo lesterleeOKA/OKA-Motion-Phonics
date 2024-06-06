@@ -47,8 +47,8 @@
   background-size: contain;
   width: calc(min(25.7vh, 25.7vw));
   height: 100%;
-  cursor: pointer;
   background-repeat: no-repeat;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .exitWrapper > .exitBoard  > .btnWrapper > .continueBtn:active {
@@ -56,8 +56,8 @@
   background-size: contain;
   width: calc(min(25.7vh, 25.7vw));
   height: 100%;
-  cursor: pointer;
   background-repeat: no-repeat;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .exitWrapper > .exitBoard  > .btnWrapper > .backHomeBtn {
@@ -65,8 +65,8 @@
   background-size: contain;
   width: calc(min(25.7vh, 25.7vw));
   height: 100%;
-  cursor: pointer;
   background-repeat: no-repeat;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .exitWrapper > .exitBoard  > .btnWrapper > .backHomeBtn:active {
@@ -74,8 +74,8 @@
   background-size: contain;
   width: calc(min(25.7vh, 25.7vw));
   height: 100%;
-  cursor: pointer;
   background-repeat: no-repeat;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .continueText,

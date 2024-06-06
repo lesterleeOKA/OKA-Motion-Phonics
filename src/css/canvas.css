@@ -56,10 +56,10 @@
   position: absolute;
   bottom: -10%;
   right:  -15%;
-  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  border: none;
 }
 .active {
-  transform: scale(0.9);
+  transform: scale(0.7);
   border: none;
 }
 
