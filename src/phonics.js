@@ -33,6 +33,7 @@ export default {
   redBoxY: 0,
   redBoxWidth: 0,
   redBoxHeight: 0,
+  eachQAMark: 0,
 
 
   init() {
@@ -63,12 +64,45 @@ export default {
     this.redBoxY = (View.canvas.height / 5) * 3;
     this.redBoxWidth = View.canvas.width / 3;
     this.redBoxHeight = (View.canvas.height / 5) * 2;
+    this.eachQAMark = 10;
+    View.hideSuccess();
+    View.hideFailure();
+    for (let i = 1; i < 4; i++) {
+      let star = document.getElementById("star" + i);
+      if (star) {
+        star.classList.remove("show");
+      }
+    }
   },
 
 
   addScore(mark) {
     let newScore = this.score + mark;
-    if (newScore < 0) newScore = 0;
+    let starNum = 0;
+
+    if (newScore < 0)
+      newScore = 0;
+
+    if (newScore >= 30 && newScore < 60) {
+      starNum = 1;
+      const star1 = document.getElementById("star1");
+      star1.classList.add('show');
+      View.showSuccess();
+    }
+    else if (newScore >= 60 && newScore <= 90) {
+      starNum = 2;
+      const star2 = document.getElementById("star2");
+      star2.classList.add('show');
+    }
+    else if (newScore > 90) {
+      starNum = 3;
+      const star3 = document.getElementById("star3");
+      star3.classList.add('show');
+    }
+    else {
+      View.showFailure();
+    }
+
     this.score = newScore;
     View.scoreText.innerText = this.score;
     View.finishedScore.innerText = this.score;
@@ -386,9 +420,10 @@ export default {
     if (this.questionWrapper) {
       if (answer === this.questionWord.correctAnswer) {
         //答岩1分，答錯唔扣分
-        this.addScore(1);
+        this.addScore(this.eachQAMark);
         this.questionWrapper.classList.add('correct');
         State.changeState('playing', 'ansCorrect');
+        View.showCorrectEffect(true);
       } else {
         //this.addScore(-1);
         this.questionWrapper.classList.add('wrong');

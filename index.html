@@ -15,7 +15,8 @@
 </head>
 <body id="bgImage">
   <div class="loadingBarWrapper">
-    <div class="loadingText"></div>
+    <div class="loadingCharacter"></div>
+    <div class="loadingFont">Now Loading</div>
     <div id="loadingBar" class="loadingBar">
       <div class="brownBar"></div>
       <div class="greenBar" id="greenBar"></div>
@@ -38,14 +39,15 @@
 
   <div class="instructionWrapper">
     <!--<img class="schoolLogo"></img>-->
-    <div class="gameTextTitle">
-      Motion Phonics
-    </div>
     <div class="instructionBoard">
-      <div class="instructionText">Instruction</div>
-      <div class="instructionContent">Let's pair the prefix and suffix into vocabulary.</div>
+      <div class="gameTitle"></div>
+      <div class="previewImage"></div>
+      <div class="instructionRule">
+        <div class="icon"></div>
+        <div class="instructionContent">Use your hands to pair the prefix and suffix!</div>
+      </div>
+      <div class="startBtn" alt="Start Button"></div>
     </div>
-    <div class="startBtn" alt="Start Button"></div>
   </div>
 
   <div class="gameWrapper">
@@ -57,8 +59,9 @@
       <div class="rule-3">3)  Please do not leave your current position during the game.</div>
     </div>
     <div class="ansResult">
-      <div class="ans correct">答對了！</div>
-      <div class="ans wrong">還需努力！</div>
+      <!--<div class="ans correct">答對了！</div>
+      <div class="ans wrong">還需努力！</div>-->
+      <div class="wellDone"></div>
     </div>
     <!--<div class="outBoxBoardWrapper"><img class="outBoxBoard"></img></div>-->
     <div class="topLeftControl hide">
@@ -79,12 +82,22 @@
     </div>
     <div class="topRightControl">
       <img class="tips hide"></img>
+      <img class="instructionBtn"></img>
       <img class="musicBtn on"></img>
       <!--<img class="switchCamBtn"></img>-->
       <img class="exitBtn"></img>
     </div>
     <img class="count"></img>
     <div class="questionBoard"></div>
+  </div>
+
+  <div class="musicOnOffWrapper">
+    <div class="musicOnOffBoard">
+      <div class="musicWrapper">
+        <div class="onBtn"></div>
+        <div class="offBtn"></div>
+      </div>
+    </div>
   </div>
 
   <div class="exitWrapper">
@@ -104,12 +117,17 @@
   <div class="finishedWrapper">
     <div class="finishedBoardWrapper">
       <img class="finishedBoard"></img>
-      <div class="finishedBoardText">Congratulations! You have completed the mission.</div>
+      <!--<div class="finishedBoardText">Congratulations! You have completed the mission.</div>-->
       <div class="scoreTimeWrapper">
         <div class="row score">
-          <div class="label">Score：</div>
-          <img class="icon"></img>
-          <div class="value"></div>
+          <!--<div class="label"></div>-->
+          <!--<img class="icon"></img>-->
+          <div class="value">5</div>
+        </div>
+        <div class="row score">
+          <div id="star1" class="icon"></div>
+          <div id="star2" class="icon"></div>
+          <div id="star3" class="icon"></div>
         </div>
         <!--<div class="row time">
           <div class="label">時間：</div>
@@ -119,16 +137,16 @@
       </div>
       <div class="finishedBtnWrapper">
         <div class="playAgainBtn">
-          <div class="playAgainText">Replay</div>
+          <!--<div class="playAgainText">Replay</div>-->
         </div>
         <div class="backHomeBtn">
-          <div class="backHomeText">Home</div>
+          <!--<div class="backHomeText">Home</div>-->
         </div>
       </div>
     </div>
   </div>
 
-  <div class="version">Ver:1.01</div>
+  <div class="version">Ver:1.03</div>
   <!--<div class="debug"></div>-->
   <div class="debug" id="stats"></div>
 </body>

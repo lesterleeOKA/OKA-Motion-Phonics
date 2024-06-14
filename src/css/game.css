@@ -31,8 +31,8 @@
 .gameWrapper > .prepareBoardWrapper >.prepareTitle {
   position: absolute;
   bottom: 78%;
-  font-family: "Arzachel", system-ui;
-  font-weight: 800;
+  font-family: 'BoinkLETPlain', sans-serif;
+  font-weight: normal;
   font-size: calc(min(4.5vh, 4.5vw));
   color: #fff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
@@ -87,6 +87,43 @@
   justify-content: center;
   align-items: center;
 }
+.gameWrapper > .ansResult > .wellDone{
+  opacity: 0;
+  content: url(../images/phonics/ui_welldone.png);
+  height: calc(min(50.44vh, 50.44vw));
+ /* animation: dropAndDisappear 2s forwards; */
+}
+.gameWrapper > .ansResult > .wellDone.show{
+  height: calc(min(50.44vh, 50.44vw));
+  animation: dropAndDisappear 1s forwards;
+  z-index: 5;
+}
+:root {
+  --size-in-px: 80px;
+  --dropStartPoint: calc(var(--size-in-px) / var(--viewport-height) * 100vh);
+  --dropBottomPoint: 10vh;
+}
+
+@keyframes dropAndDisappear {
+  0% {
+    opacity: 0.5;
+    transform: translateY(var(--dropStartPoint));  /* Start at the original position */
+  }
+  25% {
+    opacity: 1;
+    transform: translateY(var(--dropBottomPoint));  /* Drop the image halfway down */
+  }
+  95% {
+    opacity: 1;
+    transform: translateY(var(--dropBottomPoint));  /* Back to the bottom */
+  }
+  100% {
+    opacity: 0;  /* Make the image disappear */
+    transform: translateY(var(--dropBottomPoint));  /* Keep the image at the bottom */
+  }
+}
+
+
 .gameWrapper > .ansResult > .ans {
   color: white;
   padding: calc(min(1.5vh, 1.5vw));
@@ -155,18 +192,20 @@
 }
 .gameWrapper > .topLeftControl > .scoreWrapper > .scoreBoard {
   height: calc(min(11.7vh, 11.7vw));
-  margin-left: calc(min(3vh, 3vw));
-  content: url(../images/public_score_P1_en.png);
+  /*margin-left: calc(min(3vh, 3vw));*/
+  content: url(../images/phonics/p1_score.png);
+  margin-bottom: -0.5vh;
+  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 1));
 }
 /*-----------------------------------------------------------------------------------------------*/
 .gameWrapper > .topLeftControl > .scoreWrapper > .scoreText {
   position: absolute;
   color: #fff;
   font-size: calc(min(3.5vh, 3.5vw));
-  top: calc(min(4.3vh, 4.3vw));
-  right: calc(min(9.7vh, 9.7vw));
-  font-family: "Chalkboard SE", "Comic Sans MS", "Comic Sans", cursive;
-  font-weight: bold;
+  top: calc(min(4vh, 4vw));
+  right: calc(min(5.7vh, 5.7vw));
+  font-family: 'BoinkLETPlain', sans-serif;
+  font-weight: normal;
   text-shadow: calc(min(0.3vh, 0.3vw)) calc(min(0.3vh, 0.3vw)) #000;
 }
 /*-----------------------------------------------------------------------------------------------*/
@@ -176,17 +215,24 @@
 .gameWrapper > .topLeftControl > .timeWrapper > .timeBoard {
   height: calc(min(11.7vh, 11.7vw));
   margin-left: calc(min(3vh, 3vw));
-  content: url(../images/time.png);
+  content: url(../images/phonics/time_new.png);
+  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 1));
 }
 .gameWrapper > .topLeftControl > .timeWrapper > .timeText {
   position: absolute;
   color: #fff;
   font-size: calc(min(3.5vh, 3.5vw));
-  top: calc(min(4.3vh, 4.3vw));
-  right: calc(min(5.5vh, 5.5vw));
-  font-family: "Chalkboard SE", "Comic Sans MS", "Comic Sans", cursive;
-  font-weight: bold;
+  top: calc(min(4.2vh, 4.2vw));
+  right: calc(min(5vh, 5vw));
+  font-family: 'BoinkLETPlain', sans-serif;
+  font-weight: normal;
   text-shadow: calc(min(0.3vh, 0.3vw)) calc(min(0.3vh, 0.3vw)) #000;
+}
+@font-face {
+  font-family: 'BoinkLETPlain';
+  src: url('../font/BoinkLETPlain.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 /*-----------------------------------------------------------------------------------------------*/
 .gameWrapper > .topRightControl {
@@ -209,20 +255,85 @@
 .gameWrapper > .topRightControl > .tips.tipsReady { content: url(../images/tipsReady.png); }
 .gameWrapper > .topRightControl > .tips.tipsStart { content: url(../images/tipsStart.png); }
 
+
+/*-----------------------------------------------------------------------------------------------*/
+.musicOnOffWrapper {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: -100vh;
+  left: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: top 0.5s ease, opacity 0.1s ease 0.5s;
+  opacity: 0;
+  pointer-events: none;
+  background-color: transparent;
+}
+.musicOnOffWrapper.show {
+  top: 0px;
+  opacity: 1;
+  transition: top 0.5s ease, opacity 0.1s ease, background-color 0.5s ease 0.5s;
+  pointer-events: all;
+  background-color: rgba(0,0,0,0.5);
+}
+.musicOnOffWrapper > .musicOnOffBoard {
+  background-image: url(../images/phonics/ui_board_sound.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  width: calc(min(45.5vh, 45.5vw));
+  height: calc(min(45.5vh, 45.5vw));
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex-direction: column;
+  justify-content: start;
+}
+.musicOnOffWrapper > .musicOnOffBoard > .musicWrapper {
+  width: 65%;
+  height: calc(min(10vh, 10vw));
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: calc(min(25vh, 25vw));
+}
+.musicOnOffWrapper > .musicOnOffBoard  > .musicWrapper > .offBtn {
+  content: url(../images/phonics/btn_no.png);
+  height: calc(min(5vh, 5vw));
+  scale: 1;
+  -webkit-tap-highlight-color: transparent;
+}
+.musicOnOffWrapper > .musicOnOffBoard  > .musicWrapper > .offBtn:active {
+  scale: 0.8;
+  -webkit-tap-highlight-color: transparent;
+}
+.musicOnOffWrapper > .musicOnOffBoard  > .musicWrapper > .onBtn {
+  content: url(../images/phonics/btn_yes.png);
+  height: calc(min(5vh, 5vw));
+  scale: 1;
+  -webkit-tap-highlight-color: transparent;
+}
+.musicOnOffWrapper > .musicOnOffBoard  > .musicWrapper > .onBtn:active {
+  scale: 0.8;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .gameWrapper > .topRightControl > .musicBtn {
   width: calc(min(9vh, 9vw));
   margin-right: calc(min(3vh, 3vw));
-  cursor: pointer;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 1));
 }
 .gameWrapper > .topRightControl > .musicBtn:active {
   width: calc(min(7vh, 7vw));
   padding: calc(min(1vh, 1vw));
+  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 1));
 }
 .gameWrapper > .topRightControl > .musicBtn.on {
   content: url(../images/musicBtnOn.png);
@@ -235,35 +346,38 @@
   content: url(../images/exitBtn.png);
   width: calc(min(9vh, 9vw));
   margin-right: calc(min(3vh, 3vw));
-  cursor: pointer;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 1));
 }
 .gameWrapper > .topRightControl > .exitBtn:active {
   width: calc(min(7vh, 7vw));
   padding: calc(min(1vh, 1vw));
+  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 1));
 }
 /*-----------------------------------------------------------------------------------------------*/
 .gameWrapper > .count {
-  max-height: calc(min(20vh, 20vw));
+  /*max-height: calc(min(20vh, 20vw));*/
   transition: all 0.4s ease;
   position: absolute;
+  width: calc(min(50vh, 50vw));
+  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 1));
 }
 .gameWrapper > .count.c0 {
-  content: url(../images/count0.png);
+  content: url(../images/phonics/ui_go.png);
 }
 .gameWrapper > .count.c1 {
-  content: url(../images/count1.png);
+  content: url(../images/phonics/ui_1.png);
 }
 .gameWrapper > .count.c2 {
-  content: url(../images/count2.png);
+  content: url(../images/phonics/ui_2.png);
 }
 .gameWrapper > .count.c3 {
-  content: url(../images/count3.png);
+  content: url(../images/phonics/ui_3.png);
 }
 
 /*-----------------------------------------------------------------------------------------------*/

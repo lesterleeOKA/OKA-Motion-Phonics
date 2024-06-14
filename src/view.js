@@ -14,6 +14,7 @@ export default {
   countImg: document.querySelector('.gameWrapper > .count'),
   stageImg: document.querySelector('.gameWrapper > .questionBoard'),
   startBtn: document.querySelector('.startBtn'),
+  instructionBtn: document.querySelector('.gameWrapper > .topRightControl > .instructionBtn'),
   musicBtn: document.querySelector('.gameWrapper > .topRightControl > .musicBtn'),
   exitBtn: document.querySelector('.gameWrapper > .topRightControl > .exitBtn'),
   tips: document.querySelector('.gameWrapper > .topRightControl > .tips'),
@@ -21,10 +22,15 @@ export default {
   flagImg: document.querySelector('.gameWrapper > .flagWrapper > .flag'),
   finishedWrapper: document.querySelector('.finishedWrapper'),
   finishedBoardWrapper: document.querySelector('.finishedWrapper > .finishedBoardWrapper'),
+  finishedBoard: document.querySelector('.finishedWrapper > .finishedBoardWrapper > .finishedBoard'),
   savePhotoBtn: document.querySelector('.finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .savePhotoBtn'),
   backHomeBtnOfFinished: document.querySelector('.finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .backHomeBtn'),
   playAgainBtn: document.querySelector('.finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .playAgainBtn'),
   backHomeBtnOfExit: document.querySelector('.exitWrapper > .exitBoard  > .btnWrapper > .backHomeBtn'),
+
+  musicOnOffWrapper: document.querySelector('.musicOnOffWrapper'),
+  onBtn: document.querySelector('.musicOnOffWrapper > .musicOnOffBoard  > .musicWrapper > .onBtn'),
+  offBtn: document.querySelector('.musicOnOffWrapper > .musicOnOffBoard  > .musicWrapper > .offBtn'),
   exitWrapper: document.querySelector('.exitWrapper'),
   continuebtn: document.querySelector('.exitWrapper > .exitBoard  > .btnWrapper > .continueBtn'),
   optionArea: document.querySelector('.canvasWrapper > .optionArea'),
@@ -80,7 +86,7 @@ export default {
   showCount(num) {
     this.countImg.className = "count c" + num;
     this.countImg.style.opacity = 1;
-    this.countImg.style.maxHeight = "calc(min(40vh, 40vw))";
+    //this.countImg.style.maxHeight = "calc(min(40vh, 40vw))";
     setTimeout(() => this.hideCount(), 600);
   },
   hideCount() {
@@ -112,12 +118,32 @@ export default {
     this.finishedScore.innerText = ttlScore + "/" + fullScore;*/
     //this.finishedTime.innerText = Game.getCurTimeString();
   },
+  showSuccess() {
+    this.finishedBoard.classList.remove("fail");
+    this.finishedBoard.classList.add("success");
+  },
+  hideSuccess() {
+    this.finishedBoard.classList.remove("success");
+  },
+  showFailure() {
+    this.finishedBoard.classList.remove("success");
+    this.finishedBoard.classList.add("fail");
+  },
+  hideFailure() {
+    this.finishedBoard.classList.remove("fail");
+  },
   hideFinished() {
     this.finishedWrapper.classList.remove("show");
     setTimeout(() => {
       this.finishedScore.innerText = "0";
       //this.finishedTime.innerText = "";
     }, 1000);
+  },
+  showMusicOnOff() {
+    this.musicOnOffWrapper.classList.add("show");
+  },
+  hideMusicOnOff() {
+    this.musicOnOffWrapper.classList.remove("show");
   },
   //-----------------------------------------------------------------------------------------------
   showExit() {
@@ -164,6 +190,14 @@ export default {
     }
     if (result && State.selectedImg.value && !State.selectedImg.value.classList.contains('showColorBorder')) {
       State.selectedImg.value.classList.add('showColorBorder');
+    }
+  },
+
+  showCorrectEffect(status) {
+    let result = document.querySelector('.gameWrapper .ansResult .wellDone');
+    if (status) {
+      result.classList.add('show');
+      result.addEventListener('animationend', () => result.classList.remove('show'));
     }
   },
   //-----------------------------------------------------------------------------------------------

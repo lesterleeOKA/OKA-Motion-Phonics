@@ -20,17 +20,20 @@
   width: calc(min(15.7vh, 15.7vw));
 }
 
-.instructionWrapper > .gameTitle {
-  /*background-image: url(../images/gameTitle.png);*/
-  height: calc(min(16.5vh, 16.5vw));
-  width: 100%;
+.instructionWrapper > .instructionBoard> .gameTitle {
+  position: relative;
+  background-image: url(../images/phonics/title_mphonics.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+  height: calc(min(25.5vh, 25.5vw));
+  width: 100%;
+  bottom: calc(min(8vh, 8vw));
 }
 
-.instructionWrapper > .gameTextTitle {
-  font-family: "Arzachel", system-ui;
+.instructionWrapper > .instructionBoard> .gameTextTitle {
+  position: relative;
+  font-family: 'BoinkLETPlain', sans-serif;
   font-weight: bolder;
   text-shadow: 5px 5px 4px rgba(0, 0, 0, 0.5);
   font-size: calc(min(8.5vh, 8.5vw));
@@ -40,12 +43,13 @@
   background-position: center;
   background-size: contain;
   text-align: center;
-  color: #9c6334;
+  color: #e68ea1;
+  bottom: calc(min(13vh, 13vw));
 }
 
 .instructionWrapper > .instructionBoard {
-  background-image: url(../images/instructionBoard_phonics.png);
-  height: calc(min(53vh, 53vw));
+  background-image: url(../images/phonics/instructionBoard.png);
+  height: calc(min(65vh, 65vw));
   width: 100%;
   background-repeat: no-repeat;
   background-position: center;
@@ -53,10 +57,41 @@
   position: relative;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.instructionWrapper > .instructionBoard > .previewImage {
+  background-image: url(../images/screen_mpair.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  width: calc(min(38vh, 38vw));
+  height: calc(min(26vh, 26vw));
+  border-radius: calc(min(3vh, 3vw));
+  position: relative;
+  bottom: calc(min(19vh, 19vw));
+}
+.instructionWrapper > .instructionBoard > .instructionRule {
+  display: flex;
+  align-items: center;
+  width: calc(min(52vh, 52vw));
+  height: calc(min(5vh, 5vw));
+  position: absolute;
+  margin-top: calc(min(22vh, 22vw));
+  column-gap:calc(min(1vh, 1vw));
+}
+.instructionWrapper > .instructionBoard > .instructionRule > .icon {
+  background-image: url(../images/phonics/icon_controller.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  width: calc(min(5vh, 5vw));
+  height: calc(min(5vh, 5vw));
+  margin-right: 0.5rem;
 }
 .instructionWrapper > .instructionBoard > .instructionText {
   font-family: "Arzachel", system-ui;
-  font-weight: bolder;
+  font-weight: 700;
   font-size: calc(min(4.5vh, 4.5vw));
   color: #fff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
@@ -66,29 +101,28 @@
   height: fit-content;
   transform: translateY(5%);
 }
-.instructionWrapper > .instructionBoard > .instructionContent {
-  position: absolute;
+.instructionWrapper > .instructionBoard >.instructionRule > .instructionContent {
   font-family: "Arzachel", system-ui;
   font-weight: bold;
-  font-size: calc(min(2.5vh, 2.5vw));
+  font-size: calc(min(2vh, 2vw));
   color: #7C5729;
   pointer-events: none;
   text-align: center;
   height: fit-content;
-  bottom: 10%;
 }
 
-.instructionWrapper > .startBtn {
-  content: url(../images/start_yellow.png);
-  width: calc(min(20.7vh, 20.7vw));
-  height: calc(min(8.7vh, 8.7vw));;
+
+.instructionWrapper > .instructionBoard > .startBtn {
+  content: url(../images/phonics/btn_start.png);
+  /*width: calc(min(20.7vh, 20.7vw));*/
+  height: calc(min(7.5vh, 7.5vw));
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  animation-name: startBtnAnimation;
+  /*animation-name: startBtnAnimation;
   animation-timing-function: ease;
   animation-iteration-count: infinite;
-  animation-duration: 1s;
+  animation-duration: 1s;*/
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -96,17 +130,12 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  position: absolute;
+  margin-top: calc(min(38vh, 38vw));
 }
-.instructionWrapper > .startBtn > .startBtnText {
-  transform: translateY(-5%);
-  font-family: "Arzachel", system-ui;
-  font-weight: bolder;
-  font-size: calc(min(5.5vh, 5.5vw));
-  color: #fff;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-  /*-webkit-text-stroke: 2px #797979;*/
-  pointer-events: none;
-  text-align: center;
+.instructionWrapper > .instructionBoard > .startBtn:active {
+  height: calc(min(6.5vh, 6.5vw));
+  padding: calc(min(1vh, 1vw));
 }
 
 @keyframes startBtnAnimation {
