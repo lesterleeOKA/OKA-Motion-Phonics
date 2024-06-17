@@ -2,6 +2,7 @@ import View from './view';
 import State from './state';
 import Sound from './sound';
 import QuestionManager from './question';
+import { imageFiles } from './mediaFile';
 
 export default {
   optionImages: [
@@ -26,7 +27,7 @@ export default {
   wordParts: [],
   answerLength: 0,
   questionWrapper: null,
-  questionResult: null,
+  answerWrapper: null,
   startedGame: false,
   fillwordTime: 0,
   redBoxX: 0,
@@ -52,7 +53,7 @@ export default {
     this.stopCountTime();
     View.scoreBoard.className = "scoreBoard";
     this.questionWrapper = null;
-    this.questionResult = null;
+    this.answerWrapper = null;
     this.fillwordTime = 0;
     View.stageImg.innerHTML = '';
     View.optionArea.innerHTML = '';
@@ -261,7 +262,8 @@ export default {
     option.classList.add('option');
     option.type = 'text';
     option.value = text;
-    option.style.fontSize = `${this.optionSize / 3.5}px`;
+    let fontSize = `calc(min(4vh, 2vw))`;
+    option.style.setProperty('--font-size', fontSize);
     optionWrapper.appendChild(option);
     return optionWrapper;
   },
@@ -370,19 +372,47 @@ export default {
     this.answerLength = prefixSuffixPairs.length;
     this.randomPair = this.getRandomPair(prefixSuffixPairs);
     let questionBg = document.createElement('div');
-    let questionText = document.createElement('span');
-    let resetBtn = document.createElement('div');
-    questionBg.classList.add('questionBg');
-    resetBtn.classList.add('resetBtn');
-    questionText.classList.add('questionText');
-    questionText.textContent = this.questionWord.correctAnswer;
     this.questionWrapper = document.createElement('span');
-    //this.questionWrapper.style.width = this.redBoxWidth + 'px';
-    this.questionWrapper.classList.add('questionWrapper');
-    View.stageImg.appendChild(questionBg);
-    View.stageImg.appendChild(questionText);
+
+    switch (this.questionWord.type) {
+      case 'Pair':
+        let questionText = document.createElement('span');
+        questionBg.classList.add('questionBg');
+        questionText.classList.add('questionText');
+        questionText.textContent = this.questionWord.correctAnswer;
+        this.questionWrapper.classList.add('questionWrapper');
+        View.stageImg.appendChild(questionBg);
+        View.stageImg.appendChild(questionText);
+        break;
+      case 'Picture':
+        this.questionWrapper.classList.add('questionImageWrapper');
+        questionBg.classList.add('questionImgBg');
+        View.stageImg.appendChild(questionBg);
+
+        let currentImagePath = '';
+        if (imageFiles && imageFiles.length > 0) {
+          let imageFile = imageFiles.find(([name]) => name === this.questionWord.QID);
+          if (imageFile) {
+            currentImagePath = imageFile[1];
+          }
+        }
+        var imageElement = document.createElement('img');
+        imageElement.src = currentImagePath;
+        imageElement.alt = 'image';
+        imageElement.classList.add('questionImage');
+        this.questionWrapper.appendChild(imageElement);
+        break;
+    }
+
+
+    let resetBtn = document.createElement('div');
+    resetBtn.classList.add('resetBtn');
+
+    this.answerWrapper = document.createElement('span');
+    this.answerWrapper.classList.add('answerWrapper');
     View.stageImg.appendChild(resetBtn);
     View.stageImg.appendChild(this.questionWrapper);
+    View.stageImg.appendChild(this.answerWrapper);
     View.stageImg.classList.add('fadeIn');
     View.stageImg.style.opacity = 1;
   },
@@ -393,9 +423,9 @@ export default {
   ///////////////////////////////////////////Merge words//////////////////////////////////
 
   mergeWord(option) {
-    if (this.questionWrapper) {
+    if (this.answerWrapper) {
       if (this.fillwordTime < this.answerLength) {
-        this.questionWrapper.textContent += option.value;
+        this.answerWrapper.textContent += option.value;
         option.classList.add('touch');
         this.fillwordTime += 1;
         if (State.isSoundOn) {
@@ -404,29 +434,29 @@ export default {
         }
         if (this.fillwordTime == this.answerLength) {
           setTimeout(() => {
-            this.checkAnswer(this.questionWrapper.textContent);
+            this.checkAnswer(this.answerWrapper.textContent);
           }, 300);
         }
       }
     }
   },
   resetFillWord() {
-    this.questionWrapper.classList.remove('correct');
-    this.questionWrapper.classList.remove('wrong');
-    this.questionWrapper.textContent = '';
+    this.answerWrapper.classList.remove('correct');
+    this.answerWrapper.classList.remove('wrong');
+    this.answerWrapper.textContent = '';
     this.fillwordTime = 0;
   },
   checkAnswer(answer) {
-    if (this.questionWrapper) {
+    if (this.answerWrapper) {
       if (answer === this.questionWord.correctAnswer) {
         //答岩1分，答錯唔扣分
         this.addScore(this.eachQAMark);
-        this.questionWrapper.classList.add('correct');
+        this.answerWrapper.classList.add('correct');
         State.changeState('playing', 'ansCorrect');
         View.showCorrectEffect(true);
       } else {
         //this.addScore(-1);
-        this.questionWrapper.classList.add('wrong');
+        this.answerWrapper.classList.add('wrong');
         State.changeState('playing', 'ansWrong');
       }
     }

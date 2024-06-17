@@ -170,6 +170,8 @@ export default {
           //console.log("Play.........................f");
         }
       }
+      Game.stopCountTime();
+      return;
     }
     else if (state == 'leave') {
       window.open(this.homePageUrl, '_self');

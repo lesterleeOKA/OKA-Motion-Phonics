@@ -80,6 +80,29 @@
   color: white;
   padding-bottom: 8px;
 }
+.questionImageWrapper{
+  position: fixed;
+  top: -10%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  transition: opacity 0.1s ease;
+  text-align: center;
+  font-size: var(--question-font-size);
+  line-height: 3.5vh;
+  font-family: "Arzachel", system-ui;
+  font-weight: bolder;
+  width: calc(min(30.7vh, 30.7vw));
+  height: calc(min(26vh, 26vw));
+  color: rgb(192 134 97);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.questionImage{
+  height: 100%;
+  filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.5));
+}
 
 .instructionBtn{
   width: calc(min(9vh, 9vw));
@@ -93,6 +116,24 @@
   filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 1));
 }
 
+.answerWrapper{
+  position: fixed;
+  top: 29%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  transition: opacity 0.1s ease;
+  text-align: center;
+  background-color: rgb(192 134 97);
+  border-radius: 4%;
+  font-size: calc(min(3.5vh, 3.5vw));
+  font-family: "Arzachel", system-ui;
+  font-weight: bolder;
+  width: calc(min(30.7vh, 30.7vw));
+  height: calc(min(4.7vh, 4.7vw));
+  color: white;
+  padding-bottom: 8px;
+  /*filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.5));*/
+}
 .correct {
   background-repeat: no-repeat;
   background-size: contain;
@@ -136,6 +177,7 @@
   --top-height: 0px;
   --bottom-height: 200px;
   --font-size: 3vw;
+  --question-font-size:3vh;
 }
 
 .fadeIn {
