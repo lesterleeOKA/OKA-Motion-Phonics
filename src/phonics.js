@@ -372,7 +372,10 @@ export default {
     this.answerLength = prefixSuffixPairs.length;
     this.randomPair = this.getRandomPair(prefixSuffixPairs);
     let questionBg = document.createElement('div');
-    this.questionWrapper = document.createElement('span');
+    this.questionWrapper = document.createElement('div');
+    this.answerWrapper = document.createElement('span');
+    let resetBtn = document.createElement('div');
+    resetBtn.classList.add('resetBtn');
 
     switch (this.questionWord.type) {
       case 'Pair':
@@ -380,9 +383,11 @@ export default {
         questionBg.classList.add('questionBg');
         questionText.classList.add('questionText');
         questionText.textContent = this.questionWord.correctAnswer;
-        this.questionWrapper.classList.add('questionWrapper');
+        //this.questionWrapper.classList.add('questionWrapper');
         View.stageImg.appendChild(questionBg);
         View.stageImg.appendChild(questionText);
+        this.answerWrapper.classList.add('textType');
+        resetBtn.classList.add('resetTextType');
         break;
       case 'Picture':
         this.questionWrapper.classList.add('questionImageWrapper');
@@ -401,14 +406,11 @@ export default {
         imageElement.alt = 'image';
         imageElement.classList.add('questionImage');
         this.questionWrapper.appendChild(imageElement);
+        this.answerWrapper.classList.add('pictureType');
+        resetBtn.classList.add('resetPictureType');
         break;
     }
 
-
-    let resetBtn = document.createElement('div');
-    resetBtn.classList.add('resetBtn');
-
-    this.answerWrapper = document.createElement('span');
     this.answerWrapper.classList.add('answerWrapper');
     View.stageImg.appendChild(resetBtn);
     View.stageImg.appendChild(this.questionWrapper);

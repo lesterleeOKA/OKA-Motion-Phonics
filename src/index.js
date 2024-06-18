@@ -218,7 +218,7 @@ function init() {
   View.startBtn.addEventListener(clickHandler, handleButtonClick);
   View.exitBtn.addEventListener(clickHandler, handleButtonClick);
   View.musicBtn.addEventListener(clickHandler, handleButtonClick);
-  View.instructionBtn.addEventListener(clickHandler, handleButtonClick);
+  //View.instructionBtn.addEventListener(clickHandler, handleButtonClick);
   View.backHomeBtnOfFinished.addEventListener(clickHandler, handleButtonClick);
   View.playAgainBtn.addEventListener(clickHandler, handleButtonClick);
   View.backHomeBtnOfExit.addEventListener(clickHandler, handleButtonClick);

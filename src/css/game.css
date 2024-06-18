@@ -22,8 +22,8 @@
 }
 
 .gameWrapper > .prepareBoardWrapper > .prepareBoard {
-  content: url(../images/prepareBoard_new.png);
-  height: calc(min(26.44vh, 26.44vw));
+  content: url(../images/phonics/preparationBoard.png);
+  height: calc(min(15vh, 15vw));
   /*position: absolute;
   top: calc(min(2vh, 2vw));*/
 }
@@ -38,6 +38,19 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
   /*-webkit-text-stroke: 3px #582c02;*/
   pointer-events: none;
+}
+.gameWrapper > .prepareBoardWrapper >.rule {
+  position: absolute;
+  top: 32%;
+  font-family: "Arzachel", system-ui;
+  font-weight: bold;
+  font-size: calc(min(2.5vh, 2.5vw));
+  color: #4b3002;
+  pointer-events: none;
+  line-height: 1;
+  width: calc(min(55vh, 55vw));
+  text-align: left;
+  padding-left: calc(min(12vh, 12vw));
 }
 .gameWrapper > .prepareBoardWrapper >.rule-1 {
   position: absolute;
@@ -195,7 +208,7 @@
   margin-left: calc(min(3vh, 3vw));
   content: url(../images/phonics/p1_score.png);
   margin-bottom: -0.5vh;
-  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 1));
+  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.35));
 }
 /*-----------------------------------------------------------------------------------------------*/
 .gameWrapper > .topLeftControl > .scoreWrapper > .scoreText {
@@ -216,7 +229,7 @@
   height: calc(min(11.7vh, 11.7vw));
   margin-left: calc(min(-1vh, 3vw));
   content: url(../images/phonics/time_new.png);
-  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 1));
+  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.35));
 }
 .gameWrapper > .topLeftControl > .timeWrapper > .timeText {
   position: absolute;
@@ -328,12 +341,12 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 1));
+  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.35));
 }
 .gameWrapper > .topRightControl > .musicBtn:active {
   width: calc(min(7vh, 7vw));
   padding: calc(min(1vh, 1vw));
-  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 1));
+  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.35));
 }
 .gameWrapper > .topRightControl > .musicBtn.on {
   content: url(../images/musicBtnOn.png);
@@ -352,20 +365,21 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 1));
+  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.35));
 }
 .gameWrapper > .topRightControl > .exitBtn:active {
   width: calc(min(7vh, 7vw));
   padding: calc(min(1vh, 1vw));
-  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 1));
+  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.35));
 }
 /*-----------------------------------------------------------------------------------------------*/
 .gameWrapper > .count {
   /*max-height: calc(min(20vh, 20vw));*/
   transition: all 0.4s ease;
   position: absolute;
-  width: calc(min(50vh, 50vw));
-  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 1));
+  width: calc(min(40vh, 40vw));
+  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.35));
+  margin-left: calc(min(5vh, 5vw));
 }
 .gameWrapper > .count.c0 {
   content: url(../images/phonics/ui_go.png);
@@ -408,15 +422,24 @@
 .questionBg{
   width: 100%;
   height: auto;
-  content: url(../images/phonics/board1.png);
+  content: url(../images/phonics/ui_board_qtext.png);
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  margin-left: calc(min(1.5vh, 1.5vw));
+}
+
+.questionAudioBg{
+  width: 100%;
+  height: auto;
+  content: url(../images/phonics/ui_board_qaudio.png);
   filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
 }
 
 .questionImgBg {
-  width: 95%;
-  height: 100%;
-  content: url(../images/exitBoard_new.png);
+  width: 105%;
+  height: 110%;
+  content: url(../images/phonics/ui_board_qpic.png);
   filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
   display: block;
   margin: 0 auto;
+  margin-left: calc(min(0.2vh, 0.2vw));
 }

@@ -14,7 +14,7 @@ export default {
   countImg: document.querySelector('.gameWrapper > .count'),
   stageImg: document.querySelector('.gameWrapper > .questionBoard'),
   startBtn: document.querySelector('.startBtn'),
-  instructionBtn: document.querySelector('.gameWrapper > .topRightControl > .instructionBtn'),
+  //instructionBtn: document.querySelector('.gameWrapper > .topRightControl > .instructionBtn'),
   musicBtn: document.querySelector('.gameWrapper > .topRightControl > .musicBtn'),
   exitBtn: document.querySelector('.gameWrapper > .topRightControl > .exitBtn'),
   tips: document.querySelector('.gameWrapper > .topRightControl > .tips'),

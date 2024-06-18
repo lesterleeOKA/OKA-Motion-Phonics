@@ -40,13 +40,33 @@
 }
 
 .greenBar {
-  /*background-color:#A5D313;*/
+  /*background-color:#A5D313;
   background-image: url(../images/phonics/ui_loadingfill.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
   margin: 10px;
-  transition: width 1s;
-  width: 0px;
+  position: relative;
+  width: 100%;
+  overflow: hidden;*/
+  background: none;
+  margin: 10px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.greenBar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  background-image: url(../images/phonics/ui_loadingfill.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: right;
+  transition: var(--progress-transition, right 1s ease-out);
+  right: var(--progress-right, 100%);
 }
 
 .outterBorder {

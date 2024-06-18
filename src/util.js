@@ -23,7 +23,11 @@ export default {
           if (!this.percentValue) this.percentValue = 50;
           this.loadingDots = (this.loadingDots + 1) % 4;
           this.loadingText.textContent = `Now Loading${'.'.repeat(this.loadingDots)}`;
-          greenBar.style.width = this.percentValue + "%";
+          //greenBar.style.width = this.percentValue + "%";
+
+          let rightPosition = (100 - this.percentValue) + "%";
+          greenBar.style.setProperty('--progress-right', rightPosition);
+
           this.percentValue += ((95 - this.percentValue) / 3);
         } else {
           if (this.timer) clearInterval(this.timer);
@@ -44,7 +48,9 @@ export default {
 
       let greenBar = document.getElementById("greenBar");
       if (greenBar) {
-        greenBar.style.width = this.percentValue + "%";
+        greenBar.style.setProperty('--progress-right', '0%');
+
+        //greenBar.style.width = this.percentValue + "%";
         setTimeout(() => {
           if (View.loadingBarWrapper) View.loadingBarWrapper.style.display = "none";
           resolve();

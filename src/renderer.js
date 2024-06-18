@@ -23,9 +23,9 @@ export class RendererCanvas2d {
     this.ctx.canvas.height = this.videoHeight;
 
     this.redBoxX = this.videoWidth / 3;
-    this.redBoxY = this.videoHeight / 5 * 2;
+    this.redBoxY = this.videoHeight / 5 * 1;
     this.redBoxWidth = this.videoWidth / 3;
-    this.redBoxHeight = this.videoHeight / 5 * 3;
+    this.redBoxHeight = this.videoHeight / 5 * 4;
 
     this.drawCtx(video);
     if (['prepare', 'counting3', 'counting2', 'counting1', 'counting0', 'playing', 'outBox'].includes(State.state)) {
@@ -35,7 +35,7 @@ export class RendererCanvas2d {
         //this.isPoseValid(poses, video.width / video.videoWidth);
         isCurPoseValid = this.isPoseValid(poses, video.width / video.videoWidth);
         if (isCurPoseValid && State.bodyInsideRedBox.value == true) {
-          if (State.state == 'prepare' && State.getStateLastFor() > 6000) {
+          if (State.state == 'prepare' && State.getStateLastFor() > 2000) {
             State.changeState('counting3');
           } else if (State.state == 'counting3' && State.getStateLastFor() > 1000) {
             State.changeState('counting2');
@@ -111,9 +111,26 @@ export class RendererCanvas2d {
       let optionWrappers = document.querySelectorAll('.canvasWrapper > .optionArea > .optionWrapper.show');
 
       if (State.state == 'playing' && ['waitAns'].includes(State.stateType)) {
+
+        console.log(pose.keypoints);
+
         let checkKeypoints = pose.keypoints.filter(k => ['right_index', 'left_index'].includes(k.name) && k.score > passScore);
         let touchingWord = [];
 
+        const rightHandImg = document.getElementById('right-hand');
+        const leftHandImg = document.getElementById('left-hand');
+
+        for (let point of checkKeypoints) {
+          if (point.name === 'right_index') {
+            rightHandImg.style.left = `${point.x - 100}px`;
+            rightHandImg.style.top = `${point.y}px`;
+            rightHandImg.style.display = 'block';
+          } else if (point.name === 'left_index') {
+            leftHandImg.style.left = `${point.x - 100}px`;
+            leftHandImg.style.top = `${point.y}px`;
+            leftHandImg.style.display = 'block';
+          }
+        }
 
         for (let point of checkKeypoints) {
           //console.log(resetBtn.offsetLeft * 2, resetBtn.offsetWidth * 2);
