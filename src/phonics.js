@@ -5,13 +5,6 @@ import QuestionManager from './question';
 import { imageFiles } from './mediaFile';
 
 export default {
-  optionImages: [
-    require("./images/phonics/candy1.png"),
-    require("./images/phonics/candy2.png"),
-    require("./images/phonics/candy3.png"),
-    require("./images/phonics/candy4.png"),
-    require("./images/phonics/candy5.png"),
-  ],
   randPositions: [],
   questionWord: null,
   questionField: null,
@@ -76,7 +69,6 @@ export default {
     }
   },
 
-
   addScore(mark) {
     let newScore = this.score + mark;
     let starNum = 0;
@@ -133,11 +125,10 @@ export default {
       //this.wordParts.splice(0);
       //View.optionArea.innerHTML = '';
       if (this.wordParts.length === 0) {
-        this.optionImages = this.optionImages.sort(() => Math.random() - 0.5);
-        //console.log(this.optionImages);
+        View.preloadedFallingImages = View.preloadedFallingImages.sort(() => Math.random() - 0.5);
         const halfLength = Math.floor(this.randomPair.length / 2);
         for (let i = 0; i < this.randomPair.length; i++) {
-          const optionImageIndex = i % this.optionImages.length;
+          const optionImageIndex = i % View.preloadedFallingImages.length;
           let isLeft;
           if (i < halfLength) {
             isLeft = true;
@@ -146,7 +137,7 @@ export default {
           } else {
             isLeft = Math.random() < 0.5; // Randomly assign left or right
           }
-          this.createRandomPartWord(this.randomPair[i], isLeft, this.optionImages[optionImageIndex]);
+          this.createRandomPartWord(this.randomPair[i], isLeft, View.preloadedFallingImages[optionImageIndex]);
         }
       }
 
@@ -253,7 +244,7 @@ export default {
     optionWrapper.classList.add('fadeIn');
     //console.log(optionImage);
     if (optionImage !== '' && optionImage !== 'undefined')
-      optionWrapper.style.backgroundImage = `url(${optionImage})`;
+      optionWrapper.style.backgroundImage = `url(${optionImage.src})`;
     optionWrapper.style.width = `${this.optionSize}px`;
     optionWrapper.style.height = `${this.optionSize}px`;
     optionWrapper.id = id;
@@ -372,7 +363,6 @@ export default {
     this.answerLength = prefixSuffixPairs.length;
     this.randomPair = this.getRandomPair(prefixSuffixPairs);
     let questionBg = document.createElement('div');
-    this.questionWrapper = document.createElement('div');
     this.answerWrapper = document.createElement('span');
     let resetBtn = document.createElement('div');
     resetBtn.classList.add('resetBtn');
@@ -390,6 +380,7 @@ export default {
         resetBtn.classList.add('resetTextType');
         break;
       case 'Picture':
+        this.questionWrapper = document.createElement('div');
         this.questionWrapper.classList.add('questionImageWrapper');
         questionBg.classList.add('questionImgBg');
         View.stageImg.appendChild(questionBg);
@@ -408,12 +399,12 @@ export default {
         this.questionWrapper.appendChild(imageElement);
         this.answerWrapper.classList.add('pictureType');
         resetBtn.classList.add('resetPictureType');
+        View.stageImg.appendChild(this.questionWrapper);
         break;
     }
 
     this.answerWrapper.classList.add('answerWrapper');
     View.stageImg.appendChild(resetBtn);
-    View.stageImg.appendChild(this.questionWrapper);
     View.stageImg.appendChild(this.answerWrapper);
     View.stageImg.classList.add('fadeIn');
     View.stageImg.style.opacity = 1;

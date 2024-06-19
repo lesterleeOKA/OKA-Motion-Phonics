@@ -208,7 +208,7 @@
   margin-left: calc(min(3vh, 3vw));
   content: url(../images/phonics/p1_score.png);
   margin-bottom: -0.5vh;
-  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.35));
+  filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.5));
 }
 /*-----------------------------------------------------------------------------------------------*/
 .gameWrapper > .topLeftControl > .scoreWrapper > .scoreText {
@@ -229,7 +229,7 @@
   height: calc(min(11.7vh, 11.7vw));
   margin-left: calc(min(-1vh, 3vw));
   content: url(../images/phonics/time_new.png);
-  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.35));
+  filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.5));
 }
 .gameWrapper > .topLeftControl > .timeWrapper > .timeText {
   position: absolute;
@@ -317,7 +317,8 @@
   scale: 1;
   -webkit-tap-highlight-color: transparent;
 }
-.musicOnOffWrapper > .musicOnOffBoard  > .musicWrapper > .offBtn:active {
+.musicOnOffWrapper > .musicOnOffBoard  > .musicWrapper > .offBtn:active,
+.musicOnOffWrapper > .musicOnOffBoard  > .musicWrapper > .offBtn.touched {
   scale: 0.8;
   -webkit-tap-highlight-color: transparent;
 }
@@ -327,7 +328,8 @@
   scale: 1;
   -webkit-tap-highlight-color: transparent;
 }
-.musicOnOffWrapper > .musicOnOffBoard  > .musicWrapper > .onBtn:active {
+.musicOnOffWrapper > .musicOnOffBoard  > .musicWrapper > .onBtn:active,
+.musicOnOffWrapper > .musicOnOffBoard  > .musicWrapper > .onBtn.touched{
   scale: 0.8;
   -webkit-tap-highlight-color: transparent;
 }
@@ -342,11 +344,16 @@
   -ms-user-select: none;
   user-select: none;
   filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.35));
+  touch-action: manipulation;
+  transform: scale(1);
+  transition: transform 0.2s ease-in-out;
 }
-.gameWrapper > .topRightControl > .musicBtn:active {
+.gameWrapper > .topRightControl > .musicBtn:active,
+.gameWrapper > .topRightControl > .musicBtn.touched {
   width: calc(min(7vh, 7vw));
   padding: calc(min(1vh, 1vw));
   filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.35));
+  transform: scale(0.8);
 }
 .gameWrapper > .topRightControl > .musicBtn.on {
   content: url(../images/musicBtnOn.png);
@@ -366,11 +373,16 @@
   -ms-user-select: none;
   user-select: none;
   filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.35));
+  touch-action: manipulation;
+  transform: scale(1);
+  transition: transform 0.2s ease-in-out;
 }
-.gameWrapper > .topRightControl > .exitBtn:active {
+.gameWrapper > .topRightControl > .exitBtn:active,
+.gameWrapper > .topRightControl > .exitBtn.touched {
   width: calc(min(7vh, 7vw));
   padding: calc(min(1vh, 1vw));
   filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.35));
+  transform: scale(0.8);
 }
 /*-----------------------------------------------------------------------------------------------*/
 .gameWrapper > .count {
@@ -423,7 +435,7 @@
   width: 100%;
   height: auto;
   content: url(../images/phonics/ui_board_qtext.png);
-  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.35));
   margin-left: calc(min(1.5vh, 1.5vw));
 }
 
@@ -431,14 +443,14 @@
   width: 100%;
   height: auto;
   content: url(../images/phonics/ui_board_qaudio.png);
-  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.35));
 }
 
 .questionImgBg {
   width: 105%;
   height: 110%;
   content: url(../images/phonics/ui_board_qpic.png);
-  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.35));
   display: block;
   margin: 0 auto;
   margin-left: calc(min(0.2vh, 0.2vw));

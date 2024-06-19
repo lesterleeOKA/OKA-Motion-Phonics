@@ -12,13 +12,13 @@
   transition: top 0.5s ease;
 }
 
-.instructionWrapper > .schoolLogo {
+/*.instructionWrapper > .schoolLogo {
   position: absolute;
   top: calc(min(2vh, 2vw));
   left: calc(min(2vh, 2vw));
   content: url(../images/schoolLogo.png);
   width: calc(min(15.7vh, 15.7vw));
-}
+}*/
 
 .instructionWrapper > .instructionBoard> .gameTitle {
   position: relative;
@@ -133,7 +133,8 @@
   position: absolute;
   margin-top: calc(min(35vh, 35vw));
 }
-.instructionWrapper > .instructionBoard > .startBtn:active {
+.instructionWrapper > .instructionBoard > .startBtn:active,
+.instructionWrapper > .instructionBoard > .startBtn.touched  {
   height: calc(min(6.5vh, 6.5vw));
   padding: calc(min(1vh, 1vw));
 }

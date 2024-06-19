@@ -119,7 +119,8 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-.finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .backHomeBtn:active {
+.finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .backHomeBtn:active,
+.finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .backHomeBtn.touched{
   /*background: url(../images/btnGreen.png);
   background-size: contain;
   width: calc(min(28.7vh, 28.7vw));
@@ -140,7 +141,8 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-.finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .playAgainBtn:active {
+.finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .playAgainBtn:active,
+.finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .playAgainBtn.touched{
   /*background: url(../images/btnGreen.png);
   background-size: contain;
   width: calc(min(28.7vh, 28.7vw));

@@ -44,6 +44,25 @@ export default {
   topLeftControl: document.querySelector('.gameWrapper > .topLeftControl'),
   selectCounts: document.querySelectorAll('.canvasWrapper > .optionArea > .optionWrapper > .selectCount'),
   //-----------------------------------------------------------------------------------------------
+  preloadedFallingImages: [],
+  optionImages: [
+    require("./images/phonics/candy1.png"),
+    require("./images/phonics/candy2.png"),
+    require("./images/phonics/candy3.png"),
+    require("./images/phonics/candy4.png"),
+    require("./images/phonics/candy5.png"),
+  ],
+
+  preloadUsedImages() {
+    this.optionImages.forEach((path) => {
+      const img = new Image();
+      img.src = path;
+      this.preloadedFallingImages.push(img);
+    });
+
+    console.log("preloadUsedImages", this.preloadedFallingImages);
+  },
+  //-----------------------------------------------------------------------------------------------
   showInstruction() {
     this.instructionWrapper.style.top = 0;
   },
@@ -171,6 +190,7 @@ export default {
   hideTopLeftControl() {
     this.topLeftControl.className = "topLeftControl hide";
   },
+
   //-----------------------------------------------------------------------------------------------
   showAnsResult(result) {
     let correct = document.querySelector('.gameWrapper > .ansResult > .ans.correct');

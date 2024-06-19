@@ -5,6 +5,12 @@
   transition: opacity 0.5s ease;
   position: relative;
 }
+.canvasWrapper > .handCursor{
+  position: absolute;
+  display: none;
+  width: calc(min(10vh, 10vw));
+  height: auto;
+}
 
 .canvasWrapper > .optionArea {
   position: absolute;
@@ -128,7 +134,7 @@
 }
 
 .answerWrapper{
-  position: fixed;
+  position: absolute;
   left: 50%;
   transform: translate(-50%, 50%);
   transition: opacity 0.1s ease;
@@ -139,16 +145,16 @@
   font-family: "Arzachel", system-ui;
   font-weight: bolder;
   width: calc(min(30.7vh, 30.7vw));
-  height: calc(min(4.7vh, 4.7vw));
+  /*height: calc(min(4.7vh, 4.7vw));*/
   color: white;
-  padding-bottom: 8px;
-  /*filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.5));*/
+  /*padding-bottom: 8px;
+  filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.5));*/
 }
 .textType{
-  top: 10.25%;
+  top: calc(min(9.7vh, 9.7vw));
 }
 .pictureType{
-  top: 28.5%;
+  top: calc(min(27.7vh, 27.7vw));
 }
 
 .correct {

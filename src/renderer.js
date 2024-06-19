@@ -112,7 +112,7 @@ export class RendererCanvas2d {
 
       if (State.state == 'playing' && ['waitAns'].includes(State.stateType)) {
 
-        console.log(pose.keypoints);
+        //console.log(pose.keypoints);
 
         let checkKeypoints = pose.keypoints.filter(k => ['right_index', 'left_index'].includes(k.name) && k.score > passScore);
         let touchingWord = [];
@@ -122,11 +122,13 @@ export class RendererCanvas2d {
 
         for (let point of checkKeypoints) {
           if (point.name === 'right_index') {
-            rightHandImg.style.left = `${point.x - 100}px`;
+            const xInVw = (point.x / window.innerWidth) * 100;
+            rightHandImg.style.left = `calc(${xInVw}vw - calc(min(3vh, 3vw)))`;
             rightHandImg.style.top = `${point.y}px`;
             rightHandImg.style.display = 'block';
           } else if (point.name === 'left_index') {
-            leftHandImg.style.left = `${point.x - 100}px`;
+            const xInVw = (point.x / window.innerWidth) * 100;
+            leftHandImg.style.left = `calc(${xInVw}vw - calc(min(3vh, 3vw)))`;
             leftHandImg.style.top = `${point.y}px`;
             leftHandImg.style.display = 'block';
           }

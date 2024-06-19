@@ -117,9 +117,8 @@ async function renderPrediction() {
 
 function init() {
   console.log('in init()');
-
   Sound.init();
-
+  View.preloadUsedImages();
   //因應iPad及手機browser的nav bar會扣掉高度，在這裡將hv用innerHiehgt重新計算
   let vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -213,6 +212,74 @@ function init() {
         break;
     }
   }
+
+  function handleButtonTouch(e) {
+    switch (e.currentTarget) {
+      case View.startBtn:
+        View.startBtn.classList.add('touched');
+        break;
+      case View.exitBtn:
+        View.exitBtn.classList.add('touched');
+        break;
+      case View.musicBtn:
+        View.musicBtn.classList.add('touched');
+        break;
+      case View.onBtn:
+        View.onBtn.classList.add('touched')
+        break;
+      case View.offBtn:
+        View.offBtn.classList.add('touched')
+        break;
+      case View.backHomeBtnOfFinished:
+        View.backHomeBtnOfFinished.classList.add('touched');
+        break;
+      case View.playAgainBtn:
+        View.playAgainBtn.classList.add('touched');
+        break;
+    }
+  }
+
+  function handleButtonTouchLeave(e) {
+    switch (e.currentTarget) {
+      case View.startBtn:
+        View.startBtn.classList.remove('touched');
+        break;
+      case View.exitBtn:
+        View.exitBtn.classList.remove('touched');
+        break;
+      case View.musicBtn:
+        View.musicBtn.classList.remove('touched');
+        break;
+      case View.onBtn:
+        View.onBtn.classList.remove('touched');
+        break;
+      case View.offBtn:
+        View.offBtn.classList.remove('touched');
+        break;
+      case View.backHomeBtnOfFinished:
+        View.backHomeBtnOfFinished.classList.remove('touched');
+        break;
+      case View.playAgainBtn:
+        View.playAgainBtn.classList.remove('touched');
+        break;
+    }
+  }
+
+  View.startBtn.addEventListener('pointerdown', handleButtonTouch);
+  View.exitBtn.addEventListener('pointerdown', handleButtonTouch);
+  View.musicBtn.addEventListener('pointerdown', handleButtonTouch);
+  View.backHomeBtnOfFinished.addEventListener('pointerdown', handleButtonTouch);
+  View.playAgainBtn.addEventListener('pointerdown', handleButtonTouch);
+  View.onBtn.addEventListener('pointerdown', handleButtonTouch);
+  View.offBtn.addEventListener('pointerdown', handleButtonTouch);
+
+  View.startBtn.addEventListener('pointerup', handleButtonTouchLeave);
+  View.exitBtn.addEventListener('pointerup', handleButtonTouchLeave);
+  View.musicBtn.addEventListener('pointerup', handleButtonTouchLeave);
+  View.backHomeBtnOfFinished.addEventListener('pointerup', handleButtonTouchLeave);
+  View.playAgainBtn.addEventListener('pointerup', handleButtonTouchLeave);
+  View.onBtn.addEventListener('pointerup', handleButtonTouchLeave);
+  View.offBtn.addEventListener('pointerup', handleButtonTouchLeave);
 
   // Attach the click/touchend event listeners to the buttons
   View.startBtn.addEventListener(clickHandler, handleButtonClick);
