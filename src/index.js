@@ -6,6 +6,7 @@ import View from './view';
 import State from './state';
 import Sound from './sound';
 import { setupStats } from './stats_panel';
+import QuestionManager from './question';
 
 let detector
 let rafId;
@@ -119,6 +120,7 @@ function init() {
   console.log('in init()');
   Sound.init();
   View.preloadUsedImages();
+  QuestionManager.loadQuestionData();
   //因應iPad及手機browser的nav bar會扣掉高度，在這裡將hv用innerHiehgt重新計算
   let vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);

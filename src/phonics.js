@@ -2,7 +2,6 @@ import View from './view';
 import State from './state';
 import Sound from './sound';
 import QuestionManager from './question';
-import { imageFiles } from './mediaFile';
 
 export default {
   randPositions: [],
@@ -35,7 +34,7 @@ export default {
     this.updateTimerDisplay(this.remainingTime);
     //View.showTips('tipsReady');
     this.questionWord = null;
-    this.questionField = null;
+    this.questionField = QuestionManager.questionField;
     this.score = 0;
     this.time = 0;
     this.timerRunning = false;
@@ -104,8 +103,6 @@ export default {
   startCountTime() {
     if (!this.startedGame) {
       this.time = this.remainingTime;
-      QuestionManager.loadQuestionData();
-      this.questionField = QuestionManager.questionType();
       this.startedGame = true;
     }
 
@@ -385,18 +382,26 @@ export default {
         questionBg.classList.add('questionImgBg');
         View.stageImg.appendChild(questionBg);
 
-        let currentImagePath = '';
-        if (imageFiles && imageFiles.length > 0) {
-          let imageFile = imageFiles.find(([name]) => name === this.questionWord.QID);
+        if (QuestionManager.preloadedImagesItem && QuestionManager.preloadedImagesItem.length > 0) {
+          //let imageFile = imageFiles.find(([name]) => name === this.questionWord.QID);
+          let currentImagePath = '';
+          let imageFile = null;
+          QuestionManager.preloadedImagesItem.forEach((img) => {
+            if (img.id === this.questionWord.QID) {
+              imageFile = img.src;
+              //console.log("imageFile", imageFile);
+            }
+          });
+
           if (imageFile) {
-            currentImagePath = imageFile[1];
+            currentImagePath = imageFile;
+            var imageElement = document.createElement('img');
+            imageElement.src = currentImagePath;
+            imageElement.alt = 'image';
+            imageElement.classList.add('questionImage');
+            this.questionWrapper.appendChild(imageElement);
           }
         }
-        var imageElement = document.createElement('img');
-        imageElement.src = currentImagePath;
-        imageElement.alt = 'image';
-        imageElement.classList.add('questionImage');
-        this.questionWrapper.appendChild(imageElement);
         this.answerWrapper.classList.add('pictureType');
         resetBtn.classList.add('resetPictureType');
         View.stageImg.appendChild(this.questionWrapper);
