@@ -42,15 +42,17 @@ const QuestionManager = {
         QA: this.QUESTION_TYPE.QA.filter(item => item.QID.includes(level)),
       };
       this.preloadedImages = imageFiles.filter(img => img[0].includes(level));
-
-      if (this.preloadedImages !== null && this.preloadedImages !== undefined && this.preloadedImages.length > 0)
-        this.preloadImagesFile();
     }
     else {
       question = { QA: this.QUESTION_TYPE.QA };
+      this.preloadedImages = imageFiles;
     }
     if (question.QA.length > 0)
       this.questionField = Object.freeze(question);
+
+    if (this.preloadedImages !== null && this.preloadedImages !== undefined && this.preloadedImages.length > 0)
+      this.preloadImagesFile();
+
     console.log(this.questionField);
   }
 };

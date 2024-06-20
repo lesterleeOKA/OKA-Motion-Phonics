@@ -3,6 +3,7 @@ import State from './state';
 import Sound from './sound';
 import Camera from './camera';
 import Game from './phonics';
+import view from './view';
 
 
 export class RendererCanvas2d {
@@ -35,7 +36,7 @@ export class RendererCanvas2d {
         //this.isPoseValid(poses, video.width / video.videoWidth);
         isCurPoseValid = this.isPoseValid(poses, video.width / video.videoWidth);
         if (isCurPoseValid && State.bodyInsideRedBox.value == true) {
-          if (State.state == 'prepare' && State.getStateLastFor() > 2000) {
+          if (State.state == 'prepare' && State.getStateLastFor() > 3500) {
             State.changeState('counting3');
           } else if (State.state == 'counting3' && State.getStateLastFor() > 1000) {
             State.changeState('counting2');
@@ -43,7 +44,7 @@ export class RendererCanvas2d {
             State.changeState('counting1');
           } else if (State.state == 'counting1' && State.getStateLastFor() > 1000) {
             State.changeState('counting0');
-          } else if (State.state == 'counting0' && State.getStateLastFor() > 2000) {
+          } else if (State.state == 'counting0' && State.getStateLastFor() > 1000) {
             State.changeState('playing', 'showStage');
           } else if (State.state == 'playing') {
 
@@ -69,7 +70,7 @@ export class RendererCanvas2d {
                 State.changeState('playing', 'waitAns');
               }
             }
-          } else if (State.state == 'outBox' && State.bodyInsideRedBox.lastFor > 3000) {
+          } else if (State.state == 'outBox' && State.bodyInsideRedBox.lastFor > 2000) {
             State.changeState('playing', 'waitAns');
           }
         }
@@ -99,7 +100,8 @@ export class RendererCanvas2d {
       );
       State.setPoseState('bodyInsideRedBox', !isBodyOutBox);
       if (isBodyOutBox) {
-        if (State.state == 'playing') State.changeState('outBox', 'outBox');
+        if (State.state == 'playing')
+          State.changeState('outBox', 'outBox');
         //console.log('outBox', 'outBox');
         return false;
       }

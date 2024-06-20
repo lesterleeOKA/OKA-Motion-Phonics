@@ -20,8 +20,8 @@
 
 .loadingBar {
   position: relative;
-  width: calc(min(60vh, 60vw) - 20px);
-  height: calc(min(5vh, 5vw));
+  width: calc(min(35vh, 35vw) - 20px);
+  height: calc(min(3vh, 3vw));
 }
 
 
@@ -49,7 +49,7 @@
   width: 100%;
   overflow: hidden;*/
   background: none;
-  margin: 10px;
+  margin: calc(min(5px, 10px));
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -59,27 +59,39 @@
   position: absolute;
   top: 0;
   right: 0;
-  height: 100%;
-  width: 100%;
+  height: 104%;
+  width: 104%;
   background-image: url(../images/phonics/ui_loadingfill.png);
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: 104% 104%;
   background-position: right;
   transition: var(--progress-transition, right 1s ease-out);
   right: var(--progress-right, 100%);
 }
 
 .outterBorder {
-  border:10px solid #FFF;
+  border: calc(min(5px, 10px)) solid #FFF;
   box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 0.2);
 }
 .innerBorder {
-  border:5px solid #ffffff;
-  margin: 5px;
+  border: calc(min(2.5px, 5px)) solid #ffffff;
+  margin: calc(min(2.5px, 5px));
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.loadingFont{
+.loading-container {
+  display: flex;
+  align-items: center;
+}
+
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadingFontFixed{
+  position: relative;
   font-family: "Arzachel", system-ui;
   font-size: calc(min(5vh, 5vw));
   font-weight: 400;
@@ -87,5 +99,19 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
   padding-bottom: 1vw;
+  right: 4.5%;
+  /*-webkit-text-stroke: 2px #ff8c00;*/
+}
+
+.loadingFont{
+  position: absolute;
+  font-family: "Arzachel", system-ui;
+  font-size: calc(min(5vh, 5vw));
+  font-weight: 400;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+  padding-bottom: 1vw;
+  left: 72%;
   /*-webkit-text-stroke: 2px #ff8c00;*/
 }

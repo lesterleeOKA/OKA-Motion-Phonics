@@ -22,7 +22,7 @@ export default {
           if (this.percentValue >= 95 && this.timer) clearInterval(this.timer);
           if (!this.percentValue) this.percentValue = 50;
           this.loadingDots = (this.loadingDots + 1) % 4;
-          this.loadingText.textContent = `Now Loading${'.'.repeat(this.loadingDots)}`;
+          this.loadingText.textContent = `${'.'.repeat(this.loadingDots)}`;
           //greenBar.style.width = this.percentValue + "%";
 
           let rightPosition = (100 - this.percentValue) + "%";
@@ -43,7 +43,7 @@ export default {
     return new Promise((resolve, reject) => {
       this.percentValue = 100;
       this.loadingDots = (this.loadingDots + 1) % 4;
-      this.loadingText.textContent = `Now Loading${'.'.repeat(this.loadingDots)}`;
+      this.loadingText.textContent = `${'.'.repeat(this.loadingDots)}`;
       if (this.timer) clearInterval(this.timer);
 
       let greenBar = document.getElementById("greenBar");
