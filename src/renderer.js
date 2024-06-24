@@ -148,7 +148,7 @@ export class RendererCanvas2d {
               point.y < (resetBtn.offsetTop + resetBtn.offsetHeight)
             ) {
               if (State.isSoundOn) {
-                Sound.stopAll('bgm');
+                Sound.stopAll(['bgm', 'lastTen']);
                 Sound.play('btnClick');
               }
               resetBtn.classList.add('active');

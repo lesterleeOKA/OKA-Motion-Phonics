@@ -202,7 +202,7 @@ function init() {
         }
         View.hideMusicOnOff();
         State.changeState(State.gamePauseData.state, State.gamePauseData.stateType);
-        setSound(false);
+        State.setSound(false);
         break;
       case View.onBtn:
         if (State.isSoundOn) {
@@ -210,7 +210,7 @@ function init() {
         }
         View.hideMusicOnOff();
         State.changeState(State.gamePauseData.state, State.gamePauseData.stateType);
-        setSound(true);
+        State.setSound(true);
         break;
     }
   }
@@ -311,6 +311,7 @@ function init() {
       ['poseValid', require('./audio/poseValid.mp3')],
       ['ansCorrect', require('./audio/ansCorrect.mp3')],
       ['ansWrong', require('./audio/ansWrong.mp3')],
+      ['lastTen', require('./audio/dingding.wav')],
     ]),
     Camera.getVideo()
   ]);
@@ -394,23 +395,6 @@ function toggleSound() {
   }
 }
 
-function setSound(status) {
-  //console.log('State.isSoundOn: ' + State.isSoundOn);
-
-  if (!State.isSoundOn && status) {
-    View.musicBtn.classList.add('on');
-    View.musicBtn.classList.remove('off');
-    Sound.play('bgm', true);
-    State.isSoundOn = status;
-  }
-
-  if (State.isSoundOn && !status) {
-    View.musicBtn.classList.remove('on');
-    View.musicBtn.classList.add('off');
-    Sound.stopAll();
-    State.isSoundOn = status;
-  }
-}
 //-------------------------------------------------------------------------------------------------
 app();
 //-------------------------------------------------------------------------------------------------

@@ -8,8 +8,8 @@ export default {
   stateLastAt: +new Date(),
   stateLastFor: 0,
   stateType: '',
-  //homePageUrl: 'https://www.starwishparty.com',
-  homePageUrl: window.location.origin + '/RainbowOne/webapp/OKAGames/SelectGames/',
+  homePageUrl: 'https://www.starwishparty.com',
+  //homePageUrl: window.location.origin + '/RainbowOne/webapp/OKAGames/SelectGames/',
   isSoundOn: true,
   gamePauseData: {
     state: '',
@@ -115,7 +115,7 @@ export default {
           break;
         case 'ansWrong':
           if (this.isSoundOn) {
-            Sound.stopAll('bgm');
+            Sound.stopAll(['bgm', 'lastTen']);
             Sound.play('ansWrong');
           }
           this.changeState('playing', 'wrong');
@@ -127,7 +127,7 @@ export default {
           break;
         case 'ansCorrect':
           if (this.isSoundOn) {
-            Sound.stopAll('bgm');
+            Sound.stopAll(['bgm', 'lastTen']);
             Sound.play('ansCorrect');
           }
           this.changeState('playing', 'waitAns');
@@ -141,16 +141,17 @@ export default {
       }
 
     } else if (state == 'showMusicOnOff') {
-      Sound.stopAll('bgm');
+      Sound.stopAll(['bgm', 'lastTen']);
       View.hidePrepareBoard();
       View.showMusicOnOff();
     }
     else if (state == 'pause') {
-      Sound.stopAll('bgm');
+      Sound.stopAll(['bgm', 'lastTen']);
       View.hidePrepareBoard();
       View.showExit();
     } else if (state == 'outBox') {
       if (stateType == 'outBox') {
+        View.showHands(false);
         if (this.isSoundOn) Sound.play('outBox');
         //View.showTips('tipsOutBox');
         View.showPrepareBoard();
@@ -183,7 +184,25 @@ export default {
     if (state != 'playing') {
       Game.stopCountTime();
     }
-
   },
+
+  setSound(status) {
+    if (!this.isSoundOn && status) {
+      View.musicBtn.classList.add('on');
+      View.musicBtn.classList.remove('off');
+      Sound.play('bgm', true);
+      if (Game.isPlayLastTen) {
+        Sound.play('lastTen', true);
+      }
+      this.isSoundOn = status;
+    }
+
+    if (this.isSoundOn && !status) {
+      View.musicBtn.classList.remove('on');
+      View.musicBtn.classList.add('off');
+      Sound.stopAll();
+      this.isSoundOn = status;
+    }
+  }
   //-----------------------------------------------------------------------------------------------
 };

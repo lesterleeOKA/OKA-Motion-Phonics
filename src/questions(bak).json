@@ -27,7 +27,7 @@
       {
         "QID":"p1u1-c5",
         "type":"Pair",
-        "question":"Jani/tor",
+        "question":"Jan/itor",
         "correctAnswer":"Janitor"
       },
       {
@@ -45,13 +45,13 @@
       {
         "QID":"p1u1-c8",
         "type":"Pair",
-        "question":"Gar/den/er",
+        "question":"Gard/ener",
         "correctAnswer":"Gardener"
       },
       {
         "QID":"p1u1-c9",
         "type":"Pair",
-        "question":"Li/bra/rian",
+        "question":"Lib/rar/ian",
         "correctAnswer":"Librarian"
       },
       {
@@ -123,7 +123,7 @@
       {
         "QID":"p1u2-d1",
         "type":"Pair",
-        "question":"Daugh/ter",
+        "question":"Dau/gh/ter",
         "correctAnswer":"Daughter"
      },
      {
@@ -135,7 +135,7 @@
      {
         "QID":"p1u2-d3",
         "type":"Pair",
-        "question":"Fa/mi/ly",
+        "question":"Fam/ily",
         "correctAnswer":"Family"
      },
      {
@@ -159,7 +159,7 @@
      {
        "QID":"p1u2-d7",
        "type":"Pair",
-       "question":"Sis/ter",
+       "question":"Si/ster",
        "correctAnswer":"Sister"
      },
      {
@@ -219,7 +219,7 @@
      {
       "QID":"p1u2-d17",
       "type":"Pair",
-      "question":"Cou/sins",
+      "question":"Cous/ins",
       "correctAnswer":"Cousins"
      },
      {
@@ -231,7 +231,7 @@
      {
       "QID":"p1u2-d19",
       "type":"Pair",
-      "question":"Si/blings",
+      "question":"Sib/lings",
       "correctAnswer":"Siblings"
      },
      {
@@ -249,7 +249,7 @@
      {
       "QID":"p1u3-c2",
       "type":"Picture",
-      "question":"Boo/k",
+      "question":"Bo/ok",
       "correctAnswer":"Book"
      },
      {
@@ -351,7 +351,7 @@
      {
       "QID":"p1u3-c19",
       "type":"Picture",
-      "question":"Shar/pen/er",
+      "question":"Sharp/ener",
       "correctAnswer":"Sharpener"
      },
      {
@@ -387,7 +387,7 @@
     {
       "QID": "p2u1-c5",
       "type": "Pair",
-      "question": "Ba/ke/ry",
+      "question": "Bak/ery",
       "correctAnswer": "Bakery"
     },
     {
@@ -405,13 +405,13 @@
     {
       "QID": "p2u1-c8",
       "type": "Pair",
-      "question": "Gro/ce/ry",
+      "question": "Gro/cery",
       "correctAnswer": "Grocery"
     },
     {
       "QID": "p2u1-c9",
       "type": "Pair",
-      "question": "Re/stau/rant",
+      "question": "Rest/aur/ant",
       "correctAnswer": "Restaurant"
     },
     {
@@ -447,7 +447,7 @@
     {
       "QID": "p2u1-c15",
       "type": "Pair",
-      "question": "Chur/ch",
+      "question": "Chu/rch",
       "correctAnswer": "Church"
     },
     {
@@ -489,7 +489,7 @@
     {
       "QID": "p2u2-c2",
       "type": "Pair",
-      "question": "Pic/nic",
+      "question": "Pi/cnic",
       "correctAnswer": "Picnic"
     },
     {
@@ -501,19 +501,19 @@
     {
       "QID": "p2u2-c4",
       "type": "Pair",
-      "question": "S/coo/ter",
+      "question": "Sco/ot/er",
       "correctAnswer": "Scooter"
     },
     {
       "QID": "p2u2-c5",
       "type": "Pair",
-      "question": "Straw/ber/ries",
+      "question": "Straw/berr/ies",
       "correctAnswer": "Strawberries"
     },
     {
       "QID": "p2u2-c6",
       "type": "Pair",
-      "question": "Foot/ball",
+      "question": "Foot/ba/ll",
       "correctAnswer": "Football"
     },
     {
@@ -525,19 +525,19 @@
     {
       "QID": "p2u2-c8",
       "type": "Pair",
-      "question": "Lit/ter",
+      "question": "Li/tt/er",
       "correctAnswer": "Litter"
     },
     {
       "QID": "p2u2-c9",
       "type": "Pair",
-      "question": "Bi/cy/cle",
+      "question": "Bi/cyc/le",
       "correctAnswer": "Bicycle"
     },
     {
       "QID": "p2u2-c10",
       "type": "Pair",
-      "question": "Flo/wers",
+      "question": "Fl/ow/ers",
       "correctAnswer": "Flowers"
     },
     {

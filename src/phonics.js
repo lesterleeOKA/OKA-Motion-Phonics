@@ -10,7 +10,7 @@ export default {
   answeredNum: 0,
   score: 0,
   time: 0,
-  remainingTime: 180,
+  remainingTime: 60,
   optionSize: 0,
   timer: null,
   timerRunning: false,
@@ -27,6 +27,7 @@ export default {
   redBoxWidth: 0,
   redBoxHeight: 0,
   eachQAMark: 0,
+  isPlayLastTen: false,
 
 
   init() {
@@ -66,6 +67,7 @@ export default {
         star.classList.remove("show");
       }
     }
+    this.isPlayLastTen = false;
   },
 
   addScore(mark) {
@@ -141,10 +143,21 @@ export default {
       this.time--;
       this.updateTimerDisplay(this.time);
 
+      if (this.time <= 10 && !this.isPlayLastTen) {
+        if (State.isSoundOn) {
+          Sound.play('lastTen', true);
+          console.log('play last ten!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        }
+        View.timeText.classList.add('lastTen');
+        this.isPlayLastTen = true;
+      }
+
       if (this.time <= 0) {
         this.stopCountTime();
+        View.timeText.classList.remove('lastTen');
         State.changeState('finished');
-      } else {
+      }
+      else {
         this.timer = setTimeout(this.countTime.bind(this), 1000);
       }
     }
@@ -308,7 +321,17 @@ export default {
       pairs.push(prefixSuffixPairs[i]);
     }
 
-    var wrongPairLength = prefixSuffixPairs.length < 3 ? prefixSuffixPairs.length + 1 : prefixSuffixPairs.length;
+    let wrongPairLength = 0;
+    if (prefixSuffixPairs.length < 3) {
+      wrongPairLength = prefixSuffixPairs.length + 1;
+    }
+    else {
+      if (prefixSuffixPairs.length >= 4)
+        wrongPairLength = prefixSuffixPairs.length - 2;
+      else
+        wrongPairLength = prefixSuffixPairs.length;
+    }
+
     for (let i = 0; i < wrongPairLength; i++) {
       var incorrectPart = this.generateRandomWrongWords(pairs[i].length, i === 0 ? true : false);
       pairs.push(incorrectPart);
@@ -427,7 +450,7 @@ export default {
         option.classList.add('touch');
         this.fillwordTime += 1;
         if (State.isSoundOn) {
-          Sound.stopAll('bgm');
+          Sound.stopAll(['bgm', 'lastTen']);
           Sound.play('btnClick');
         }
         if (this.fillwordTime == this.answerLength) {

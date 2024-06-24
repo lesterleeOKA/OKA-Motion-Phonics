@@ -241,7 +241,33 @@
   font-family: 'BoinkLETPlain', sans-serif;
   font-weight: normal;
   text-shadow: calc(min(0.3vh, 0.3vw)) calc(min(0.3vh, 0.3vw)) #000;
+  scale: 1;
 }
+.gameWrapper > .topLeftControl > .timeWrapper > .timeText.lastTen {
+  animation-name: colorShine, lastTenScale;
+  animation-duration: 1s, 0.5s;
+  animation-iteration-count: infinite, infinite;
+  animation-timing-function: ease-in-out, ease-in-out;
+}
+
+@keyframes colorShine {
+  0%, 100% {
+    color: #fff;
+  }
+  50% {
+    color: #ff0000;
+  }
+}
+
+@keyframes lastTenScale {
+  0%, 100% {
+    scale: 0.9;
+  }
+  50% {
+    scale: 1;
+  }
+}
+
 @font-face {
   font-family: 'BoinkLETPlain';
   src: url('../font/BoinkLETPlain.ttf') format('truetype');
