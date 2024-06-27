@@ -1,6 +1,7 @@
 import View from './view';
 import State from './state';
 import Sound from './sound';
+import { loadGameTime } from "./level";
 import QuestionManager from './question';
 
 export default {
@@ -10,7 +11,7 @@ export default {
   answeredNum: 0,
   score: 0,
   time: 0,
-  remainingTime: 60,
+  remainingTime: 0,
   optionSize: 0,
   timer: null,
   timerRunning: false,
@@ -31,8 +32,10 @@ export default {
 
 
   init() {
-    this.randPositions = [];
+    let gameTime = loadGameTime();
+    this.remainingTime = gameTime !== null ? gameTime : 60;
     this.updateTimerDisplay(this.remainingTime);
+    this.randPositions = [];
     //View.showTips('tipsReady');
     this.questionWord = null;
     this.questionField = QuestionManager.questionField;
@@ -201,6 +204,7 @@ export default {
           this.wordParts.push(newPartWord);
           this.renderPartItem(newPartWord);
         } else {
+          this.wordParts = this.wordParts.filter((item) => item.id !== localId);
           position = this.randPosition(isLeft, localId);
           newPartWord.x = position.x;
           newPartWord.y = position.y;

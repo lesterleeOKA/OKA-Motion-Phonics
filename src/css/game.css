@@ -17,14 +17,14 @@
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: calc(min(0.1vh, 0.1vw));
-  left: 0px;
+  top: calc(min(0.5vh, 0.5vw));
+  left: 2vh;
 }
 
 .gameWrapper > .prepareBoardWrapper > .prepareBoard {
   content: url(../images/phonics/preparationBoard.png);
-  height: calc(min(12.5vh, 12.5vw));
-  margin-top: 2vh;
+  height: calc(min(10vh, 12.5vw));
+  margin-top: 3.5vh;
   /*position: absolute;
   top: calc(min(2vh, 2vw));*/
 }
@@ -49,9 +49,10 @@
   color: #4b3002;
   pointer-events: none;
   line-height: 1;
-  width: calc(min(44vh, 44vw));
   text-align: left;
-  padding-left: calc(min(5.5vh, 5.5vw));
+  padding-left: calc(min(2.5vh, 5.5vw));
+  font-size: calc(min(1.5vh, 1.5vw));
+  margin-top: calc(min(1.1vh, 1.1vw));
 }
 .gameWrapper > .prepareBoardWrapper >.rule-1 {
   position: absolute;
@@ -179,7 +180,7 @@
 .gameWrapper > .topLeftControl {
   position: absolute;
   top: calc(min(1vh, 2vw));
-  left: 0px;
+  left: calc(min(-0.5vh, -0.5vw));
   justify-content: space-evenly;
   display: flex;
   align-items: baseline;
@@ -206,7 +207,7 @@
 }
 .gameWrapper > .topLeftControl > .scoreWrapper > .scoreBoard {
   height: calc(min(11.7vh, 11.7vw));
-  margin-left: calc(min(3vh, 3vw));
+  margin-left: calc(min(2vh, 2vw));
   content: url(../images/phonics/p1_score.png);
   margin-bottom: -0.5vh;
   filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.5));

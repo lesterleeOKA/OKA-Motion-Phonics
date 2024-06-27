@@ -8,8 +8,8 @@ export default {
   stateLastAt: +new Date(),
   stateLastFor: 0,
   stateType: '',
-  homePageUrl: 'https://www.starwishparty.com',
-  //homePageUrl: window.location.origin + '/RainbowOne/webapp/OKAGames/SelectGames/',
+  //homePageUrl: 'https://www.starwishparty.com',
+  homePageUrl: window.location.origin + '/RainbowOne/webapp/OKAGames/SelectGames/',
   isSoundOn: true,
   gamePauseData: {
     state: '',

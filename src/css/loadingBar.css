@@ -13,10 +13,10 @@
   content: url(../images/phonics/ui_princewalk_apng.png);
 }
 
-.loadingBarWrapper > .loadingText {
+/*.loadingBarWrapper > .loadingText {
   content: url(../images/loadingText.png);
   width: calc(min(29.3vh, 29.3vw));
-}
+}*/
 
 .loadingBar {
   position: relative;
@@ -77,11 +77,6 @@
   border: calc(min(2.5px, 5px)) solid #ffffff;
   margin: calc(min(2.5px, 5px));
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
-.loading-container {
-  display: flex;
-  align-items: center;
 }
 
 .loading-container {

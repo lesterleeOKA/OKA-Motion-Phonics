@@ -36,8 +36,9 @@ const QuestionManager = {
 
   loadQuestionType: function () {
     let level = loadLevel();
+
     let question = null;
-    if (level !== '') {
+    if (level) {
       question = {
         QA: this.QUESTION_TYPE.QA.filter(item => item.QID.includes(level)),
       };
