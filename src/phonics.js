@@ -1,7 +1,7 @@
 import View from './view';
 import State from './state';
 import Sound from './sound';
-import { loadGameTime } from "./level";
+import { parseUrlParams } from "./level";
 import QuestionManager from './question';
 
 export default {
@@ -32,7 +32,7 @@ export default {
 
 
   init() {
-    let gameTime = loadGameTime();
+    const { gameTime } = parseUrlParams();
     this.remainingTime = gameTime !== null ? gameTime : 60;
     this.updateTimerDisplay(this.remainingTime);
     this.randPositions = [];

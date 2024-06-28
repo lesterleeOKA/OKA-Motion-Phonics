@@ -5,8 +5,8 @@ html {
 }
 
 body {
+  background-image: none;
   background-color: #000000;
-  /*background-image: url(../images/bg.png);*/
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -19,6 +19,10 @@ body {
   align-items: center;
   overflow: hidden;
   font-family: "Noto Sans CJK TC", "Microsoft JhengHei", PingFang, STHeiti, sans-serif;
+}
+.bgImage{
+  background-image: url(../images/phonics/bg.jpg);
+  background-color: none;
 }
 
 body > .version {

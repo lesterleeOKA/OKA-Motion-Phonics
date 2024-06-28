@@ -1,4 +1,4 @@
-import { loadLevel } from "./level";
+import { parseUrlParams } from "./level";
 import questions from './questions.json'
 import { imageFiles } from './mediaFile';
 
@@ -35,14 +35,13 @@ const QuestionManager = {
   },
 
   loadQuestionType: function () {
-    let level = loadLevel();
-
+    const { levelKey } = parseUrlParams();
     let question = null;
-    if (level) {
+    if (levelKey) {
       question = {
-        QA: this.QUESTION_TYPE.QA.filter(item => item.QID.includes(level)),
+        QA: this.QUESTION_TYPE.QA.filter(item => item.QID.includes(levelKey)),
       };
-      this.preloadedImages = imageFiles.filter(img => img[0].includes(level));
+      this.preloadedImages = imageFiles.filter(img => img[0].includes(levelKey));
     }
     else {
       question = { QA: this.QUESTION_TYPE.QA };

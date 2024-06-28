@@ -30,6 +30,13 @@
 
   <div class="canvasWrapper">
     <canvas></canvas>
+    <video id="videoStream" playsinline style="
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    visibility: hidden;
+    display: none;
+    ">
+    </video>
     <video id="video" playsinline style="
       -webkit-transform: scaleX(-1);
       transform: scaleX(-1);
@@ -152,7 +159,7 @@
     </div>
   </div>
 
-  <div class="version">Ver:1.04</div>
+  <div class="version">Ver:1.05</div>
   <!--<div class="debug"></div>-->
   <div class="debug" id="stats"></div>
 </body>
