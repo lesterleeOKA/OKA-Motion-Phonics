@@ -11,6 +11,7 @@
 .loadingBarWrapper > .loadingCharacter {
   height: calc(min(18vh, 18vw));
   content: url(../images/phonics/ui_princewalk_apng.png);
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.3));
 }
 
 /*.loadingBarWrapper > .loadingText {

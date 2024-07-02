@@ -139,7 +139,7 @@
   padding: calc(min(1vh, 1vw));
 }
 
-@keyframes startBtnAnimation {
+/*@keyframes startBtnAnimation {
   0% {
     content: url(../images/start_yellow.png);
   }
@@ -150,5 +150,5 @@
 
 .instructionWrapper > .startBtn:active {
   content: url(../images/start_green.png);
-}
+}*/
 

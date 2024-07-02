@@ -15,16 +15,17 @@ let rafId;
 let stats;
 let startInferenceTime, numInferences = 0;
 let inferenceTimeSum = 0, lastPanelUpdate = 0;
-
-const canvas = document.createElement('canvas');
+let drawContour = false;
+let foregroundThresold = 0.65;
+const bgImage = require('./images/phonics/bg.jpg');
 const fpsDebug = document.getElementById('stats');
-const { removal, fps } = parseUrlParams();
+const { model, removal, fps } = parseUrlParams();
 
 async function createDetector() {
   const runtime = 'mediapipe';
   return posedetection.createDetector(posedetection.SupportedModels.BlazePose, {
     runtime,
-    modelType: 'lite',
+    modelType: ['heavy', 'full', 'lite'].includes(model) ? model : 'lite',
     solutionPath: `@mediapipe/pose@0.5.1675469404`,
     enableSegmentation: removal === '1' ? true : false,
     smoothSegmentation: removal === '1' ? true : false,
@@ -35,9 +36,6 @@ async function createDetector() {
 
 async function checkGuiUpdate() {
   window.cancelAnimationFrame(rafId);
-  canvas.width = 640;
-  canvas.height = 480;
-
   if (detector != null) {
     detector.dispose();
   }
@@ -81,49 +79,36 @@ async function renderResult() {
     }
 
     if (segmentation && segmentation.length > 0) {
-
       const binaryMask = await bodySegmentation.toBinaryMask(
         segmentation, { r: 0, g: 0, b: 0, a: 0 }, { r: 0, g: 0, b: 0, a: 255 },
-        false, 0.65
+        drawContour, foregroundThresold,
       );
 
       // Create a composite canvas for the final output
       compositeCanvas = document.createElement('canvas');
       const compositeContext = compositeCanvas.getContext('2d');
-      compositeCanvas.width = canvas.width;
-      compositeCanvas.height = canvas.height;
+      compositeCanvas.width = Camera.videoStream.width;
+      compositeCanvas.height = Camera.videoStream.height;
       // Create a temporary canvas to hold the video and mask
       const videoCanvas = document.createElement('canvas');
       const videoContext = videoCanvas.getContext('2d');
-      videoCanvas.width = canvas.width;
-      videoCanvas.height = canvas.height;
+      videoCanvas.width = compositeCanvas.width;
+      videoCanvas.height = compositeCanvas.height;
       // Draw the video stream onto the temporary canvas
       videoContext.drawImage(Camera.video, 0, 0, videoCanvas.width, videoCanvas.height);
-
-      await bodySegmentation.drawMask(videoCanvas, Camera.videoStream, binaryMask, 1, 0);
-
+      // await bodySegmentation.drawMask(videoCanvas, Camera.videoStream, binaryMask, 1, 0);
       // Get the ImageData of the video
       const videoImageData = videoContext.getImageData(0, 0, videoCanvas.width, videoCanvas.height);
       const videoData = videoImageData.data;
 
-      // Get the ImageData of the background image
       const backgroundImageData = compositeContext.getImageData(0, 0, compositeCanvas.width, compositeCanvas.height);
       const backgroundData = backgroundImageData.data;
 
-      // Modify the video image data to replace non-body pixels with background image pixels
       const maskImageData = new ImageData(new Uint8ClampedArray(binaryMask.data), binaryMask.width, binaryMask.height);
       const maskData = maskImageData.data;
 
       for (let i = 0; i < maskData.length; i += 4) {
-        if (maskData[i + 3] === 0) { // Non-body pixel
-          // Keep the video pixel
-          /*maskData[i] = videoData[i];
-          maskData[i + 1] = videoData[i + 1];
-          maskData[i + 2] = videoData[i + 2];
-          maskData[i + 3] = videoData[i + 3];*/
-          maskData[i + 3] = 0; // Set alpha to 0
-        }
-        else {
+        if (maskData[i + 3] !== 0) {
           videoData[i] = backgroundData[i];
           videoData[i + 1] = backgroundData[i + 1];
           videoData[i + 2] = backgroundData[i + 2];
@@ -133,10 +118,7 @@ async function renderResult() {
 
       // Put the modified video image data back onto the video canvas
       videoContext.putImageData(videoImageData, 0, 0);
-
-      // Draw the masked video onto the composite canvas
       compositeContext.drawImage(videoCanvas, 0, 0, compositeCanvas.width, compositeCanvas.height);
-      // Draw the final composite canvas
     }
     endEstimatePosesStats();
   }
@@ -387,7 +369,8 @@ async function app() {
 
   if (removal === '1') {
     const bgImageElement = document.getElementById('bgImage');
-    bgImageElement.classList.add('bgImage');
+    bgImageElement.style.backgroundImage = `url(${bgImage})`;
+    //bgImageElement.classList.add('bgImage');
   }
 
   if (fps === '1') {
@@ -398,7 +381,7 @@ async function app() {
   init().then(() => {
     Util.loadingStart();
     setTimeout(() => {
-      Camera.setup();
+      Camera.initSetup();
       //(new FPSMeter({ ui: true })).start();
       createDetector().then((detector) => {
 

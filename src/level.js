@@ -15,6 +15,9 @@ function parseUrlParams() {
     const removalParam = params.find(param => param.startsWith('removal='));
     const removalValue = removalParam ? removalParam.split('=')[1] : null;
     console.log("removal:", removalValue);
+    const modelParam = params.find(param => param.startsWith('model='));
+    const modelValue = modelParam ? modelParam.split('=')[1] : null;
+    console.log("modelValue:", modelValue);
     const fpsParam = params.find(param => param.startsWith('fps='));
     const fpsValue = fpsParam ? fpsParam.split('=')[1] : null;
     console.log("fpsValue:", fpsValue);
@@ -24,6 +27,7 @@ function parseUrlParams() {
       gameTime: gameTimeValue,
       removal: removalValue !== null ? removalValue : 0,
       fps: fpsValue !== null ? fpsValue : 0,
+      model: modelValue,
     };
   }
 
@@ -32,6 +36,7 @@ function parseUrlParams() {
     gameTime: null,
     removal: 0,
     fps: 0,
+    model: null,
   };
 }
 

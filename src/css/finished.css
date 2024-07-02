@@ -88,9 +88,9 @@
 .finishedWrapper > .finishedBoardWrapper > .scoreTimeWrapper > .row.score > .icon.show {
   content: url(../images/phonics/icon_star.png);
 }
-.finishedWrapper > .finishedBoardWrapper > .scoreTimeWrapper > .row.time > .icon {
+/*.finishedWrapper > .finishedBoardWrapper > .scoreTimeWrapper > .row.time > .icon {
   content: url(../images/iconTime.png);
-}
+}*/
 .finishedWrapper > .finishedBoardWrapper > .scoreTimeWrapper > .row > .value {
   font-family: 'BoinkLETPlain', sans-serif;
   font-weight: normal;

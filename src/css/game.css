@@ -172,7 +172,7 @@
   transition: opacity 0.5s ease;
 }
 
-.gameWrapper > .outBoxBoardWrapper > .outBoxBoard {
+/*.gameWrapper > .outBoxBoardWrapper > .outBoxBoard {
   content: url(../images/outBox.png);
   height: calc(min(40vh, 40vw));
 }
@@ -193,7 +193,7 @@
 .gameWrapper > .topLeftControl > .stageWrapper {
   position: relative;
 }
-.gameWrapper > .topLeftControl > .stageWrapper > .stageStar {
+/*.gameWrapper > .topLeftControl > .stageWrapper > .stageStar {
   height: calc(min(11.7vh, 11.7vw));
   margin-left: calc(min(3vh, 3vw));
   content: url(../images/stageStar1.png);
@@ -292,7 +292,7 @@
   margin-right: calc(min(3vh, 3vw));
 }
 .gameWrapper > .topRightControl > .tips.hide { opacity: 0; }
-.gameWrapper > .topRightControl > .tips.tipsOutBox { content: url(../images/tipsOutBox.png); }
+/*.gameWrapper > .topRightControl > .tips.tipsOutBox { content: url(../images/tipsOutBox.png); }
 .gameWrapper > .topRightControl > .tips.tipsReady { content: url(../images/tipsReady.png); }
 .gameWrapper > .topRightControl > .tips.tipsStart { content: url(../images/tipsStart.png); }
 
@@ -440,7 +440,7 @@
   transition: all 0.4s ease;
   position: absolute;
 }
-.gameWrapper > .stage.s0 {
+/*.gameWrapper > .stage.s0 {
   content: url(../images/stage1.png);
 }
 .gameWrapper > .stage.s1 {
