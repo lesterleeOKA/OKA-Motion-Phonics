@@ -8,8 +8,6 @@ export default {
   stateLastAt: +new Date(),
   stateLastFor: 0,
   stateType: '',
-  //homePageUrl: 'https://www.starwishparty.com',
-  homePageUrl: window.location.origin + '/RainbowOne/webapp/OKAGames/SelectGames/',
   isSoundOn: true,
   gamePauseData: {
     state: '',
@@ -178,7 +176,16 @@ export default {
       return;
     }
     else if (state == 'leave') {
-      window.open(this.homePageUrl, '_self');
+      const hostname = window.location.hostname;
+      let homePageUrl;
+
+      if (hostname.includes('dev.openknowledge.hk')) {
+        homePageUrl = window.location.origin + '/RainbowOne/webapp/OKAGames/SelectGames/';
+      }
+      else if (hostname.includes('www.rainbowone.app')) {
+        homePageUrl = 'https://www.starwishparty.com';
+      }
+      window.open(homePageUrl, '_self');
     }
 
     if (state != 'playing') {
