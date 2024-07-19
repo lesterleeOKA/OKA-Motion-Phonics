@@ -263,10 +263,10 @@ export default {
     optionWrapper.style.height = `${this.optionSize}px`;
     optionWrapper.id = id;
     optionWrapper.value = text;
-    let option = document.createElement('input');
+    let option = document.createElement('span');
     option.classList.add('option');
-    option.type = 'text';
-    option.value = text;
+    //option.type = 'text';
+    option.textContent = text;
     let fontSize = `calc(min(4vh, 2vw))`;
     option.style.setProperty('--font-size', fontSize);
     optionWrapper.appendChild(option);
