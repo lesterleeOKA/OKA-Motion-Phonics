@@ -389,7 +389,9 @@ export default {
     let questionBg = document.createElement('div');
     this.answerWrapper = document.createElement('span');
     let resetBtn = document.createElement('div');
-    resetBtn.classList.add('resetBtn');
+    //resetBtn.classList.add('resetBtn');
+    let resetTouchBtn = document.createElement('button');
+    resetTouchBtn.classList.add('resetBtn');
 
     switch (this.questionWord.type) {
       case 'Pair':
@@ -401,7 +403,7 @@ export default {
         View.stageImg.appendChild(questionBg);
         View.stageImg.appendChild(questionText);
         this.answerWrapper.classList.add('textType');
-        resetBtn.classList.add('resetTextType');
+        resetTouchBtn.classList.add('resetTextType');
         break;
       case 'Picture':
         this.questionWrapper = document.createElement('div');
@@ -430,10 +432,39 @@ export default {
           }
         }
         this.answerWrapper.classList.add('pictureType');
-        resetBtn.classList.add('resetPictureType');
+        resetTouchBtn.classList.add('resetPictureType');
         View.stageImg.appendChild(this.questionWrapper);
         break;
     }
+
+    resetTouchBtn.addEventListener('mousedown', () => {
+      resetTouchBtn.classList.add('active');
+      if (State.isSoundOn) {
+        Sound.stopAll(['bgm', 'lastTen']);
+        Sound.play('btnClick');
+      }
+      this.resetFillWord();
+    });
+
+    resetTouchBtn.addEventListener('mouseup', () => {
+      resetTouchBtn.classList.remove('active');
+    });
+    resetTouchBtn.addEventListener('touchstart', (event) => {
+      event.preventDefault(); // Prevent default touch behavior
+      resetTouchBtn.classList.add('active');
+      if (State.isSoundOn) {
+        Sound.stopAll(['bgm', 'lastTen']);
+        Sound.play('btnClick');
+      }
+      this.resetFillWord();
+    });
+
+    resetTouchBtn.addEventListener('touchend', (event) => {
+      event.preventDefault(); // Prevent default touch behavior
+      resetTouchBtn.classList.remove('active');
+    });
+
+    resetBtn.appendChild(resetTouchBtn);
 
     this.answerWrapper.classList.add('answerWrapper');
     View.stageImg.appendChild(resetBtn);
