@@ -5,6 +5,7 @@ export default {
 
   percentValue: 0,
   timer: null,
+  loadingStatus: null,
   loadingText: null,
   loadingDots: 0,
 
@@ -14,6 +15,9 @@ export default {
 
     let greenBar = document.getElementById("greenBar");
     this.loadingText = document.querySelector('.loadingFont');
+    this.loadingStatus = document.querySelector('.loadingFontFixed');
+    this.updateLoadingStatus("Now Loading");
+
     if (View.loadingBarWrapper && greenBar) {
       View.loadingBarWrapper.style.display = "flex";
       this.timer = setInterval(() => {
@@ -36,7 +40,10 @@ export default {
     } else {
       setTimeout(() => this.loadingStart(retry + 1), 200);
     }
+  },
 
+  updateLoadingStatus(statusMsg) {
+    this.loadingStatus.textContent = `${statusMsg}`;
   },
 
   loadingComplete() {

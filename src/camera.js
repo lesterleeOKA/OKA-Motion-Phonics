@@ -1,3 +1,4 @@
+import Util from './util';
 
 export default {
   videoStream: document.getElementById('videoStream'),
@@ -16,23 +17,23 @@ export default {
   //-----------------------------------------------------------------------------------------------
   getVideo() {
     //console.log('in getVideo()');
-
+    console.log('in getting videoStream....................................');
+    Util.updateLoadingStatus("Setting Camera");
     return new Promise((resolve, reject) => {
       if (!navigator.mediaDevices.getUserMedia && !navigator.mediaDevices) {
         const errMsg = 'Browser API navigator.mediaDevices.getUserMedia not available';
         console.log(errMsg);
         alert(errMsg);
         reject(errMsg);
-
       } else {
-        console.log('start getUserMedia');
         navigator.mediaDevices.getUserMedia(this.constraints).then(stream => {
-          console.log('got stream from getUserMedia');
           this.videoStream.srcObject = stream;
           this.video.srcObject = stream;
           try {
             this.videoStream.play();
             this.video.play();
+            console.log('videoStream is ready..............................');
+            Util.updateLoadingStatus("Camera Ready");
           } catch (e) {
             console.log(e);
           }

@@ -139,7 +139,18 @@
   background-repeat: no-repeat;
   scale: 1;
   -webkit-tap-highlight-color: transparent;
+  animation: jump 0.8s infinite;
 }
+
+@keyframes jump {
+  0%, 100% {
+    transform: translateY(3px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
 
 .finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .playAgainBtn:active,
 .finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .playAgainBtn.touched{

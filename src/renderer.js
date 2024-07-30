@@ -13,6 +13,7 @@ export class RendererCanvas2d {
     this.lastPoseValidValue = false;
     this.modelType = posedetection.SupportedModels.BlazePose;
     this.scoreThreshold = 0.75;
+    this.center_shoulder = null;
   }
 
   draw(rendererParams) {
@@ -83,12 +84,13 @@ export class RendererCanvas2d {
     if (!poses[0]) return false;
     let pose = poses[0];
     let passScore = this.scoreThreshold;
+    let isBodyOutBox;
 
     if (pose.keypoints != null) {
       //我建議膊頭兩點，腰兩點，膝頭兩點，手肘兩點，手腕兩點入框就可以玩
       //nose, left_eye_inner, left_eye, left_eye_outer, right_eye_inner, right_eye, right_eye_outer, left_ear, right_ear, mouth_left, mouth_right, left_shoulder, right_shoulder, left_elbow, right_elbow, left_wrist, right_wrist, left_pinky, right_pinky, left_index, right_index, left_thumb, right_thumb, left_hip, right_hip, left_knee, right_knee, left_ankle, right_ankle, left_heel, right_heel, left_foot_index, right_foot_index
       //let checkKeypoints = pose.keypoints.filter(k=>['left_shoulder', 'right_shoulder', 'left_elbow', 'right_elbow', 'left_wrist', 'right_wrist', 'left_hip', 'right_hip', 'left_knee', 'right_knee'].includes(k.name) && k.score>0.65);
-      let checkKeypoints = pose.keypoints.filter(k => k.name == 'nose' && k.score > passScore);
+      /*let checkKeypoints = pose.keypoints.filter(k => k.name == 'nose' && k.score > passScore);
       let isBodyOutBox = (
         checkKeypoints.find(keypoint => (
           keypoint.x < this.redBoxX ||
@@ -96,7 +98,18 @@ export class RendererCanvas2d {
           keypoint.y < this.redBoxY ||
           keypoint.y > (this.redBoxY + this.redBoxHeight)
         )) ? true : false
-      );
+      );*/
+
+      if (this.center_shoulder) {
+        isBodyOutBox = ((this.center_shoulder.x < this.redBoxX ||
+          this.center_shoulder.x > (this.redBoxX + this.redBoxWidth) ||
+          this.center_shoulder.y < this.redBoxX ||
+          this.center_shoulder.y > (this.redBoxY + this.redBoxHeight)) ? true : false);
+      }
+      else {
+        isBodyOutBox = false;
+      }
+
       State.setPoseState('bodyInsideRedBox', !isBodyOutBox);
       if (isBodyOutBox) {
         if (State.state == 'playing')
@@ -363,6 +376,9 @@ export class RendererCanvas2d {
     this.ctx.strokeStyle = color;
     this.ctx.lineWidth = 2;
 
+    let left_shoulder = null;
+    let right_shoulder = null;
+
     posedetection.util.getAdjacentPairs(this.modelType).forEach(([i, j]) => {
       const kp1 = keypoints[i];
       const kp2 = keypoints[j];
@@ -377,7 +393,38 @@ export class RendererCanvas2d {
         this.ctx.lineTo(kp2.x, kp2.y);
         this.ctx.stroke();
       }
+
+      if (kp1.name === 'left_shoulder') left_shoulder = kp1;
+      if (kp1.name === 'right_shoulder') right_shoulder = kp1;
+
+      if (kp2.name === 'left_shoulder') left_shoulder = kp2;
+      if (kp2.name === 'right_shoulder') right_shoulder = kp2;
     });
+
+    // Draw circle around the head
+    if (left_shoulder && right_shoulder) {
+      const center_shoulderX = (left_shoulder.x + right_shoulder.x) / 2;
+      const center_shoulderY = (left_shoulder.y + right_shoulder.y) / 2;
+
+      this.center_shoulder = {
+        x: center_shoulderX,
+        y: center_shoulderY,
+      };
+
+      if (this.center_shoulder) {
+        // Draw the keypoint as a circle
+        this.ctx.fillStyle = 'Blue';
+        this.ctx.strokeStyle = 'White';
+        this.ctx.lineWidth = 2;
+        const circle = new Path2D();
+        circle.arc(this.center_shoulder.x, this.center_shoulder.y, 4, 0, 2 * Math.PI);
+        this.ctx.fill(circle);
+        this.ctx.stroke(circle);
+      }
+    }
+
+
+
   }
 
 }

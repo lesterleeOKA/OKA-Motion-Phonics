@@ -1,38 +1,58 @@
+import Util from './util';
+
 export default {
   audioContext: null,
   audios: {},
+  useAudioElement: false,
+
   init() {
     try {
-      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      console.log("Your browser support the Web Audio API");
+      // Check if the Web Audio API is supported
+      if (window.AudioContext || window.webkitAudioContext) {
+        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        console.log("Your browser supports the Web Audio API");
+        this.useAudioElement = false;
+      } else {
+        // Fallback to an alternative audio solution, such as the <audio> element
+        console.log("Your browser does not support the Web Audio API. Using the <audio> element instead.");
+        this.useAudioElement = true;
+      }
     } catch (error) {
-      alert("Your browser does not support the Web Audio API. Audio playback will not be available.");
       console.error("Error initializing AudioContext:", error);
+      // Fallback to an alternative audio solution, such as the <audio> element
+      this.useAudioElement = true;
     }
   },
   preloadAudio(key, url, createAudioContext = false, volume = 1) {
     return new Promise((resolve, reject) => {
-      let audio = { volume: volume, audioBuffer: null, audioContext: createAudioContext, }
 
-      let ajax = new XMLHttpRequest();
-      ajax.open("GET", url, true);
-      ajax.responseType = "arraybuffer"
-      ajax.onload = () => {
-        this.audioContext.decodeAudioData(
-          ajax.response,
-          (buffer) => {
-            audio.audioBuffer = buffer;
-            this.audios[key] = audio;
-            resolve(audio);
-          },
-          (error) => { debugger }
-        )
+      if (this.useAudioElement) {
+        let audio = new Audio();
+        audio.src = url;
+        audio.volume = volume;
+        this.audios[key] = audio;
+        resolve(audio);
       }
+      else {
+        let audio = { volume: volume, audioBuffer: null, audioContext: createAudioContext }
+        let ajax = new XMLHttpRequest();
+        ajax.open("GET", url, true);
+        ajax.responseType = "arraybuffer"
+        ajax.onload = () => {
+          this.audioContext.decodeAudioData(
+            ajax.response,
+            (buffer) => {
+              audio.audioBuffer = buffer;
+              this.audios[key] = audio;
+              resolve(audio);
+            },
+            (error) => { debugger }
+          )
+        }
 
-      ajax.onerror = () => { debugger }
-
-      ajax.send()
-
+        ajax.onerror = () => { debugger }
+        ajax.send()
+      }
     });
   },
   play(key, loop = false, volume = null) {
@@ -52,6 +72,10 @@ export default {
     source.connect(gainNode)
     gainNode.connect(audioContext.destination);
     source.start(0);
+
+    source.addEventListener('ended', () => {
+      source.stop();
+    });
 
     audio.gainNode = gainNode
     return true
@@ -111,7 +135,8 @@ export default {
   },
   //-----------------------------------------------------------------------------------------------
   preloadAudios(paramArray) {
-    console.log('in preloadAudios()');
+    console.log('in preloading audios....................................');
+    Util.updateLoadingStatus("Loading Audio");
     let pArray = [];
     for (let [key, url, createAudioContext, volume] of paramArray) {
       pArray.push(this.preloadAudio(key, url, createAudioContext, volume));
@@ -137,3 +162,4 @@ export default {
   //-----------------------------------------------------------------------------------------------
 
 }
+

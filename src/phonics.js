@@ -29,6 +29,7 @@ export default {
   redBoxHeight: 0,
   eachQAMark: 0,
   isPlayLastTen: false,
+  starNum: 0,
 
 
   init() {
@@ -71,30 +72,30 @@ export default {
       }
     }
     this.isPlayLastTen = false;
+    this.starNum = 0;
   },
 
   addScore(mark) {
     let newScore = this.score + mark;
-    let starNum = 0;
 
     if (newScore < 0)
       newScore = 0;
 
     if (newScore >= 30 && newScore < 60) {
-      starNum = 1;
-      const star1 = document.getElementById("star1");
-      star1.classList.add('show');
+      this.starNum = 1;
+      //const star1 = document.getElementById("star1");
+      //star1.classList.add('show');
       View.showSuccess();
     }
     else if (newScore >= 60 && newScore <= 90) {
-      starNum = 2;
-      const star2 = document.getElementById("star2");
-      star2.classList.add('show');
+      this.starNum = 2;
+      //const star2 = document.getElementById("star2");
+      //star2.classList.add('show');
     }
     else if (newScore > 90) {
-      starNum = 3;
-      const star3 = document.getElementById("star3");
-      star3.classList.add('show');
+      this.starNum = 3;
+      //const star3 = document.getElementById("star3");
+      //star3.classList.add('show');
     }
     else {
       View.showFailure();
@@ -102,7 +103,81 @@ export default {
 
     this.score = newScore;
     View.scoreText.innerText = this.score;
-    View.finishedScore.innerText = this.score;
+    //View.finishedScore.innerText = this.score;
+  },
+  countUp(end, duration) {
+    let startTime = null;
+
+    function animate(timestamp) {
+      if (!startTime) {
+        startTime = timestamp;
+      }
+      const progress = timestamp - startTime;
+      const current = Math.min(Math.floor((progress / duration) * (end - 0) + 0), end);
+      View.finishedScore.innerText = current;
+
+      if (current < end) {
+        requestAnimationFrame(animate);
+      }
+    }
+
+    requestAnimationFrame(animate);
+  },
+  showFinalStars() {
+    const delayPerStar = 200;
+    const star1 = document.getElementById("star1");
+    const star2 = document.getElementById("star2");
+    const star3 = document.getElementById("star3");
+
+    if (this.starNum === 1) {
+      star1.classList.add('show');
+      this.scaleStarUp(star1, 500);
+    }
+    else if (this.starNum === 2) {
+      star1.classList.add('show');
+      this.scaleStarUp(star1, 500, () => {
+        setTimeout(() => {
+          star2.classList.add('show');
+          this.scaleStarUp(star2, 500);
+        }, delayPerStar);
+      });
+    }
+    else if (this.starNum === 3) {
+      star1.classList.add('show');
+      this.scaleStarUp(star1, 500, () => {
+        setTimeout(() => {
+          star2.classList.add('show');
+          this.scaleStarUp(star2, 500, () => {
+            setTimeout(() => {
+              star3.classList.add('show');
+              this.scaleStarUp(star3, 500);
+            }, delayPerStar);
+          });
+        }, delayPerStar);
+      });
+    }
+  },
+
+  scaleStarUp(starElement, duration, callback = null) {
+    let start = null;
+    const initialScale = 0;
+    const finalScale = 1;
+
+    function animate(timestamp) {
+      if (!start) start = timestamp;
+      const progress = timestamp - start;
+      const scale = Math.min(initialScale + (progress / duration), finalScale);
+      starElement.style.transform = `scale(${scale})`;
+      starElement.style.opacity = scale;
+
+      if (scale < finalScale) {
+        requestAnimationFrame(animate);
+      } else if (callback) {
+        callback();
+      }
+    }
+
+    requestAnimationFrame(animate);
   },
 
   startCountTime() {

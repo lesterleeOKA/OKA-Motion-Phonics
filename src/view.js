@@ -1,5 +1,6 @@
 import Game from './phonics';
 import State from './state';
+import Util from './util';
 
 export default {
   //-----------------------------------------------------------------------------------------------
@@ -63,7 +64,8 @@ export default {
       this.preloadedFallingImages.push(img);
     });
 
-    console.log("preloadUsedImages", this.preloadedFallingImages);
+    console.log("preloading UsedImages....................", this.preloadedFallingImages);
+    Util.updateLoadingStatus("Loading Images");
   },
   //-----------------------------------------------------------------------------------------------
   showInstruction() {
