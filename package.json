@@ -1,7 +1,7 @@
 {
-  "name": "posedetection_demo",
+  "name": "motion_phonics",
   "version": "0.0.1",
-  "description": "Demo for pose detection api",
+  "description": "oka_motion_phonics",
   "main": "index.js",
   "license": "Apache-2.0",
   "private": true,
@@ -65,5 +65,8 @@
   },
   "eslintIgnore": [
     "dist/"
-  ]
+  ],
+  "htmlnano": {
+    "minifySvg": false
+  }
 }

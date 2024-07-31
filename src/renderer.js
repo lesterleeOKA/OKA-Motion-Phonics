@@ -3,6 +3,7 @@ import State from './state';
 import Sound from './sound';
 import Camera from './camera';
 import Game from './phonics';
+import { stat } from 'fs';
 
 
 export class RendererCanvas2d {
@@ -14,6 +15,8 @@ export class RendererCanvas2d {
     this.modelType = posedetection.SupportedModels.BlazePose;
     this.scoreThreshold = 0.75;
     this.center_shoulder = null;
+    this.rightLoadingValue = 0;
+    this.leftLoadingValue = 0;
   }
 
   draw(rendererParams) {
@@ -127,7 +130,6 @@ export class RendererCanvas2d {
       if (State.state == 'playing' && ['waitAns'].includes(State.stateType)) {
 
         //console.log(pose.keypoints);
-
         let checkKeypoints = pose.keypoints.filter(k => ['right_index', 'left_index'].includes(k.name) && k.score > passScore);
         let touchingWord = [];
 
@@ -154,9 +156,12 @@ export class RendererCanvas2d {
           }
         }
 
+        let isInOptionRight = false;
+        let isInOptionLeft = false;
+        let touchingOptionRight = null;
+        let touchingOptionLeft = null;
+
         for (let point of checkKeypoints) {
-          //console.log(resetBtn.offsetLeft * 2, resetBtn.offsetWidth * 2);
-          //console.log(resetBtn.offsetTop, resetBtn.offsetHeight);
           //console.log(point);
           if (resetBtn) {
             if (
@@ -178,29 +183,52 @@ export class RendererCanvas2d {
             }
           }
 
-
-
           for (let option of optionWrappers) {
-            /*const optionRect = option.getBoundingClientRect();
-             if (
-               point.x > optionRect.left &&
-               point.x < optionRect.right &&
-               point.y > optionRect.top &&
-               point.y < optionRect.bottom
-             ) {
-               touchingWord.push(option);
-             }*/
-
             if (
               point.x > option.offsetLeft &&
               point.x < (option.offsetLeft + option.offsetWidth) &&
               point.y > option.offsetTop &&
               point.y < (option.offsetTop + option.offsetHeight)
             ) {
-              touchingWord.push(option);
+              if (point.name === 'right_index') {
+                isInOptionRight = true;
+                touchingOptionRight = option;
+              } else if (point.name === 'left_index') {
+                isInOptionLeft = true;
+                touchingOptionLeft = option;
+              }
             }
-
           }
+        }
+
+        if (isInOptionRight && touchingOptionRight && !touchingOptionRight.classList.contains('touch') && State.allowTouchWord) {
+          if (this.rightLoadingValue < 100) {
+            this.rightLoadingValue += 2;
+            console.log("right", this.rightLoadingValue);
+            Game.trackingWord(this.rightLoadingValue, "Right");
+          } else {
+            touchingWord.push(touchingOptionRight);
+            this.rightLoadingValue = 0;
+            Game.trackingWord(this.rightLoadingValue, "Right");
+          }
+        } else {
+          this.rightLoadingValue = 0;
+          Game.trackingWord(this.rightLoadingValue, "Right");
+        }
+
+        if (isInOptionLeft && touchingOptionLeft && !touchingOptionLeft.classList.contains('touch') && State.allowTouchWord) {
+          if (this.leftLoadingValue < 100) {
+            this.leftLoadingValue += 2;
+            console.log("left", this.leftLoadingValue);
+            Game.trackingWord(this.leftLoadingValue, "Left");
+          } else {
+            touchingWord.push(touchingOptionLeft);
+            this.leftLoadingValue = 0;
+            Game.trackingWord(this.leftLoadingValue, "Left");
+          }
+        } else {
+          this.leftLoadingValue = 0;
+          Game.trackingWord(this.leftLoadingValue, "Left");
         }
 
         for (let option of optionWrappers) {
@@ -216,69 +244,6 @@ export class RendererCanvas2d {
         for (let option of optionWrappers) option.classList.remove('touch');
         State.changeState('playing', 'waitAns');
       }
-
-      //檢查有沒有面向鏡頭
-      /*let nose = pose.keypoints.find(k=>k.name=='nose' && k.score>passScore); //鼻尖
-      let left_ear = pose.keypoints.find(k=>k.name=='left_ear' && k.score>passScore); //左耳
-      let right_ear = pose.keypoints.find(k=>k.name=='right_ear' && k.score>passScore); //右耳
-      let left_eye = pose.keypoints.find(k=>k.name=='left_eye' && k.score>passScore); //左眼
-      let right_eye = pose.keypoints.find(k=>k.name=='right_eye' && k.score>passScore); //右眼
-      let left_shoulder = pose.keypoints.find(k=>k.name=='left_shoulder' && k.score>passScore); //膊頭
-      let right_shoulder = pose.keypoints.find(k=>k.name=='right_shoulder' && k.score>passScore); //膊頭
-
-      let isBodyNotFaceCam = (
-        Camera.constraints.video.facingMode=='user' ? (
-          (nose && left_ear && left_ear.x > nose.x) || //面部左轉
-          (nose && right_ear && right_ear.x < nose.x) || //面部右轉
-          (left_eye && right_eye && right_eye.x < left_eye.x) || //面部背各鏡頭
-          (left_shoulder && right_shoulder && right_shoulder.x < left_shoulder.x) //膊頭背各鏡頭
-        ) : (
-          (nose && left_ear && left_ear.x < nose.x) || //面部左轉
-          (nose && right_ear && right_ear.x > nose.x) || //面部右轉
-          (left_eye && right_eye && right_eye.x > left_eye.x) ||
-          (left_shoulder && right_shoulder && right_shoulder.x > left_shoulder.x)
-        )
-      );
-      State.setPoseState('bodyFaceCam', !isBodyNotFaceCam);
-      if (isBodyNotFaceCam) {
-        if (State.state=='playing') State.changeState('outBox', 'face');
-        //console.log('outBox', 'face');
-        return false;
-      }*/
-
-      //檢查有沒有舉高手
-      /*let left_elbow = pose.keypoints.find(k=>k.name=='left_elbow' && k.score>passScore); //手踭
-      let left_wrist = pose.keypoints.find(k=>k.name=='left_wrist' && k.score>passScore); //手腕
-      let right_elbow = pose.keypoints.find(k=>k.name=='right_elbow' && k.score>passScore); //手踭
-      let right_wrist = pose.keypoints.find(k=>k.name=='right_wrist' && k.score>passScore); //手腕
-      let isBodyHandsUp = (
-        (left_elbow && left_wrist && left_wrist.y < left_elbow.y) || //手腕高過手踭
-        (right_elbow && right_wrist && right_wrist.y < right_elbow.y) ||
-        (left_elbow && left_shoulder && left_shoulder.y > left_elbow.y) || //手踭高過膊頭
-        (right_elbow && right_shoulder && right_shoulder.y > right_elbow.y)
-      );
-      State.setPoseState('bodyHandsUp', isBodyHandsUp);
-      if (isBodyHandsUp) {
-        if (State.state=='playing') State.changeState('outBox', 'hand');
-        //console.log('outBox', 'hand');
-        return false;
-      }*/
-
-      //檢查是否踎低
-      /*let left_hip = pose.keypoints.find(k=>k.name=='left_hip' && k.score>passScore); //腰
-      let right_hip = pose.keypoints.find(k=>k.name=='right_hip' && k.score>passScore); //腰
-      let left_knee = pose.keypoints.find(k=>k.name=='left_knee' && k.score>passScore); //膝頭
-      let right_knee = pose.keypoints.find(k=>k.name=='right_knee' && k.score>passScore); //膝頭
-      let isBodySit = (
-        (left_shoulder && left_hip && left_knee && ((left_knee.y - left_hip.y) < ((left_hip.y - left_shoulder.y) * 0.5))) ||
-        (right_shoulder && right_hip && right_knee && ((right_knee.y - right_hip.y) < ((right_hip.y - right_shoulder.y) * 0.5)))
-      );
-      State.setPoseState('bodySit', isBodySit);
-      if (isBodySit) {
-        if (State.state=='playing') State.changeState('outBox', 'sit');
-        //console.log('outBox', 'sit');
-        return false;
-      }*/
 
       return true;
     } else {

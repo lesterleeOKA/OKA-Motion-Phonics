@@ -9,6 +9,7 @@ export default {
   stateLastFor: 0,
   stateType: '',
   isSoundOn: true,
+  allowTouchWord: true,
   gamePauseData: {
     state: '',
     stateType: '',
@@ -117,10 +118,11 @@ export default {
             Sound.play('ansWrong');
           }
           this.changeState('playing', 'wrong');
-
+          this.allowTouchWord = false;
           setTimeout(() => {
             this.setPoseState('selectedImg', '');
             Game.resetFillWord();
+            this.allowTouchWord = true;
           }, 1000);
           break;
         case 'ansCorrect':
@@ -129,11 +131,11 @@ export default {
             Sound.play('ansCorrect');
           }
           this.changeState('playing', 'waitAns');
-
+          this.allowTouchWord = false;
           setTimeout(() => {
             this.setPoseState('selectedImg', '');
-            if (state == 'playing')
-              Game.moveToNextQuestion();
+            if (state == 'playing') Game.moveToNextQuestion();
+            this.allowTouchWord = true;
           }, 1000);
           break;
       }

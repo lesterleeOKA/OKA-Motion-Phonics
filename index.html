@@ -47,8 +47,24 @@
     </video>
     <div class="optionArea"></div>
 
-    <img id="right-hand" src="./src/images/phonics/ui_lefthand.png" class="handCursor" />
-    <img id="left-hand" src="./src/images/phonics/ui_righthand.png" class="handCursor" />
+    <div id="right-hand" class="handCursor">
+      <img src="./src/images/phonics/ui_lefthand.png" class="handCursorImage"/>
+      <div class="progress-container">
+        <svg class="progress-bar" id="progressBarRight">
+          <rect x="0" y="0" width="0" height="100%" fill="#4CAF50" rx="10" ry="10" />
+        </svg>
+      </div>
+    </div>
+
+    <div id="left-hand" class="handCursor">
+      <img src="./src/images/phonics/ui_righthand.png" class="handCursorImage"/>
+      <div class="progress-container">
+        <svg class="progress-bar" id="progressBarLeft">
+          <rect x="0" y="0" width="0" height="100%" fill="#4CAF50" rx="10" ry="10" />
+        </svg>
+      </div>
+    </div>
+
   </div>
 
   <div class="instructionWrapper">

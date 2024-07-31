@@ -75,6 +75,29 @@ export default {
     this.starNum = 0;
   },
 
+  getProgressColor(value) {
+    if (value < 50) {
+      return "#4CAF50"; // Green
+    } else if (value < 80) {
+      return "#FFC107"; // Yellow
+    } else {
+      return "#E53935"; // Red
+    }
+  },
+  trackingWord(value, hand) {
+    var elementName = "progressBar" + hand;
+    // console.log(elementName);
+    const progressBar = document.getElementById(elementName);
+    const progressRect = progressBar.getElementsByTagName("rect")[0];
+
+    // Map the value to a percentage (0-100)
+    const percentage = Math.min(Math.max(value, 0), 100);
+
+    // Update the width and color of the progress bar
+    progressRect.setAttribute("width", `${percentage}%`);
+    progressRect.setAttribute("fill", "#4CAF50");
+  },
+
   addScore(mark) {
     let newScore = this.score + mark;
 
@@ -83,19 +106,13 @@ export default {
 
     if (newScore >= 30 && newScore < 60) {
       this.starNum = 1;
-      //const star1 = document.getElementById("star1");
-      //star1.classList.add('show');
       View.showSuccess();
     }
     else if (newScore >= 60 && newScore <= 90) {
       this.starNum = 2;
-      //const star2 = document.getElementById("star2");
-      //star2.classList.add('show');
     }
     else if (newScore > 90) {
       this.starNum = 3;
-      //const star3 = document.getElementById("star3");
-      //star3.classList.add('show');
     }
     else {
       View.showFailure();
@@ -103,7 +120,6 @@ export default {
 
     this.score = newScore;
     View.scoreText.innerText = this.score;
-    //View.finishedScore.innerText = this.score;
   },
   countUp(end, duration) {
     let startTime = null;

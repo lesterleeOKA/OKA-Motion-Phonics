@@ -11,6 +11,21 @@
   width: calc(min(10vh, 10vw));
   height: auto;
 }
+.canvasWrapper > .handCursor > .handCursorImage{
+  width: calc(min(10vh, 10vw));
+  height: auto;
+}
+
+.progress-container {
+  background-color: #f0f0f0;
+  border-radius: calc(min(2vh, 2vw));
+  height: 20px;
+}
+.progress-bar {
+  transition: width 0.25s ease-in-out;
+  height: 20px;
+  width: 100%;
+}
 
 .canvasWrapper > .optionArea {
   position: absolute;
