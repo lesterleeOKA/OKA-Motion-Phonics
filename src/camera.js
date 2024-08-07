@@ -56,8 +56,8 @@ export default {
   },
 
   initSetup() {
-    videoStream.width = 640;
-    videoStream.height = 480;
+    videoStream.width = this.constraints['video'].width;
+    videoStream.height = this.constraints['video'].height;
     this.setup();
   },
 
