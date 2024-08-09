@@ -175,7 +175,6 @@ export class RendererCanvas2d {
                 Sound.play('btnClick');
               }
               resetBtn.classList.add('active');
-              for (let option of optionWrappers) option.classList.remove('touch');
               Game.resetFillWord();
               //console.log("reset word");
             } else {

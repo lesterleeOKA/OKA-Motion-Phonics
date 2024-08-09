@@ -588,6 +588,8 @@ export default {
     }
   },
   resetFillWord() {
+    let optionWrappers = document.querySelectorAll('.canvasWrapper > .optionArea > .optionWrapper.show');
+    for (let option of optionWrappers) option.classList.remove('touch');
     this.answerWrapper.classList.remove('correct');
     this.answerWrapper.classList.remove('wrong');
     this.answerWrapper.textContent = '';
