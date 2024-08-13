@@ -32,8 +32,8 @@
 .gameWrapper > .prepareBoardWrapper >.prepareTitle {
   position: absolute;
   bottom: 78%;
-  font-family: 'BoinkLETPlain', sans-serif;
-  font-weight: normal;
+  font-family: 'PoetsenOne', sans-serif;
+  font-weight: 100;
   font-size: calc(min(4.5vh, 4.5vw));
   color: #fff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
@@ -43,8 +43,8 @@
 .gameWrapper > .prepareBoardWrapper >.rule {
   position: absolute;
   top: 43%;
-  font-family: "Arzachel", system-ui;
-  font-weight: bold;
+  font-family: 'PoetsenOne', sans-serif;
+  font-weight: 100;
   font-size: calc(min(2vh, 2vw));
   color: #4b3002;
   pointer-events: none;
@@ -57,8 +57,8 @@
 .gameWrapper > .prepareBoardWrapper >.rule-1 {
   position: absolute;
   top: 30%;
-  font-family: "Arzachel", system-ui;
-  font-weight: bold;
+  font-family: 'PoetsenOne', sans-serif;
+  font-weight: 100;
   font-size: calc(min(2.5vh, 2.5vw));
   color: #391d02;
   pointer-events: none;
@@ -70,8 +70,8 @@
 .gameWrapper > .prepareBoardWrapper >.rule-2 {
   position: absolute;
   top: 45%;
-  font-family: "Arzachel", system-ui;
-  font-weight: bold;
+  font-family: 'PoetsenOne', sans-serif;
+  font-weight: 100;
   font-size: calc(min(2.5vh, 2.5vw));
   color: #391d02;
   pointer-events: none;
@@ -83,8 +83,8 @@
 .gameWrapper > .prepareBoardWrapper >.rule-3 {
   position: absolute;
   top: 70%;
-  font-family: "Arzachel", system-ui;
-  font-weight: bold;
+  font-family: 'PoetsenOne', sans-serif;
+  font-weight: 100;
   font-size: calc(min(2.5vh, 2.5vw));
   color: #391d02;
   pointer-events: none;
@@ -274,6 +274,11 @@
   src: url('../font/BoinkLETPlain.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+}
+
+@font-face {
+  font-family: 'PoetsenOne';
+  src: url('../font/PoetsenOne-Regular.ttf') format('truetype');
 }
 /*-----------------------------------------------------------------------------------------------*/
 .gameWrapper > .topRightControl {
@@ -483,3 +488,4 @@
   margin: 0 auto;
   margin-left: calc(min(0.2vh, 0.2vw));
 }
+

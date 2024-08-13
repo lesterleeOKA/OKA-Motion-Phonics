@@ -62,8 +62,9 @@
   transition: opacity 0.1s ease;
   text-align: center;
   font-size: calc(min(3.5vh, 3.5vw));
-  font-family: "Arzachel", system-ui;
-  font-weight: bolder;
+  /*font-family: "Arzachel", system-ui;*/
+  font-family: 'PoetsenOne', sans-serif;
+  font-weight: 100;
   width: calc(min(30.7vh, 30.7vw));
   color: rgb(149, 104, 27);
   height: auto;
@@ -107,8 +108,9 @@
   background-color: rgb(192 134 97);
   border-radius: 4%;
   font-size: calc(min(3.5vh, 3.5vw));
-  font-family: "Arzachel", system-ui;
-  font-weight: bolder;
+  /*font-family: "Arzachel", system-ui;*/
+  font-family: 'PoetsenOne', sans-serif;
+  font-weight: 100;
   width: calc(min(30.7vh, 30.7vw));
   height: calc(min(4.7vh, 4.7vw));
   color: white;
@@ -123,8 +125,9 @@
   text-align: center;
   font-size: var(--question-font-size);
   line-height: 3.5vh;
-  font-family: "Arzachel", system-ui;
-  font-weight: bolder;
+  /*font-family: "Arzachel", system-ui;*/
+  font-family: 'PoetsenOne', sans-serif;
+  font-weight: 100;
   width: calc(min(30.7vh, 30.7vw));
   height: calc(min(26vh, 26vw));
   color: rgb(192 134 97);
@@ -161,8 +164,9 @@
   /*background-color: rgb(192 134 97);
   border-radius: 4%;*/
   font-size: calc(min(3.5vh, 3.5vw));
-  font-family: "Arzachel", system-ui;
-  font-weight: bolder;
+  /*font-family: "Arzachel", system-ui;*/
+  font-family: 'PoetsenOne', sans-serif;
+  font-weight: 100;
   width: calc(min(30.7vh, 30.7vw));
   /*height: calc(min(4.7vh, 4.7vw));*/
   color: white;
@@ -207,8 +211,9 @@
   height: 90%;
   text-align: center;
   font-size: var(--font-size);
-  font-family: "Arzachel", system-ui;
-  font-weight: bolder;
+  /*font-family: "Arzachel", system-ui;*/
+  font-family: 'PoetsenOne', sans-serif;
+  font-weight: 100;
   background: transparent;
   border: none;
   color: white;
@@ -341,4 +346,9 @@
 @keyframes p {
   from{--p:0}
   to{--p:100}
+}
+
+@font-face {
+  font-family: 'PoetsenOne';
+  src: url('../font/PoetsenOne-Regular.ttf') format('truetype');
 }

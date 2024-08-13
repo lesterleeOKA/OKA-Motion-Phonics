@@ -101,7 +101,7 @@ export class RendererCanvas2d {
           keypoint.y < this.redBoxY ||
           keypoint.y > (this.redBoxY + this.redBoxHeight)
         )) ? true : false
-      );*/
+      );
 
       if (this.center_shoulder) {
         isBodyOutBox = ((this.center_shoulder.x < this.redBoxX ||
@@ -111,6 +111,37 @@ export class RendererCanvas2d {
       }
       else {
         isBodyOutBox = false;
+      }*/
+
+      if (this.center_shoulder) {
+        const isShoulderOutBox = (
+          this.center_shoulder.x < this.redBoxX ||
+          this.center_shoulder.x > (this.redBoxX + this.redBoxWidth) ||
+          this.center_shoulder.y < this.redBoxY ||
+          this.center_shoulder.y > (this.redBoxY + this.redBoxHeight)
+        );
+
+        const isNoseOutBox = pose.keypoints
+          .filter(k => k.name === 'nose' && k.score > passScore)
+          .some(keypoint =>
+            keypoint.x < this.redBoxX ||
+            keypoint.x > (this.redBoxX + this.redBoxWidth) ||
+            keypoint.y < this.redBoxY ||
+            keypoint.y > (this.redBoxY + this.redBoxHeight)
+          );
+
+        isBodyOutBox = isShoulderOutBox && isNoseOutBox;
+      } else {
+        const isNoseOutBox = pose.keypoints
+          .filter(k => k.name === 'nose' && k.score > passScore)
+          .some(keypoint =>
+            keypoint.x < this.redBoxX ||
+            keypoint.x > (this.redBoxX + this.redBoxWidth) ||
+            keypoint.y < this.redBoxY ||
+            keypoint.y > (this.redBoxY + this.redBoxHeight)
+          );
+
+        isBodyOutBox = isNoseOutBox;
       }
 
       State.setPoseState('bodyInsideRedBox', !isBodyOutBox);
@@ -202,7 +233,7 @@ export class RendererCanvas2d {
 
         if (isInOptionRight && touchingOptionRight && !touchingOptionRight.classList.contains('touch') && State.allowTouchWord) {
           if (this.rightLoadingValue < 100) {
-            this.rightLoadingValue += 2;
+            this.rightLoadingValue += 4;
             console.log("right", this.rightLoadingValue);
             Game.trackingWord(this.rightLoadingValue, "Right");
           } else {
@@ -217,7 +248,7 @@ export class RendererCanvas2d {
 
         if (isInOptionLeft && touchingOptionLeft && !touchingOptionLeft.classList.contains('touch') && State.allowTouchWord) {
           if (this.leftLoadingValue < 100) {
-            this.leftLoadingValue += 2;
+            this.leftLoadingValue += 4;
             console.log("left", this.leftLoadingValue);
             Game.trackingWord(this.leftLoadingValue, "Left");
           } else {
