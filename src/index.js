@@ -198,12 +198,14 @@ function init() {
         }, 100);
         break;
       case View.musicBtn:
-        if (State.isSoundOn) {
-          Sound.play('btnClick');
+        if (State.state !== 'showMusicOnOff') {
+          if (State.isSoundOn) {
+            Sound.play('btnClick');
+          }
+          State.gamePauseData.state = State.state;
+          State.gamePauseData.stateType = State.stateType;
+          State.changeState('showMusicOnOff');
         }
-        State.gamePauseData.state = State.state;
-        State.gamePauseData.stateType = State.stateType;
-        State.changeState('showMusicOnOff');
         //toggleSound();
         break;
       case View.instructionBtn:
