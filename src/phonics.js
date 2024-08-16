@@ -99,6 +99,7 @@ export default {
   },
 
   addScore(mark) {
+    let currentScore = this.score;
     let newScore = this.score + mark;
 
     if (newScore < 0)
@@ -119,26 +120,38 @@ export default {
     }
 
     this.score = newScore;
-    View.scoreText.innerText = this.score;
+    //View.scoreText.innerText = this.score;
+    this.countUp(View.scoreText, currentScore, this.score, 1000);
   },
-  countUp(end, duration) {
+  countUp(displayElement, start, end, duration) {
     let startTime = null;
+    let lastSoundTime = 0;
+    const soundInterval = 200;
 
     function animate(timestamp) {
       if (!startTime) {
         startTime = timestamp;
+        displayElement.style.color = 'yellow';
       }
       const progress = timestamp - startTime;
-      const current = Math.min(Math.floor((progress / duration) * (end - 0) + 0), end);
-      View.finishedScore.innerText = current;
+      // Calculate the current value based on the start value
+      const current = Math.min(Math.floor((progress / duration) * (end - start) + start), end);
+      displayElement.innerText = current;
 
       if (current < end) {
+        if (State.isSoundOn && (timestamp - lastSoundTime >= soundInterval)) {
+          Sound.play('score');
+          lastSoundTime = timestamp; // Update the last sound time
+        }
         requestAnimationFrame(animate);
       }
+      else {
+        displayElement.style.color = 'white';
+      }
     }
-
     requestAnimationFrame(animate);
   },
+
   showFinalStars() {
     const delayPerStar = 200;
     const star1 = document.getElementById("star1");

@@ -174,7 +174,7 @@ export default {
           //console.log("Play.........................f");
         }
       }
-      Game.countUp(Game.score, 2000);
+      Game.countUp(View.finishedScore, 0, Game.score, 2000);
       Game.showFinalStars();
       Game.stopCountTime();
       return;

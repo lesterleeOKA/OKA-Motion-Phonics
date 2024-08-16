@@ -233,7 +233,7 @@ export class RendererCanvas2d {
 
         if (isInOptionRight && touchingOptionRight && !touchingOptionRight.classList.contains('touch') && State.allowTouchWord) {
           if (this.rightLoadingValue < 100) {
-            this.rightLoadingValue += 4;
+            this.rightLoadingValue += 5;
             console.log("right", this.rightLoadingValue);
             Game.trackingWord(this.rightLoadingValue, "Right");
           } else {
@@ -248,7 +248,7 @@ export class RendererCanvas2d {
 
         if (isInOptionLeft && touchingOptionLeft && !touchingOptionLeft.classList.contains('touch') && State.allowTouchWord) {
           if (this.leftLoadingValue < 100) {
-            this.leftLoadingValue += 4;
+            this.leftLoadingValue += 5;
             console.log("left", this.leftLoadingValue);
             Game.trackingWord(this.leftLoadingValue, "Left");
           } else {
