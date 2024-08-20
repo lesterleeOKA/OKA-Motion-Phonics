@@ -167,23 +167,20 @@ export class RendererCanvas2d {
         const rightHandImg = document.getElementById('right-hand');
         const leftHandImg = document.getElementById('left-hand');
 
-        if (checkKeypoints.length === 0) {
-          // Disable both hand images
-          rightHandImg.style.display = 'none';
-          leftHandImg.style.display = 'none';
-        } else {
-          for (let point of checkKeypoints) {
-            if (point.name === 'right_index') {
-              const xInVw = (point.x / window.innerWidth) * 100;
-              rightHandImg.style.left = `calc(${xInVw}vw - calc(min(3vh, 3vw)))`;
-              rightHandImg.style.top = `${point.y}px`;
-              rightHandImg.style.display = 'block';
-            } else if (point.name === 'left_index') {
-              const xInVw = (point.x / window.innerWidth) * 100;
-              leftHandImg.style.left = `calc(${xInVw}vw - calc(min(3vh, 3vw)))`;
-              leftHandImg.style.top = `${point.y}px`;
-              leftHandImg.style.display = 'block';
-            }
+        rightHandImg.style.display = 'none';
+        leftHandImg.style.display = 'none';
+
+        for (let point of checkKeypoints) {
+          if (point.name === 'right_index') {
+            const xInVw = (point.x / window.innerWidth) * 100;
+            rightHandImg.style.left = `calc(${xInVw}vw - calc(min(3vh, 3vw)))`;
+            rightHandImg.style.top = `${point.y}px`;
+            rightHandImg.style.display = 'block';
+          } else if (point.name === 'left_index') {
+            const xInVw = (point.x / window.innerWidth) * 100;
+            leftHandImg.style.left = `calc(${xInVw}vw - calc(min(3vh, 3vw)))`;
+            leftHandImg.style.top = `${point.y}px`;
+            leftHandImg.style.display = 'block';
           }
         }
 
