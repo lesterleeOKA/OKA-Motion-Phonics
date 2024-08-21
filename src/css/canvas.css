@@ -61,7 +61,7 @@
   transform: translate(-50%, 50%);
   transition: opacity 0.1s ease;
   text-align: center;
-  font-size: calc(min(3.5vh, 3.5vw));
+  font-size: calc(min(4.5vh, 4.5vw));
   /*font-family: "Arzachel", system-ui;*/
   font-family: 'PoetsenOne', sans-serif;
   font-weight: 100;
@@ -107,7 +107,7 @@
   text-align: center;
   background-color: rgb(192 134 97);
   border-radius: 4%;
-  font-size: calc(min(3.5vh, 3.5vw));
+  font-size: calc(min(4.5vh, 4.5vw));
   /*font-family: "Arzachel", system-ui;*/
   font-family: 'PoetsenOne', sans-serif;
   font-weight: 100;

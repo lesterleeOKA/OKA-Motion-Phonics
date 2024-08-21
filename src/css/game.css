@@ -224,6 +224,45 @@
   text-shadow: calc(min(0.2vh, 0.2vw)) calc(min(0.2vh, 0.2vw)) #000;
 }
 /*-----------------------------------------------------------------------------------------------*/
+.gameWrapper > .topLeftControl > .scoreWrapper > .playerText {
+  position: absolute;
+  color: #3cadee;
+  font-size: calc(min(2.8vh, 2.8vw));
+  top: calc(min(0.5vh, 0.5vw));
+  right: calc(min(7.2vh, 7.2vw));
+  font-family: 'BoinkLETPlain', sans-serif;
+  font-weight: normal;
+}
+/*-----------------------------------------------------------------------------------------------*/
+.gameWrapper > .topLeftControl > .scoreWrapper > .playerIcon {
+  position: absolute;
+  top: calc(min(2vh, 2vw));
+  right: calc(min(11vh, 11vw));
+  width: calc(min(8.2vh, 8.2vw));
+  height: auto;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gameWrapper > .topLeftControl > .scoreWrapper > .playerIcon img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+/*-----------------------------------------------------------------------------------------------*/
+.gameWrapper > .topLeftControl > .scoreWrapper > .scoreText {
+  position: absolute;
+  color: #fff;
+  font-size: calc(min(3.5vh, 3.5vw));
+  top: calc(min(4vh, 4vw));
+  right: calc(min(5.7vh, 5.7vw));
+  font-family: 'BoinkLETPlain', sans-serif;
+  font-weight: normal;
+  text-shadow: calc(min(0.2vh, 0.2vw)) calc(min(0.2vh, 0.2vw)) #000;
+}
+/*-----------------------------------------------------------------------------------------------*/
 .gameWrapper > .topLeftControl > .timeWrapper {
   position: relative;
 }
