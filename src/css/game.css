@@ -221,7 +221,7 @@
   right: calc(min(5.7vh, 5.7vw));
   font-family: 'BoinkLETPlain', sans-serif;
   font-weight: normal;
-  text-shadow: calc(min(0.3vh, 0.3vw)) calc(min(0.3vh, 0.3vw)) #000;
+  text-shadow: calc(min(0.2vh, 0.2vw)) calc(min(0.2vh, 0.2vw)) #000;
 }
 /*-----------------------------------------------------------------------------------------------*/
 .gameWrapper > .topLeftControl > .timeWrapper {
@@ -241,7 +241,7 @@
   right: calc(min(5vh, 5vw));
   font-family: 'BoinkLETPlain', sans-serif;
   font-weight: normal;
-  text-shadow: calc(min(0.3vh, 0.3vw)) calc(min(0.3vh, 0.3vw)) #000;
+  text-shadow: calc(min(0.2vh, 0.2vw)) calc(min(0.2vh, 0.2vw)) #000;
   scale: 1;
 }
 .gameWrapper > .topLeftControl > .timeWrapper > .timeText.lastTen {

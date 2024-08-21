@@ -66,7 +66,7 @@
   font-family: 'PoetsenOne', sans-serif;
   font-weight: 100;
   width: calc(min(30.7vh, 30.7vw));
-  color: rgb(149, 104, 27);
+  color: rgb(98 48 16);
   height: auto;
   white-space: normal;
   line-height: 1.2;
@@ -130,7 +130,7 @@
   font-weight: 100;
   width: calc(min(30.7vh, 30.7vw));
   height: calc(min(26vh, 26vw));
-  color: rgb(192 134 97);
+  color: rgb(98 48 16);
   display: flex;
   flex-direction: column;
   justify-content: center;
