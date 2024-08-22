@@ -30,6 +30,7 @@ export default {
   eachQAMark: 0,
   isPlayLastTen: false,
   starNum: 0,
+  touchResetBtn: false,
 
 
   init() {
@@ -73,6 +74,7 @@ export default {
     }
     this.isPlayLastTen = false;
     this.starNum = 0;
+    this.touchResetBtn = false;
   },
 
   getProgressColor(value) {
@@ -343,7 +345,7 @@ export default {
     if (isLeft) {
       return {
         x: Math.round(this.getRandomInt(0, this.redBoxX - this.optionSize)),
-        y: Math.round(this.getRandomInt(150, View.canvas.height - this.optionSize)),
+        y: Math.round(this.getRandomInt(150, View.canvas.height - (this.optionSize * 2))),
         id,
       }
     }
@@ -351,7 +353,7 @@ export default {
       return {
         x: Math.round(this.getRandomInt((this.redBoxX + this.redBoxWidth) + this.optionSize,
           View.canvas.width - this.optionSize)),
-        y: Math.round(this.getRandomInt(150, View.canvas.height - this.optionSize)),
+        y: Math.round(this.getRandomInt(150, View.canvas.height - (this.optionSize * 2))),
         id,
       }
     }
@@ -542,29 +544,23 @@ export default {
     }
 
     resetTouchBtn.addEventListener('mousedown', () => {
-      resetTouchBtn.classList.add('active');
-      if (State.isSoundOn) {
-        Sound.stopAll(['bgm', 'lastTen']);
-        Sound.play('btnClick');
-      }
-      this.resetFillWord();
+      this.touchResetBtn = true;
+      this.resetFillWord(resetTouchBtn);
     });
 
     resetTouchBtn.addEventListener('mouseup', () => {
+      this.touchResetBtn = false;
       resetTouchBtn.classList.remove('active');
     });
     resetTouchBtn.addEventListener('touchstart', (event) => {
       event.preventDefault(); // Prevent default touch behavior
-      resetTouchBtn.classList.add('active');
-      if (State.isSoundOn) {
-        Sound.stopAll(['bgm', 'lastTen']);
-        Sound.play('btnClick');
-      }
-      this.resetFillWord();
+      this.touchResetBtn = true;
+      this.resetFillWord(resetTouchBtn);
     });
 
     resetTouchBtn.addEventListener('touchend', (event) => {
       event.preventDefault(); // Prevent default touch behavior
+      this.touchResetBtn = false;
       resetTouchBtn.classList.remove('active');
     });
 
@@ -600,13 +596,20 @@ export default {
       }
     }
   },
-  resetFillWord() {
-    let optionWrappers = document.querySelectorAll('.canvasWrapper > .optionArea > .optionWrapper.show');
-    for (let option of optionWrappers) option.classList.remove('touch');
-    this.answerWrapper.classList.remove('correct');
-    this.answerWrapper.classList.remove('wrong');
-    this.answerWrapper.textContent = '';
-    this.fillwordTime = 0;
+  resetFillWord(resetBtn = null, playResetSound = true) {
+    if (this.answerWrapper.textContent !== '') {
+      if (resetBtn) resetBtn.classList.add('active');
+      if (State.isSoundOn && playResetSound) {
+        Sound.stopAll(['bgm', 'lastTen']);
+        Sound.play('btnClick');
+      }
+      let optionWrappers = document.querySelectorAll('.canvasWrapper > .optionArea > .optionWrapper.show');
+      for (let option of optionWrappers) option.classList.remove('touch');
+      this.answerWrapper.classList.remove('correct');
+      this.answerWrapper.classList.remove('wrong');
+      this.answerWrapper.textContent = '';
+      this.fillwordTime = 0;
+    }
   },
   checkAnswer(answer) {
     if (this.answerWrapper) {
@@ -624,7 +627,7 @@ export default {
     }
   },
   moveToNextQuestion() {
-    this.resetFillWord();
+    this.resetFillWord(null, false);
     this.nextQuestion = true;
     View.optionArea.innerHTML = '';
     View.stageImg.innerHTML = '';

@@ -3,7 +3,6 @@ import State from './state';
 import Sound from './sound';
 import Camera from './camera';
 import Game from './phonics';
-import { stat } from 'fs';
 
 
 export class RendererCanvas2d {
@@ -153,7 +152,8 @@ export class RendererCanvas2d {
       }
 
       let resetBtn = document.querySelector('.resetBtn');
-
+      const rightHandImg = document.getElementById('right-hand');
+      const leftHandImg = document.getElementById('left-hand');
 
       //檢查是否有選到圖
       let optionWrappers = document.querySelectorAll('.canvasWrapper > .optionArea > .optionWrapper.show');
@@ -161,25 +161,24 @@ export class RendererCanvas2d {
       if (State.state == 'playing' && ['waitAns'].includes(State.stateType)) {
 
         //console.log(pose.keypoints);
-        let checkKeypoints = pose.keypoints.filter(k => ['right_index', 'left_index'].includes(k.name) && k.score > passScore);
+        let checkKeypoints = pose.keypoints.filter(k => ['right_wrist', 'right_index', 'left_wrist', 'left_index'].includes(k.name) && k.score > passScore);
         let touchingWord = [];
-
-        const rightHandImg = document.getElementById('right-hand');
-        const leftHandImg = document.getElementById('left-hand');
 
         rightHandImg.style.display = 'none';
         leftHandImg.style.display = 'none';
 
         for (let point of checkKeypoints) {
-          if (point.name === 'right_index') {
-            const xInVw = (point.x / window.innerWidth) * 100;
+          if (point.name === 'right_wrist') {
+            const xInVw = (point.x / window.innerWidth) * 95;
             rightHandImg.style.left = `calc(${xInVw}vw - calc(min(3vh, 3vw)))`;
-            rightHandImg.style.top = `${point.y}px`;
+            rightHandImg.style.top = `${point.y - 130}px`;
             rightHandImg.style.display = 'block';
-          } else if (point.name === 'left_index') {
-            const xInVw = (point.x / window.innerWidth) * 100;
+          }
+
+          if (point.name === 'left_wrist') {
+            const xInVw = (point.x / window.innerWidth) * 105;
             leftHandImg.style.left = `calc(${xInVw}vw - calc(min(3vh, 3vw)))`;
-            leftHandImg.style.top = `${point.y}px`;
+            leftHandImg.style.top = `${point.y - 130}px`;
             leftHandImg.style.display = 'block';
           }
         }
@@ -188,50 +187,73 @@ export class RendererCanvas2d {
         let isInOptionLeft = false;
         let touchingOptionRight = null;
         let touchingOptionLeft = null;
+        let resetActive = false;
 
-        for (let point of checkKeypoints) {
-          //console.log(point);
-          if (resetBtn) {
-            if (
-              point.x > resetBtn.offsetLeft * 2 &&
-              point.x < (resetBtn.offsetLeft * 2 + resetBtn.offsetWidth * 2) &&
-              point.y > resetBtn.offsetTop &&
-              point.y < (resetBtn.offsetTop + resetBtn.offsetHeight)
-            ) {
-              if (State.isSoundOn) {
-                Sound.stopAll(['bgm', 'lastTen']);
-                Sound.play('btnClick');
-              }
-              resetBtn.classList.add('active');
-              Game.resetFillWord();
-              //console.log("reset word");
-            } else {
-              resetBtn.classList.remove('active');
-            }
+        const rightHandLeft = rightHandImg.offsetLeft;
+        const rightHandTop = rightHandImg.offsetTop;
+        const rightHandWidth = rightHandImg.offsetWidth;
+        const rightHandHeight = rightHandImg.offsetHeight;
+
+        const leftHandLeft = leftHandImg.offsetLeft;
+        const leftHandTop = leftHandImg.offsetTop;
+        const leftHandWidth = leftHandImg.offsetWidth;
+        const leftHandHeight = leftHandImg.offsetHeight;
+
+        for (let option of optionWrappers) {
+          // Check if right hand is over the option
+          if (rightHandImg.style.display !== 'none' &&
+            rightHandLeft < (option.offsetLeft + option.offsetWidth) &&
+            (rightHandLeft + rightHandWidth) > option.offsetLeft &&
+            rightHandTop < (option.offsetTop + option.offsetHeight) &&
+            (rightHandTop + rightHandHeight) > option.offsetTop
+          ) {
+            isInOptionRight = true;
+            touchingOptionRight = option;
           }
 
-          for (let option of optionWrappers) {
-            if (
-              point.x > option.offsetLeft &&
-              point.x < (option.offsetLeft + option.offsetWidth) &&
-              point.y > option.offsetTop &&
-              point.y < (option.offsetTop + option.offsetHeight)
-            ) {
-              if (point.name === 'right_index') {
-                isInOptionRight = true;
-                touchingOptionRight = option;
-              } else if (point.name === 'left_index') {
-                isInOptionLeft = true;
-                touchingOptionLeft = option;
-              }
+          // Check if left hand is over the option
+          if (leftHandImg.style.display !== 'none' &&
+            leftHandLeft < (option.offsetLeft + option.offsetWidth) &&
+            (leftHandLeft + leftHandWidth) > option.offsetLeft &&
+            leftHandTop < (option.offsetTop + option.offsetHeight) &&
+            (leftHandTop + leftHandHeight) > option.offsetTop
+          ) {
+            isInOptionLeft = true;
+            touchingOptionLeft = option;
+          }
+        }
+
+        if (resetBtn) {
+          for (let point of checkKeypoints) {
+            //console.log(point);
+            switch (point.name) {
+              case 'right_wrist':
+              case 'left_wrist':
+                const offsetX = (window.innerWidth / 7.68); // 10% of the viewport width
+                console.log("offsetX: ", offsetX);
+                if (
+                  point.x > resetBtn.offsetLeft * 2 + offsetX &&
+                  point.x < (resetBtn.offsetLeft * 2 + resetBtn.offsetWidth * 2) + (offsetX / 2) &&
+                  point.y - 30 > resetBtn.offsetTop &&
+                  point.y - 130 < (resetBtn.offsetTop + resetBtn.offsetHeight
+                  )
+                ) {
+                  Game.resetFillWord(resetBtn);
+                  resetActive = true;
+                }
+                break;
+            }
+
+            if (!resetActive && resetBtn.classList.contains('active') && !Game.touchResetBtn) {
+              resetBtn.classList.remove('active');
             }
           }
         }
 
         if (isInOptionRight && touchingOptionRight && !touchingOptionRight.classList.contains('touch') && State.allowTouchWord) {
           if (this.rightLoadingValue < 100) {
-            this.rightLoadingValue += 5;
-            console.log("right", this.rightLoadingValue);
+            this.rightLoadingValue += 8;
+            //console.log("right", this.rightLoadingValue);
             Game.trackingWord(this.rightLoadingValue, "Right");
           } else {
             touchingWord.push(touchingOptionRight);
@@ -245,8 +267,8 @@ export class RendererCanvas2d {
 
         if (isInOptionLeft && touchingOptionLeft && !touchingOptionLeft.classList.contains('touch') && State.allowTouchWord) {
           if (this.leftLoadingValue < 100) {
-            this.leftLoadingValue += 5;
-            console.log("left", this.leftLoadingValue);
+            this.leftLoadingValue += 8;
+            //console.log("left", this.leftLoadingValue);
             Game.trackingWord(this.leftLoadingValue, "Left");
           } else {
             touchingWord.push(touchingOptionLeft);
@@ -414,8 +436,6 @@ export class RendererCanvas2d {
         this.ctx.stroke(circle);
       }
     }
-
-
 
   }
 

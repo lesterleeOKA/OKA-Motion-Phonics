@@ -12,14 +12,18 @@
   height: auto;
 }
 .canvasWrapper > .handCursor > .handCursorImage{
+  position:absolute;
   width: calc(min(10vh, 10vw));
   height: auto;
+  z-index: 1;
 }
 
 .progress-container {
+  position: absolute;
   background-color: #f0f0f0;
   border-radius: calc(min(2vh, 2vw));
   height: 20px;
+  top: calc(min(11vh, 11vw));
 }
 .progress-bar {
   transition: width 0.25s ease-in-out;
@@ -61,7 +65,7 @@
   transform: translate(-50%, 50%);
   transition: opacity 0.1s ease;
   text-align: center;
-  font-size: calc(min(4.5vh, 4.5vw));
+  font-size: calc(min(4vh, 4vw));
   /*font-family: "Arzachel", system-ui;*/
   font-family: 'PoetsenOne', sans-serif;
   font-weight: 100;
@@ -86,16 +90,16 @@
   border: none;
 }
 .resetTextType{
-  top: 36%;
-  right: -4.5%;
+  top: 41%;
+  right: 35%;
 }
 .resetPictureType{
-  bottom: -10%;
-  right: -3.5%;
+  bottom: -13%;
+  right: 35%;
 }
 .resetAudioType{
   bottom: 30%;
-  right: -0.5%;
+  right: 35%;
 }
 
 .questionWrapper{

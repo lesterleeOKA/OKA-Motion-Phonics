@@ -136,7 +136,7 @@ export default {
             this.setPoseState('selectedImg', '');
             if (state == 'playing') Game.moveToNextQuestion();
             this.allowTouchWord = true;
-          }, 1000);
+          }, 1250);
           break;
       }
 
