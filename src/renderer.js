@@ -170,15 +170,17 @@ export class RendererCanvas2d {
         for (let point of checkKeypoints) {
           if (point.name === 'right_wrist') {
             const xInVw = (point.x / window.innerWidth) * 95;
+            const yInVw = (window.innerWidth / 12);
             rightHandImg.style.left = `calc(${xInVw}vw - calc(min(3vh, 3vw)))`;
-            rightHandImg.style.top = `${point.y - 130}px`;
+            rightHandImg.style.top = `${point.y - yInVw}px`;
             rightHandImg.style.display = 'block';
           }
 
           if (point.name === 'left_wrist') {
             const xInVw = (point.x / window.innerWidth) * 105;
+            const yInVw = (window.innerWidth / 12);
             leftHandImg.style.left = `calc(${xInVw}vw - calc(min(3vh, 3vw)))`;
-            leftHandImg.style.top = `${point.y - 130}px`;
+            leftHandImg.style.top = `${point.y - yInVw}px`;
             leftHandImg.style.display = 'block';
           }
         }
