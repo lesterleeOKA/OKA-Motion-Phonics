@@ -230,7 +230,7 @@ export class RendererCanvas2d {
               case 'right_wrist':
               case 'left_wrist':
                 const offsetX = (window.innerWidth / 7.68); // 10% of the viewport width
-                console.log("offsetX: ", offsetX);
+                //console.log("offsetX: ", offsetX);
                 if (
                   point.x > resetBtn.offsetLeft * 2 + offsetX &&
                   point.x < (resetBtn.offsetLeft * 2 + resetBtn.offsetWidth * 2) + (offsetX / 2) &&

@@ -84,6 +84,7 @@
   height: 25%;
   position: absolute;
   border: none;
+  z-index: 1;
 }
 .active {
   transform: scale(0.7);
