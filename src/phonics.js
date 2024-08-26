@@ -31,7 +31,7 @@ export default {
   isPlayLastTen: false,
   starNum: 0,
   touchResetBtn: false,
-
+  usableCells: null,
 
   init() {
     const { gameTime } = parseUrlParams();
@@ -75,6 +75,7 @@ export default {
     this.isPlayLastTen = false;
     this.starNum = 0;
     this.touchResetBtn = false;
+    this.usableCells = null;
   },
 
   getProgressColor(value) {
@@ -291,31 +292,58 @@ export default {
   createRandomPartWord(char, isLeft, optionImage, id = null, _optionWrapper = null) {
     if (char && char.length !== 0) {
       const localId = id || this.generateUniqueId();
-      let position = this.randPosition(isLeft, localId);
-      if (position) {
+      //let position = this.randPosition(isLeft, localId);
+      if (!this.usableCells) {
+        const grid = this.generateGrid();
+        this.usableCells = this.getUsableCells(grid);
+      }
+
+      const sideCells = isLeft ? this.usableCells.left : this.usableCells.right;
+      if (sideCells.length > 0) {
+        const randomIndex = this.getRandomInt(0, sideCells.length);
+        const randomCell = sideCells.splice(randomIndex, 1)[0];
         const word = char;
         const optionWrapper = _optionWrapper || this.createOptionWrapper(word, localId, optionImage);
         const newPartWord = {
-          x: position.x,
-          y: position.y,
+          x: randomCell.x,
+          y: randomCell.y,
           size: this.optionSize,
           word: word,
           optionWrapper,
           id: localId,
         };
         // Check for collisions with existing items
-        let collision = this.checkCollisionWithExistingItems(newPartWord);
+        /*let collision = this.checkCollisionWithExistingItems(newPartWord);
+        let attempts = 0;
+        const maxAttempts = 20;
+
+        while (collision && attempts < maxAttempts) {
+          this.wordParts = this.wordParts.filter((item) => item.id !== localId);
+          position = this.randPosition(isLeft, localId);
+          newPartWord.x = position.x;
+          newPartWord.y = position.y;
+          collision = this.checkCollisionWithExistingItems(newPartWord);
+          attempts++;
+        }
 
         if (!collision) {
           this.wordParts.push(newPartWord);
           this.renderPartItem(newPartWord);
         } else {
-          this.wordParts = this.wordParts.filter((item) => item.id !== localId);
-          position = this.randPosition(isLeft, localId);
-          newPartWord.x = position.x;
-          newPartWord.y = position.y;
-          this.createRandomPartWord(char, isLeft, optionImage, localId, optionWrapper);
-        }
+          //this.wordParts = this.wordParts.filter((item) => item.id !== localId);
+          console.warn('Could not find a valid position for the new part word.');
+          newPartWord.x = 0;
+          newPartWord.y = 0;
+          this.wordParts.push(newPartWord);
+          this.renderPartItem(newPartWord);
+          //this.createRandomPartWord(char, isLeft, optionImage, localId, optionWrapper);
+        }*/
+
+        this.wordParts.push(newPartWord);
+        this.renderPartItem(newPartWord);
+      }
+      else {
+        console.warn('No usable cells available for the new part word.');
       }
     }
   },
@@ -338,6 +366,25 @@ export default {
       item1.y + item1.size > item2.y
     );
   },
+
+  generateGrid() {
+    const cellSize = this.optionSize;
+    const margin = 15;
+    const grid = [];
+    for (let x = margin; x < View.canvas.width; x += cellSize + margin) {
+      for (let y = 150; y < View.canvas.height - (cellSize * 1.6); y += cellSize + margin) {
+        grid.push({ x, y });
+      }
+    }
+    return grid;
+  },
+
+  getUsableCells(grid) {
+    const leftCells = grid.filter(cell => cell.x < this.redBoxX - this.optionSize);
+    const rightCells = grid.filter(cell => cell.x > this.redBoxX + this.redBoxWidth && cell.x < View.canvas.width - this.optionSize);
+    return { left: leftCells, right: rightCells };
+  },
+
   getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   },
@@ -632,6 +679,7 @@ export default {
     View.optionArea.innerHTML = '';
     View.stageImg.innerHTML = '';
     this.wordParts.splice(0);
+    this.usableCells = null;
   }
 
 }
