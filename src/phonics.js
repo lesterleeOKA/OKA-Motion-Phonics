@@ -1,7 +1,6 @@
 import View from './view';
 import State from './state';
 import Sound from './sound';
-import { parseUrlParams } from "./level";
 import QuestionManager from './question';
 
 export default {
@@ -33,8 +32,7 @@ export default {
   touchResetBtn: false,
   usableCells: null,
 
-  init() {
-    const { gameTime } = parseUrlParams();
+  init(gameTime = null) {
     this.remainingTime = gameTime !== null ? gameTime : 60;
     this.updateTimerDisplay(this.remainingTime);
     this.randPositions = [];
@@ -501,8 +499,17 @@ export default {
     return pairs;
   },
 
+  getRandomAnswersPair(answers) {
+    var pairs = [];
+    for (let i = 0; i < answers.length; i++) {
+      pairs.push(answers[i]);
+    }
+    return pairs;
+  },
+
+
   randQuestion() {
-    if (this.questionField === null)
+    if (this.questionField === null || this.questionField === undefined)
       return null;
 
     let questions = this.questionField.QA;
@@ -510,11 +517,11 @@ export default {
       questions = questions.sort(() => Math.random() - 0.5);
       //console.log("questions", questions);
     }
-    const _type = questions[this.answeredNum].type;
+    const _type = questions[this.answeredNum].QuestionType;
     const _QID = questions[this.answeredNum].QID;
-    const _question = questions[this.answeredNum].question;
-    const _answers = questions[this.answeredNum].answers;
-    const _correctAnswer = questions[this.answeredNum].correctAnswer;
+    const _question = questions[this.answeredNum].Question;
+    const _answers = questions[this.answeredNum].Answers;
+    const _correctAnswer = questions[this.answeredNum].CorrectAnswer;
     const _media = questions[this.answeredNum].media;
 
     if (this.answeredNum < questions.length - 1) {
@@ -525,33 +532,53 @@ export default {
     }
     //console.log("answered count", this.answeredNum);
     return {
-      type: _type,
+      QuestionType: _type,
       QID: _QID,
-      question: _question,
-      answers: _answers,
-      correctAnswer: _correctAnswer,
-      media: _media,
+      Question: _question,
+      Answers: _answers,
+      CorrectAnswer: _correctAnswer,
+      Media: _media,
     };
   },
   setQuestions() {
     //console.log("this.redBoxWidth", this.redBoxWidth);
     this.questionWord = this.randQuestion();
-    const prefixSuffixPairs = this.generatePrefixesAndSuffixes(this.questionWord.question);
-    this.answerLength = prefixSuffixPairs.length;
-    this.randomPair = this.getRandomPair(prefixSuffixPairs);
+    if (this.questionWord.QuestionType === 'Pair') {
+      const prefixSuffixPairs = this.generatePrefixesAndSuffixes(this.questionWord.Question);
+      this.answerLength = prefixSuffixPairs.length;
+      this.randomPair = this.getRandomPair(prefixSuffixPairs);
+    }
+    else {
+      this.answerLength = 1;
+      this.randomPair = this.getRandomAnswersPair(this.questionWord.Answers);
+    }
+
     let questionBg = document.createElement('div');
     this.answerWrapper = document.createElement('span');
     let resetBtn = document.createElement('div');
     //resetBtn.classList.add('resetBtn');
     let resetTouchBtn = document.createElement('button');
     resetTouchBtn.classList.add('resetBtn');
+    let questionText = null;
 
-    switch (this.questionWord.type) {
+    switch (this.questionWord.QuestionType) {
+      case 'Text':
+        questionText = document.createElement('span');
+        questionBg.classList.add('questionImgBg');
+        questionText.classList.add('questionText');
+        questionText.textContent = this.questionWord.Question;
+        View.stageImg.appendChild(questionBg);
+        View.stageImg.appendChild(questionText);
+        //var fontSize = `calc(min(max(4vh, 6vh - ${this.questionWord.Question.length} * 0.1vh), 6vh))`;
+        //this.questionWrapper.style.setProperty('--question-font-size', fontSize);
+        this.answerWrapper.classList.add('pictureType');
+        resetTouchBtn.style.opacity = 0;
+        break;
       case 'Pair':
-        let questionText = document.createElement('span');
+        questionText = document.createElement('span');
         questionBg.classList.add('questionBg');
         questionText.classList.add('questionText');
-        questionText.textContent = this.questionWord.correctAnswer;
+        questionText.textContent = this.questionWord.CorrectAnswer;
         //this.questionWrapper.classList.add('questionWrapper');
         View.stageImg.appendChild(questionBg);
         View.stageImg.appendChild(questionText);
@@ -660,7 +687,7 @@ export default {
   },
   checkAnswer(answer) {
     if (this.answerWrapper) {
-      if (answer === this.questionWord.correctAnswer) {
+      if (answer === this.questionWord.CorrectAnswer) {
         //答岩1分，答錯唔扣分
         this.addScore(this.eachQAMark);
         this.answerWrapper.classList.add('correct');

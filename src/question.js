@@ -1,6 +1,6 @@
-import { parseUrlParams } from "./level";
 import Questions from '../static/json/questions.json';
 import { imageFiles } from './mediaFile';
+import { apiManager } from "./apiManager";
 
 const hostname = window.location.hostname;
 
@@ -24,10 +24,25 @@ const QuestionManager = {
     console.log("preloadedImagesItem", this.preloadedImagesItem);
   },
 
-  loadQuestionData: async function () {
+  loadQuestionData: async function (jwt = null, levelkey = null, onCompleted = null) {
     try {
-      let questionsJsonPath;
-      let questions;
+      await apiManager.postGameSetting(jwt, () => this.loadQuestionFromJson(levelkey, onCompleted));
+    } catch (error) {
+      console.error('Error loading JSON data:', error);
+    }
+  },
+
+  loadQuestionFromJson: async function (levelkey = null, onCompleted = null) {
+    let questionsJsonPath;
+    let questions;
+    var noAccountInfo = Object.keys(apiManager.accountJson).length === 0;
+    console.log("noAccountInfo", noAccountInfo);
+
+    if (apiManager.questionJson && !noAccountInfo) {
+      questions = apiManager.questionJson;
+      this.QUESTION_TYPE = { QA: questions };
+    }
+    else {
       console.log("hostname", hostname);
 
       if (hostname.includes('dev.openknowledge.hk') ||
@@ -50,15 +65,13 @@ const QuestionManager = {
       this.QUESTION_TYPE = {
         QA: questions.QA,
       };
-
-      this.loadQuestionType();
-    } catch (error) {
-      console.error('Error loading JSON data:', error);
     }
+
+    if (onCompleted) onCompleted();
+    this.loadQuestionType(levelkey);
   },
 
-  loadQuestionType: function () {
-    const { levelKey } = parseUrlParams();
+  loadQuestionType: function (levelKey) {
     let question = null;
     if (levelKey) {
       question = {
@@ -76,8 +89,11 @@ const QuestionManager = {
     if (this.preloadedImages !== null && this.preloadedImages !== undefined && this.preloadedImages.length > 0)
       this.preloadImagesFile();
 
-    console.log(this.questionField);
-  }
+    console.log("Filtered: ", this.questionField);
+  },
+
+
 };
 
 export default QuestionManager;
+

@@ -237,7 +237,7 @@
 .gameWrapper > .topLeftControl > .scoreWrapper > .playerIcon {
   position: absolute;
   top: calc(min(2vh, 2vw));
-  right: calc(min(11vh, 11vw));
+  right: calc(min(11.5vh, 11vw));
   width: calc(min(8.2vh, 8.2vw));
   height: auto;
   border-radius: 50%;
@@ -295,7 +295,7 @@
     color: #fff;
   }
   50% {
-    color: #ff0000;
+    color: #fffb00;
   }
 }
 
@@ -464,18 +464,36 @@
   width: calc(min(40vh, 40vw));
   filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.35));
   margin-left: calc(min(5vh, 5vw));
+  transform: scale(0);
 }
 .gameWrapper > .count.c0 {
   content: url(../images/phonics/ui_go.png);
+  animation: scaleUp 0.5s forwards;
+  opacity: 1;
 }
 .gameWrapper > .count.c1 {
   content: url(../images/phonics/ui_1.png);
+  animation: scaleUp 0.5s forwards;
+  opacity: 1;
 }
 .gameWrapper > .count.c2 {
   content: url(../images/phonics/ui_2.png);
+  animation: scaleUp 0.5s forwards;
+  opacity: 1;
 }
 .gameWrapper > .count.c3 {
   content: url(../images/phonics/ui_3.png);
+  animation: scaleUp 0.5s forwards;
+  opacity: 1;
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
 /*-----------------------------------------------------------------------------------------------*/

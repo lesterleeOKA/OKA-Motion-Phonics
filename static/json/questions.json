@@ -2,603 +2,603 @@
    "QA":[
       {
         "QID":"p1u1-c1",
-        "type":"Pair",
-        "question":"Chin/ese/ tea/cher",
-        "correctAnswer":"Chinese teacher"
+        "QuestionType":"Pair",
+        "Question":"Chin/ese/ tea/cher",
+        "CorrectAnswer":"Chinese teacher"
     },
       {
          "QID":"p1u1-c2",
-         "type":"Pair",
-         "question":"Lea/der",
-         "correctAnswer":"Leader"
+         "QuestionType":"Pair",
+         "Question":"Lea/der",
+         "CorrectAnswer":"Leader"
       },
       {
          "QID":"p1u1-c3",
-         "type":"Pair",
-         "question":"Tea/cher",
-         "correctAnswer":"Teacher"
+         "QuestionType":"Pair",
+         "Question":"Tea/cher",
+         "CorrectAnswer":"Teacher"
       },
       {
          "QID":"p1u1-c4",
-         "type":"Pair",
-         "question":"Prin/ci/pal",
-         "correctAnswer":"Principal"
+         "QuestionType":"Pair",
+         "Question":"Prin/ci/pal",
+         "CorrectAnswer":"Principal"
       },
       {
         "QID":"p1u1-c5",
-        "type":"Pair",
-        "question":"Jani/tor",
-        "correctAnswer":"Janitor"
+        "QuestionType":"Pair",
+        "Question":"Jani/tor",
+        "CorrectAnswer":"Janitor"
       },
       {
          "QID":"p1u1-c6",
-         "type":"Pair",
-         "question":"Coa/ch",
-         "correctAnswer":"Coach"
+         "QuestionType":"Pair",
+         "Question":"Coa/ch",
+         "CorrectAnswer":"Coach"
       },
       {
          "QID":"p1u1-c7",
-         "type":"Pair",
-         "question":"Dri/ver",
-         "correctAnswer":"Driver"
+         "QuestionType":"Pair",
+         "Question":"Dri/ver",
+         "CorrectAnswer":"Driver"
       },
       {
         "QID":"p1u1-c8",
-        "type":"Pair",
-        "question":"Gar/den/er",
-        "correctAnswer":"Gardener"
+        "QuestionType":"Pair",
+        "Question":"Gar/den/er",
+        "CorrectAnswer":"Gardener"
       },
       {
         "QID":"p1u1-c9",
-        "type":"Pair",
-        "question":"Li/bra/rian",
-        "correctAnswer":"Librarian"
+        "QuestionType":"Pair",
+        "Question":"Li/bra/rian",
+        "CorrectAnswer":"Librarian"
       },
       {
         "QID":"p1u1-c10",
-        "type":"Pair",
-        "question":"Eng/lish/ tea/cher",
-        "correctAnswer":"English teacher"
+        "QuestionType":"Pair",
+        "Question":"Eng/lish/ tea/cher",
+        "CorrectAnswer":"English teacher"
       },
       {
         "QID":"p1u1-c11",
-        "type":"Pair",
-        "question":"Moni/tor",
-        "correctAnswer":"Monitor"
+        "QuestionType":"Pair",
+        "Question":"Moni/tor",
+        "CorrectAnswer":"Monitor"
       },
       {
         "QID":"p1u1-c12",
-        "type":"Pair",
-        "question":"Hel/lo",
-        "correctAnswer":"Hello"
+        "QuestionType":"Pair",
+        "Question":"Hel/lo",
+        "CorrectAnswer":"Hello"
       },
       {
         "QID":"p1u1-c13",
-        "type":"Pair",
-        "question":"Stu/dent",
-        "correctAnswer":"Student"
+        "QuestionType":"Pair",
+        "Question":"Stu/dent",
+        "CorrectAnswer":"Student"
       },
       {
         "QID":"p1u1-c14",
-        "type":"Pair",
-        "question":"Good/bye",
-        "correctAnswer":"Goodbye"
+        "QuestionType":"Pair",
+        "Question":"Good/bye",
+        "CorrectAnswer":"Goodbye"
       },
       {
         "QID":"p1u1-c15",
-        "type":"Pair",
-        "question":"Pre/fect",
-        "correctAnswer":"Prefect"
+        "QuestionType":"Pair",
+        "Question":"Pre/fect",
+        "CorrectAnswer":"Prefect"
       },
       {
         "QID":"p1u1-c16",
-        "type":"Pair",
-        "question":"Fri/end",
-        "correctAnswer":"Friend"
+        "QuestionType":"Pair",
+        "Question":"Fri/end",
+        "CorrectAnswer":"Friend"
       },
       {
         "QID":"p1u1-c17",
-        "type":"Pair",
-        "question":"Class/mate",
-        "correctAnswer":"Classmate"
+        "QuestionType":"Pair",
+        "Question":"Class/mate",
+        "CorrectAnswer":"Classmate"
       },
       {
         "QID":"p1u1-c18",
-        "type":"Pair",
-        "question":"After/noon",
-        "correctAnswer":"Afternoon"
+        "QuestionType":"Pair",
+        "Question":"After/noon",
+        "CorrectAnswer":"Afternoon"
       },
       {
         "QID":"p1u1-c19",
-        "type":"Pair",
-        "question":"Morn/ing",
-        "correctAnswer":"Morning"
+        "QuestionType":"Pair",
+        "Question":"Morn/ing",
+        "CorrectAnswer":"Morning"
       },
       {
         "QID":"p1u1-c20",
-        "type":"Pair",
-        "question":"Gre/et",
-        "correctAnswer":"Greet"
+        "QuestionType":"Pair",
+        "Question":"Gre/et",
+        "CorrectAnswer":"Greet"
       },
       {
         "QID":"p1u2-d1",
-        "type":"Pair",
-        "question":"Daugh/ter",
-        "correctAnswer":"Daughter"
+        "QuestionType":"Pair",
+        "Question":"Daugh/ter",
+        "CorrectAnswer":"Daughter"
      },
      {
         "QID":"p1u2-d2",
-        "type":"Pair",
-        "question":"Ba/by",
-        "correctAnswer":"Baby"
+        "QuestionType":"Pair",
+        "Question":"Ba/by",
+        "CorrectAnswer":"Baby"
      },
      {
         "QID":"p1u2-d3",
-        "type":"Pair",
-        "question":"Fa/mi/ly",
-        "correctAnswer":"Family"
+        "QuestionType":"Pair",
+        "Question":"Fa/mi/ly",
+        "CorrectAnswer":"Family"
      },
      {
         "QID":"p1u2-d4",
-        "type":"Pair",
-        "question":"Un/cle",
-        "correctAnswer":"Uncle"
+        "QuestionType":"Pair",
+        "Question":"Un/cle",
+        "CorrectAnswer":"Uncle"
      },
      {
         "QID":"p1u2-d5",
-        "type":"Pair",
-        "question":"Fa/ther",
-        "correctAnswer":"Father"
+        "QuestionType":"Pair",
+        "Question":"Fa/ther",
+        "CorrectAnswer":"Father"
      },
      {
        "QID":"p1u2-d6",
-       "type":"Pair",
-       "question":"Au/nt",
-       "correctAnswer":"Aunt"
+       "QuestionType":"Pair",
+       "Question":"Au/nt",
+       "CorrectAnswer":"Aunt"
      },
      {
        "QID":"p1u2-d7",
-       "type":"Pair",
-       "question":"Sis/ter",
-       "correctAnswer":"Sister"
+       "QuestionType":"Pair",
+       "Question":"Sis/ter",
+       "CorrectAnswer":"Sister"
      },
      {
       "QID":"p1u2-d8",
-      "type":"Pair",
-      "question":"Grand/mo/ther",
-      "correctAnswer":"Grandmother"
+      "QuestionType":"Pair",
+      "Question":"Grand/mo/ther",
+      "CorrectAnswer":"Grandmother"
      },
      {
        "QID":"p1u2-d9",
-       "type":"Pair",
-       "question":"Tw/ins",
-       "correctAnswer":"Twins"
+       "QuestionType":"Pair",
+       "Question":"Tw/ins",
+       "CorrectAnswer":"Twins"
      },
      {
        "QID":"p1u2-d10",
-       "type":"Pair",
-       "question":"Child/ren",
-       "correctAnswer":"Children"
+       "QuestionType":"Pair",
+       "Question":"Child/ren",
+       "CorrectAnswer":"Children"
      },
      {
       "QID":"p1u2-d11",
-      "type":"Pair",
-      "question":"Grand/fa/ther",
-      "correctAnswer":"Grandfather"
+      "QuestionType":"Pair",
+      "Question":"Grand/fa/ther",
+      "CorrectAnswer":"Grandfather"
      },
      {
       "QID":"p1u2-d12",
-      "type":"Pair",
-      "question":"Grand/chil/dren",
-      "correctAnswer":"Grandchildren"
+      "QuestionType":"Pair",
+      "Question":"Grand/chil/dren",
+      "CorrectAnswer":"Grandchildren"
      },
      {
       "QID":"p1u2-d13",
-      "type":"Pair",
-      "question":"Ni/ece",
-      "correctAnswer":"Niece"
+      "QuestionType":"Pair",
+      "Question":"Ni/ece",
+      "CorrectAnswer":"Niece"
      },
      {
       "QID":"p1u2-d14",
-      "type":"Pair",
-      "question":"Ne/phew",
-      "correctAnswer":"Nephew"
+      "QuestionType":"Pair",
+      "Question":"Ne/phew",
+      "CorrectAnswer":"Nephew"
      },
      {
       "QID":"p1u2-d15",
-      "type":"Pair",
-      "question":"Par/ents",
-      "correctAnswer":"Parents"
+      "QuestionType":"Pair",
+      "Question":"Par/ents",
+      "CorrectAnswer":"Parents"
      },
      {
       "QID":"p1u2-d16",
-      "type":"Pair",
-      "question":"S/on",
-      "correctAnswer":"Son"
+      "QuestionType":"Pair",
+      "Question":"S/on",
+      "CorrectAnswer":"Son"
      },
      {
       "QID":"p1u2-d17",
-      "type":"Pair",
-      "question":"Cou/sins",
-      "correctAnswer":"Cousins"
+      "QuestionType":"Pair",
+      "Question":"Cou/sins",
+      "CorrectAnswer":"Cousins"
      },
      {
       "QID":"p1u2-d18",
-      "type":"Pair",
-      "question":"Mo/ther",
-      "correctAnswer":"Mother"
+      "QuestionType":"Pair",
+      "Question":"Mo/ther",
+      "CorrectAnswer":"Mother"
      },
      {
       "QID":"p1u2-d19",
-      "type":"Pair",
-      "question":"Si/blings",
-      "correctAnswer":"Siblings"
+      "QuestionType":"Pair",
+      "Question":"Si/blings",
+      "CorrectAnswer":"Siblings"
      },
      {
       "QID":"p1u2-d20",
-      "type":"Pair",
-      "question":"Bro/ther",
-      "correctAnswer":"Brother"
+      "QuestionType":"Pair",
+      "Question":"Bro/ther",
+      "CorrectAnswer":"Brother"
      },
     {
       "QID":"p1u3-c1",
-      "type":"Picture",
-      "question":"Sch/ool /Bag",
-      "correctAnswer":"School Bag"
+      "QuestionType":"Picture",
+      "Question":"Sch/ool /Bag",
+      "CorrectAnswer":"School Bag"
      },
      {
       "QID":"p1u3-c2",
-      "type":"Picture",
-      "question":"Boo/k",
-      "correctAnswer":"Book"
+      "QuestionType":"Picture",
+      "Question":"Boo/k",
+      "CorrectAnswer":"Book"
      },
      {
       "QID":"p1u3-c3",
-      "type":"Picture",
-      "question":"P/en",
-      "correctAnswer":"Pen"
+      "QuestionType":"Picture",
+      "Question":"P/en",
+      "CorrectAnswer":"Pen"
      },
      {
       "QID":"p1u3-c4",
-      "type":"Picture",
-      "question":"Era/ser",
-      "correctAnswer":"Eraser"
+      "QuestionType":"Picture",
+      "Question":"Era/ser",
+      "CorrectAnswer":"Eraser"
      },
      {
       "QID":"p1u3-c5",
-      "type":"Picture",
-      "question":"Pen/cil",
-      "correctAnswer":"Pencil"
+      "QuestionType":"Picture",
+      "Question":"Pen/cil",
+      "CorrectAnswer":"Pencil"
      },
      {
       "QID":"p1u3-c6",
-      "type":"Picture",
-      "question":"Ca/se",
-      "correctAnswer":"Case"
+      "QuestionType":"Picture",
+      "Question":"Ca/se",
+      "CorrectAnswer":"Case"
      },
      {
       "QID":"p1u3-c7",
-      "type":"Picture",
-      "question":"Rul/er",
-      "correctAnswer":"Ruler"
+      "QuestionType":"Picture",
+      "Question":"Rul/er",
+      "CorrectAnswer":"Ruler"
      },
      {
       "QID":"p1u3-c8",
-      "type":"Picture",
-      "question":"Cray/ons",
-      "correctAnswer":"Crayons"
+      "QuestionType":"Picture",
+      "Question":"Cray/ons",
+      "CorrectAnswer":"Crayons"
      },
      {
       "QID":"p1u3-c9",
-      "type":"Picture",
-      "question":"Gl/ue",
-      "correctAnswer":"Glue"
+      "QuestionType":"Picture",
+      "Question":"Gl/ue",
+      "CorrectAnswer":"Glue"
      },
      {
       "QID":"p1u3-c10",
-      "type":"Picture",
-      "question":"Stap/ler",
-      "correctAnswer":"Stapler"
+      "QuestionType":"Picture",
+      "Question":"Stap/ler",
+      "CorrectAnswer":"Stapler"
      },
      {
       "QID":"p1u3-c11",
-      "type":"Picture",
-      "question":"Scis/sors",
-      "correctAnswer":"Scissors"
+      "QuestionType":"Picture",
+      "Question":"Scis/sors",
+      "CorrectAnswer":"Scissors"
      },
      {
       "QID":"p1u3-c12",
-      "type":"Picture",
-      "question":"Note/book",
-      "correctAnswer":"Notebook"
+      "QuestionType":"Picture",
+      "Question":"Note/book",
+      "CorrectAnswer":"Notebook"
      },
      {
       "QID":"p1u3-c13",
-      "type":"Picture",
-      "question":"Pa/per",
-      "correctAnswer":"Paper"
+      "QuestionType":"Picture",
+      "Question":"Pa/per",
+      "CorrectAnswer":"Paper"
      },
      {
       "QID":"p1u3-c14",
-      "type":"Picture",
-      "question":"Bot/tle",
-      "correctAnswer":"Bottle"
+      "QuestionType":"Picture",
+      "Question":"Bot/tle",
+      "CorrectAnswer":"Bottle"
      },
      {
       "QID":"p1u3-c15",
-      "type":"Picture",
-      "question":"Lunch/box",
-      "correctAnswer":"Lunchbox"
+      "QuestionType":"Picture",
+      "Question":"Lunch/box",
+      "CorrectAnswer":"Lunchbox"
      },
      {
       "QID":"p1u3-c16",
-      "type":"Picture",
-      "question":"Sn/acks",
-      "correctAnswer":"Snacks"
+      "QuestionType":"Picture",
+      "Question":"Sn/acks",
+      "CorrectAnswer":"Snacks"
      },
      {
       "QID":"p1u3-c17",
-      "type":"Picture",
-      "question":"Home/work",
-      "correctAnswer":"Homework"
+      "QuestionType":"Picture",
+      "Question":"Home/work",
+      "CorrectAnswer":"Homework"
      },
      {
       "QID":"p1u3-c18",
-      "type":"Picture",
-      "question":"Fol/der",
-      "correctAnswer":"Folder"
+      "QuestionType":"Picture",
+      "Question":"Fol/der",
+      "CorrectAnswer":"Folder"
      },
      {
       "QID":"p1u3-c19",
-      "type":"Picture",
-      "question":"Shar/pen/er",
-      "correctAnswer":"Sharpener"
+      "QuestionType":"Picture",
+      "Question":"Shar/pen/er",
+      "CorrectAnswer":"Sharpener"
      },
      {
       "QID":"p1u3-c20",
-      "type":"Picture",
-      "question":"High/light/er",
-      "correctAnswer":"Highlighter"
+      "QuestionType":"Picture",
+      "Question":"High/light/er",
+      "CorrectAnswer":"Highlighter"
      },
      {
       "QID":"p2u1-c1",
-      "type":"Pair",
-      "question":"Super/mar/ket",
-      "correctAnswer":"Supermarket"
+      "QuestionType":"Pair",
+      "Question":"Super/mar/ket",
+      "CorrectAnswer":"Supermarket"
      },
      {
       "QID": "p2u1-c2",
-      "type": "Pair",
-      "question": "Hos/pi/tal",
-      "correctAnswer": "Hospital"
+      "QuestionType": "Pair",
+      "Question": "Hos/pi/tal",
+      "CorrectAnswer": "Hospital"
     },
     {
       "QID": "p2u1-c3",
-      "type": "Pair",
-      "question": "Mu/se/um",
-      "correctAnswer": "Museum"
+      "QuestionType": "Pair",
+      "Question": "Mu/se/um",
+      "CorrectAnswer": "Museum"
     },
     {
       "QID": "p2u1-c4",
-      "type": "Pair",
-      "question": "Ci/ne/ma",
-      "correctAnswer": "Cinema"
+      "QuestionType": "Pair",
+      "Question": "Ci/ne/ma",
+      "CorrectAnswer": "Cinema"
     },
     {
       "QID": "p2u1-c5",
-      "type": "Pair",
-      "question": "Ba/ke/ry",
-      "correctAnswer": "Bakery"
+      "QuestionType": "Pair",
+      "Question": "Ba/ke/ry",
+      "CorrectAnswer": "Bakery"
     },
     {
       "QID": "p2u1-c6",
-      "type": "Pair",
-      "question": "Ho/me",
-      "correctAnswer": "Home"
+      "QuestionType": "Pair",
+      "Question": "Ho/me",
+      "CorrectAnswer": "Home"
     },
     {
       "QID": "p2u1-c7",
-      "type": "Pair",
-      "question": "Tem/ple",
-      "correctAnswer": "Temple"
+      "QuestionType": "Pair",
+      "Question": "Tem/ple",
+      "CorrectAnswer": "Temple"
     },
     {
       "QID": "p2u1-c8",
-      "type": "Pair",
-      "question": "Gro/ce/ry",
-      "correctAnswer": "Grocery"
+      "QuestionType": "Pair",
+      "Question": "Gro/ce/ry",
+      "CorrectAnswer": "Grocery"
     },
     {
       "QID": "p2u1-c9",
-      "type": "Pair",
-      "question": "Re/stau/rant",
-      "correctAnswer": "Restaurant"
+      "QuestionType": "Pair",
+      "Question": "Re/stau/rant",
+      "CorrectAnswer": "Restaurant"
     },
     {
       "QID": "p2u1-c10",
-      "type": "Pair",
-      "question": "Sch/ool",
-      "correctAnswer": "School"
+      "QuestionType": "Pair",
+      "Question": "Sch/ool",
+      "CorrectAnswer": "School"
     },
     {
       "QID": "p2u1-c11",
-      "type": "Pair",
-      "question": "Ba/nk",
-      "correctAnswer": "Bank"
+      "QuestionType": "Pair",
+      "Question": "Ba/nk",
+      "CorrectAnswer": "Bank"
     },
     {
       "QID": "p2u1-c12",
-      "type": "Pair",
-      "question": "Cli/nic",
-      "correctAnswer": "Clinic"
+      "QuestionType": "Pair",
+      "Question": "Cli/nic",
+      "CorrectAnswer": "Clinic"
     },
     {
       "QID": "p2u1-c13",
-      "type": "Pair",
-      "question": "Mar/ket",
-      "correctAnswer": "Market"
+      "QuestionType": "Pair",
+      "Question": "Mar/ket",
+      "CorrectAnswer": "Market"
     },
     {
       "QID": "p2u1-c14",
-      "type": "Pair",
-      "question": "Ca/fe",
-      "correctAnswer": "Cafe"
+      "QuestionType": "Pair",
+      "Question": "Ca/fe",
+      "CorrectAnswer": "Cafe"
     },
     {
       "QID": "p2u1-c15",
-      "type": "Pair",
-      "question": "Chur/ch",
-      "correctAnswer": "Church"
+      "QuestionType": "Pair",
+      "Question": "Chur/ch",
+      "CorrectAnswer": "Church"
     },
     {
       "QID": "p2u1-c16",
-      "type": "Pair",
-      "question": "Post /off/ice",
-      "correctAnswer": "Post office"
+      "QuestionType": "Pair",
+      "Question": "Post /off/ice",
+      "CorrectAnswer": "Post office"
     },
     {
       "QID": "p2u1-c17",
-      "type": "Pair",
-      "question": "Po/lice /stat/ion",
-      "correctAnswer": "Police station"
+      "QuestionType": "Pair",
+      "Question": "Po/lice /stat/ion",
+      "CorrectAnswer": "Police station"
     },
     {
       "QID": "p2u1-c18",
-      "type": "Pair",
-      "question": "Fi/re /stat/ion",
-      "correctAnswer": "Fire station"
+      "QuestionType": "Pair",
+      "Question": "Fi/re /stat/ion",
+      "CorrectAnswer": "Fire station"
     },
     {
       "QID": "p2u1-c19",
-      "type": "Pair",
-      "question": "Sa/lon",
-      "correctAnswer": "Salon"
+      "QuestionType": "Pair",
+      "Question": "Sa/lon",
+      "CorrectAnswer": "Salon"
     },
     {
       "QID": "p2u1-c20",
-      "type": "Pair",
-      "question": "Pa/rk",
-      "correctAnswer": "Park"
+      "QuestionType": "Pair",
+      "Question": "Pa/rk",
+      "CorrectAnswer": "Park"
     },
     {
       "QID": "p2u2-c1",
-      "type": "Pair",
-      "question": "Ga/mes",
-      "correctAnswer": "Games"
+      "QuestionType": "Pair",
+      "Question": "Ga/mes",
+      "CorrectAnswer": "Games"
     },
     {
       "QID": "p2u2-c2",
-      "type": "Pair",
-      "question": "Pic/nic",
-      "correctAnswer": "Picnic"
+      "QuestionType": "Pair",
+      "Question": "Pic/nic",
+      "CorrectAnswer": "Picnic"
     },
     {
       "QID": "p2u2-c3",
-      "type": "Pair",
-      "question": "Sand/wich/es",
-      "correctAnswer": "Sandwiches"
+      "QuestionType": "Pair",
+      "Question": "Sand/wich/es",
+      "CorrectAnswer": "Sandwiches"
     },
     {
       "QID": "p2u2-c4",
-      "type": "Pair",
-      "question": "S/coo/ter",
-      "correctAnswer": "Scooter"
+      "QuestionType": "Pair",
+      "Question": "S/coo/ter",
+      "CorrectAnswer": "Scooter"
     },
     {
       "QID": "p2u2-c5",
-      "type": "Pair",
-      "question": "Straw/ber/ries",
-      "correctAnswer": "Strawberries"
+      "QuestionType": "Pair",
+      "Question": "Straw/ber/ries",
+      "CorrectAnswer": "Strawberries"
     },
     {
       "QID": "p2u2-c6",
-      "type": "Pair",
-      "question": "Foot/ball",
-      "correctAnswer": "Football"
+      "QuestionType": "Pair",
+      "Question": "Foot/ball",
+      "CorrectAnswer": "Football"
     },
     {
       "QID": "p2u2-c7",
-      "type": "Pair",
-      "question": "Dri/nk",
-      "correctAnswer": "Drink"
+      "QuestionType": "Pair",
+      "Question": "Dri/nk",
+      "CorrectAnswer": "Drink"
     },
     {
       "QID": "p2u2-c8",
-      "type": "Pair",
-      "question": "Lit/ter",
-      "correctAnswer": "Litter"
+      "QuestionType": "Pair",
+      "Question": "Lit/ter",
+      "CorrectAnswer": "Litter"
     },
     {
       "QID": "p2u2-c9",
-      "type": "Pair",
-      "question": "Bi/cy/cle",
-      "correctAnswer": "Bicycle"
+      "QuestionType": "Pair",
+      "Question": "Bi/cy/cle",
+      "CorrectAnswer": "Bicycle"
     },
     {
       "QID": "p2u2-c10",
-      "type": "Pair",
-      "question": "Flo/wers",
-      "correctAnswer": "Flowers"
+      "QuestionType": "Pair",
+      "Question": "Flo/wers",
+      "CorrectAnswer": "Flowers"
     },
     {
       "QID": "p2u2-c11",
-      "type": "Pair",
-      "question": "Sw/ing",
-      "correctAnswer": "Swing"
+      "QuestionType": "Pair",
+      "Question": "Sw/ing",
+      "CorrectAnswer": "Swing"
     },
     {
       "QID": "p2u2-c12",
-      "type": "Pair",
-      "question": "See/saw",
-      "correctAnswer": "Seesaw"
+      "QuestionType": "Pair",
+      "Question": "See/saw",
+      "CorrectAnswer": "Seesaw"
     },
     {
       "QID": "p2u2-c13",
-      "type": "Pair",
-      "question": "Sl/ide",
-      "correctAnswer": "Slide"
+      "QuestionType": "Pair",
+      "Question": "Sl/ide",
+      "CorrectAnswer": "Slide"
     },
     {
       "QID": "p2u2-c14",
-      "type": "Pair",
-      "question": "Pho/tos",
-      "correctAnswer": "Photos"
+      "QuestionType": "Pair",
+      "Question": "Pho/tos",
+      "CorrectAnswer": "Photos"
     },
     {
       "QID": "p2u2-c15",
-      "type": "Pair",
-      "question": "Fr/is/bee",
-      "correctAnswer": "Frisbee"
+      "QuestionType": "Pair",
+      "Question": "Fr/is/bee",
+      "CorrectAnswer": "Frisbee"
     },
     {
       "QID": "p2u2-c16",
-      "type": "Pair",
-      "question": "Bar/be/cues",
-      "correctAnswer": "Barbecues"
+      "QuestionType": "Pair",
+      "Question": "Bar/be/cues",
+      "CorrectAnswer": "Barbecues"
     },
     {
       "QID": "p2u2-c17",
-      "type": "Pair",
-      "question": "Ca/mp/ing",
-      "correctAnswer": "Camping"
+      "QuestionType": "Pair",
+      "Question": "Ca/mp/ing",
+      "CorrectAnswer": "Camping"
     },
     {
       "QID": "p2u2-c18",
-      "type": "Pair",
-      "question": "Sp/it",
-      "correctAnswer": "Spit"
+      "QuestionType": "Pair",
+      "Question": "Sp/it",
+      "CorrectAnswer": "Spit"
     },
     {
       "QID": "p2u2-c19",
-      "type": "Pair",
-      "question": "Cl/imb",
-      "correctAnswer": "Climb"
+      "QuestionType": "Pair",
+      "Question": "Cl/imb",
+      "CorrectAnswer": "Climb"
     },
     {
       "QID": "p2u2-c20",
-      "type": "Pair",
-      "question": "Pa/int",
-      "correctAnswer": "Paint"
+      "QuestionType": "Pair",
+      "Question": "Pa/int",
+      "CorrectAnswer": "Paint"
     }
    ]
 }

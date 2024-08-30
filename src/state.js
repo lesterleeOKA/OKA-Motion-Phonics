@@ -9,6 +9,7 @@ export default {
   stateLastFor: 0,
   stateType: '',
   isSoundOn: true,
+  gameTime: 0,
   allowTouchWord: true,
   gamePauseData: {
     state: '',
@@ -59,7 +60,7 @@ export default {
     if (state == 'instruction') {
       const bgImageElement = document.getElementById('bgImage');
       bgImageElement.style.backgroundColor = 'black';
-      Game.init();
+      Game.init(this.gameTime);
       View.hideTopLeftControl();
       View.hideTips();
       View.showCanvas();
@@ -74,7 +75,7 @@ export default {
         //Sound.play('instruction');
       }
     } else if (state == 'prepare') {
-      Game.init();
+      Game.init(this.gameTime);
       View.hideFinished();
       View.showCanvas();
       View.hideInstruction();
@@ -185,11 +186,18 @@ export default {
 
       if (hostname.includes('dev.openknowledge.hk')) {
         homePageUrl = window.location.origin + '/RainbowOne/webapp/OKAGames/SelectGames/';
+        window.open(homePageUrl, '_self');
       }
       else if (hostname.includes('www.rainbowone.app')) {
         homePageUrl = 'https://www.starwishparty.com';
+        window.open(homePageUrl, '_self');
       }
-      window.open(homePageUrl, '_self');
+      else if (hostname.includes('localhost')) {
+        location.reload();
+      }
+      else {
+        location.hash = 'exit';
+      }
     }
 
     if (state != 'playing') {

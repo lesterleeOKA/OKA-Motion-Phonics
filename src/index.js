@@ -9,6 +9,7 @@ import Sound from './sound';
 import { setupStats } from './stats_panel';
 import { parseUrlParams } from './level';
 import QuestionManager from './question';
+import { apiManager } from './apiManager';
 
 let detector
 let rafId;
@@ -19,7 +20,7 @@ let drawContour = false;
 let foregroundThresold = 0.65;
 const bgImage = require('./images/phonics/bg.jpg');
 const fpsDebug = document.getElementById('stats');
-const { model, removal, fps } = parseUrlParams();
+const { jwt, levelKey, model, removal, fps, gameTime } = parseUrlParams();
 
 async function createDetector() {
   const runtime = 'mediapipe';
@@ -170,7 +171,9 @@ function init() {
   Util.loadingStart();
   Sound.init();
   View.preloadUsedImages();
-  QuestionManager.loadQuestionData();
+  Util.updateLoadingStatus("Download Questions");
+  QuestionManager.loadQuestionData(jwt, levelKey, () => View.setPlayerIcon(apiManager.iconDataUrl));
+  State.gameTime = gameTime;
   //因應iPad及手機browser的nav bar會扣掉高度，在這裡將hv用innerHiehgt重新計算
   let vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);

@@ -47,6 +47,7 @@ export default {
 
   rightHandImg: document.getElementById('right-hand'),
   leftHandImg: document.getElementById('left-hand'),
+  playerIcon: document.getElementById('userIcon'),
   //-----------------------------------------------------------------------------------------------
   preloadedFallingImages: [],
   optionImages: [
@@ -108,14 +109,15 @@ export default {
   },*/
   //-----------------------------------------------------------------------------------------------
   showCount(num) {
-    this.countImg.className = "count c" + num;
-    this.countImg.style.opacity = 1;
-    //this.countImg.style.maxHeight = "calc(min(40vh, 40vw))";
-    setTimeout(() => this.hideCount(), 600);
+    this.countImg.classList.add("count", "c" + num);
+    //this.countImg.style.opacity = 1;
+    //this.countImg.style.maxHeight = "calc(min(60vh, 60vw))";
+    setTimeout(() => this.hideCount(num), 900);
   },
-  hideCount() {
-    this.countImg.style.opacity = 0;
-    this.countImg.style.maxHeight = "";
+  hideCount(num) {
+    this.countImg.classList.remove("count", "c" + num);
+    //this.countImg.style.opacity = 0;
+    //this.countImg.style.maxHeight = "";
   },
   //-----------------------------------------------------------------------------------------------
   showStage() {
@@ -234,5 +236,11 @@ export default {
   showHands(status) {
     this.rightHandImg.style.display = status ? 'block' : 'none';
     this.leftHandImg.style.display = status ? 'block' : 'none';
+  },
+
+  setPlayerIcon(iconUrl = null) {
+    if (iconUrl) {
+      this.playerIcon.src = iconUrl;
+    }
   }
 };
