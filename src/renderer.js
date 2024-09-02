@@ -16,6 +16,8 @@ export class RendererCanvas2d {
     this.center_shoulder = null;
     this.rightLoadingValue = 0;
     this.leftLoadingValue = 0;
+    this.updateScheduledLeft = false;
+    this.updateScheduledLeft = false;
   }
 
   draw(rendererParams) {
@@ -256,30 +258,29 @@ export class RendererCanvas2d {
           if (this.rightLoadingValue < 100) {
             this.rightLoadingValue += 8;
             //console.log("right", this.rightLoadingValue);
-            Game.trackingWord(this.rightLoadingValue, "Right");
+            this.scheduleUpdateHandLoading_right();
           } else {
             touchingWord.push(touchingOptionRight);
             this.rightLoadingValue = 0;
-            Game.trackingWord(this.rightLoadingValue, "Right");
+            this.scheduleUpdateHandLoading_right();
           }
         } else {
           this.rightLoadingValue = 0;
-          Game.trackingWord(this.rightLoadingValue, "Right");
+          this.scheduleUpdateHandLoading_right();
         }
 
         if (isInOptionLeft && touchingOptionLeft && !touchingOptionLeft.classList.contains('touch') && State.allowTouchWord) {
           if (this.leftLoadingValue < 100) {
             this.leftLoadingValue += 8;
-            //console.log("left", this.leftLoadingValue);
-            Game.trackingWord(this.leftLoadingValue, "Left");
+            this.scheduleUpdateHandLoading_left();
           } else {
             touchingWord.push(touchingOptionLeft);
             this.leftLoadingValue = 0;
-            Game.trackingWord(this.leftLoadingValue, "Left");
+            this.scheduleUpdateHandLoading_left();
           }
         } else {
           this.leftLoadingValue = 0;
-          Game.trackingWord(this.leftLoadingValue, "Left");
+          this.scheduleUpdateHandLoading_left();
         }
 
         for (let option of optionWrappers) {
@@ -299,6 +300,26 @@ export class RendererCanvas2d {
       return true;
     } else {
       return false;
+    }
+  }
+
+  scheduleUpdateHandLoading_left() {
+    if (!this.updateScheduledLeft) {
+      this.updateScheduledLeft = true;
+      requestAnimationFrame(() => {
+        Game.trackingWord(this.leftLoadingValue, "Left");
+        this.updateScheduledLeft = false;
+      });
+    }
+  }
+
+  scheduleUpdateHandLoading_right() {
+    if (!this.updateScheduledRight) {
+      this.updateScheduledRight = true;
+      requestAnimationFrame(() => {
+        Game.trackingWord(this.rightLoadingValue, "Right");
+        this.updateScheduledRight = false;
+      });
     }
   }
 

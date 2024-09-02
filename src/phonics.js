@@ -86,17 +86,18 @@ export default {
     }
   },
   trackingWord(value, hand) {
-    var elementName = "progressBar" + hand;
-    // console.log(elementName);
-    const progressBar = document.getElementById(elementName);
-    const progressRect = progressBar.getElementsByTagName("rect")[0];
+    requestAnimationFrame(() => {
+      var elementName = "progressBar" + hand;
+      // console.log(elementName);
+      const progressBar = document.getElementById(elementName);
+      const progressRect = progressBar.getElementsByTagName("rect")[0];
 
-    // Map the value to a percentage (0-100)
-    const percentage = Math.min(Math.max(value, 0), 100);
-
-    // Update the width and color of the progress bar
-    progressRect.setAttribute("width", `${percentage}%`);
-    progressRect.setAttribute("fill", "#4CAF50");
+      // Map the value to a percentage (0-100)
+      const percentage = Math.min(Math.max(value, 0), 100);
+      // Update the width and color of the progress bar
+      progressRect.setAttribute("width", `${percentage}%`);
+      progressRect.setAttribute("fill", "#4CAF50");
+    });
   },
 
   addScore(mark) {
@@ -522,7 +523,7 @@ export default {
     const _question = questions[this.answeredNum].Question;
     const _answers = questions[this.answeredNum].Answers;
     const _correctAnswer = questions[this.answeredNum].CorrectAnswer;
-    const _media = questions[this.answeredNum].media;
+    const _media = questions[this.answeredNum].Media;
 
     if (this.answeredNum < questions.length - 1) {
       this.answeredNum += 1;
