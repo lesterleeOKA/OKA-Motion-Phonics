@@ -172,7 +172,9 @@ function init() {
   Sound.init();
   View.preloadUsedImages();
   Util.updateLoadingStatus("Download Questions");
-  QuestionManager.loadQuestionData(jwt, levelKey, () => View.setPlayerIcon(apiManager.iconDataUrl));
+  QuestionManager.loadQuestionData(jwt, levelKey, () => View.setPlayerIcon(apiManager.iconDataUrl), () => {
+    View.showLoginErrorPopup();
+  });
   State.gameTime = gameTime;
   //因應iPad及手機browser的nav bar會扣掉高度，在這裡將hv用innerHiehgt重新計算
   let vh = window.innerHeight * 0.01;
@@ -210,6 +212,12 @@ function init() {
           State.changeState('showMusicOnOff');
         }
         //toggleSound();
+        break;
+      case View.reloadBtn:
+        if (State.isSoundOn) {
+          Sound.play('btnClick');
+        }
+        location.reload();
         break;
       case View.instructionBtn:
         if (State.isSoundOn) {
@@ -292,6 +300,9 @@ function init() {
       case View.playAgainBtn:
         View.playAgainBtn.classList.add('touched');
         break;
+      case View.reloadBtn:
+        View.reloadBtn.classList.add('touched');
+        break;
     }
   }
 
@@ -318,6 +329,9 @@ function init() {
       case View.playAgainBtn:
         View.playAgainBtn.classList.remove('touched');
         break;
+      case View.reloadBtn:
+        View.reloadBtn.classList.remove('touched');
+        break;
     }
   }
 
@@ -328,6 +342,7 @@ function init() {
   View.playAgainBtn.addEventListener('pointerdown', handleButtonTouch);
   View.onBtn.addEventListener('pointerdown', handleButtonTouch);
   View.offBtn.addEventListener('pointerdown', handleButtonTouch);
+  View.reloadBtn.addEventListener('pointerdown', handleButtonTouch);
 
   View.startBtn.addEventListener('pointerup', handleButtonTouchLeave);
   View.exitBtn.addEventListener('pointerup', handleButtonTouchLeave);
@@ -336,6 +351,7 @@ function init() {
   View.playAgainBtn.addEventListener('pointerup', handleButtonTouchLeave);
   View.onBtn.addEventListener('pointerup', handleButtonTouchLeave);
   View.offBtn.addEventListener('pointerup', handleButtonTouchLeave);
+  View.reloadBtn.addEventListener('pointerup', handleButtonTouchLeave);
 
   // Attach the click/touchend event listeners to the buttons
   View.startBtn.addEventListener(clickHandler, handleButtonClick);
@@ -348,6 +364,7 @@ function init() {
   View.continuebtn.addEventListener(clickHandler, handleButtonClick);
   View.offBtn.addEventListener(clickHandler, handleButtonClick);
   View.onBtn.addEventListener(clickHandler, handleButtonClick);
+  View.reloadBtn.addEventListener(clickHandler, handleButtonClick);
 
   return Promise.all([
     Sound.preloadAudios([

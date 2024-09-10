@@ -29,6 +29,9 @@ export default {
   playAgainBtn: document.querySelector('.finishedWrapper > .finishedBoardWrapper > .finishedBtnWrapper > .playAgainBtn'),
   backHomeBtnOfExit: document.querySelector('.exitWrapper > .exitBoard  > .btnWrapper > .backHomeBtn'),
 
+  loginErrorWrapper: document.querySelector('.loginErrorWrapper'),
+  reloadBtn: document.querySelector('.loginErrorWrapper > .loginErrorBoard  > .errorWrapper > .reloadBtn'),
+
   musicOnOffWrapper: document.querySelector('.musicOnOffWrapper'),
   onBtn: document.querySelector('.musicOnOffWrapper > .musicOnOffBoard  > .musicWrapper > .onBtn'),
   offBtn: document.querySelector('.musicOnOffWrapper > .musicOnOffBoard  > .musicWrapper > .offBtn'),
@@ -170,6 +173,12 @@ export default {
   },
   hideMusicOnOff() {
     this.musicOnOffWrapper.classList.remove("show");
+  },
+  showLoginErrorPopup() {
+    this.loginErrorWrapper.classList.add("show");
+  },
+  hideLoginErrorPopup() {
+    this.loginErrorWrapper.classList.remove("show");
   },
   //-----------------------------------------------------------------------------------------------
   showExit() {

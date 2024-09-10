@@ -340,7 +340,77 @@
 .gameWrapper > .topRightControl > .tips.tipsReady { content: url(../images/tipsReady.png); }
 .gameWrapper > .topRightControl > .tips.tipsStart { content: url(../images/tipsStart.png); }
 
-
+/*-----------------------------------------------------------------------------------------------*/
+.loginErrorWrapper {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: -100vh;
+  left: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: top 0.5s ease, opacity 0.1s ease 0.5s;
+  opacity: 0;
+  pointer-events: none;
+  background-color: transparent;
+  z-index: 11;
+}
+.loginErrorWrapper.show {
+  top: 0px;
+  opacity: 1;
+  /*transition: top 0.5s ease, opacity 0.1s ease, background-color 0.5s ease 0.5s;*/
+  pointer-events: all;
+  background-color: rgba(0,0,0,0.5);
+}
+.loginErrorWrapper > .loginErrorBoard {
+  background-image: url(../images/phonics/ui_board_error.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  width: calc(min(45.5vh, 45.5vw));
+  height: calc(min(45.5vh, 45.5vw));
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex-direction: column;
+  justify-content: start;
+}
+.loginErrorWrapper > .loginErrorBoard > .errorWrapper {
+  width: 65%;
+  height: calc(min(10vh, 10vw));
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: calc(min(25vh, 25vw));
+}
+.loginErrorWrapper > .loginErrorBoard > .loginErrorText{
+  position: absolute;
+  top: 20%;
+  /*font-family: "Arzachel", system-ui;*/
+  font-family: 'PoetsenOne', sans-serif;
+  font-weight: 100;
+  width: 70%;
+  font-size: calc(min(3vh, 3vw));
+  color: #0a0a0a;
+  /*text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);*/
+  /*-webkit-text-stroke: 2px #797979;*/
+  text-align: left;
+  pointer-events: none;
+}
+.loginErrorWrapper > .loginErrorBoard  > .errorWrapper > .reloadBtn {
+  content: url(../images/phonics/Reload_btn.png);
+  height: calc(min(5vh, 5vw));
+  scale: 1;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  right: calc(min(1vh, 1vw));
+  top: calc(min(4vh, 4vw));
+}
+.loginErrorWrapper > .loginErrorBoard  > .errorWrapper > .reloadBtn:active,
+.loginErrorWrapper > .loginErrorBoard  > .errorWrapper > .reloadBtn.touched {
+  scale: 0.8;
+  -webkit-tap-highlight-color: transparent;
+}
 /*-----------------------------------------------------------------------------------------------*/
 .musicOnOffWrapper {
   height: 100%;

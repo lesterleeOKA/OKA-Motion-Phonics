@@ -1,6 +1,7 @@
 import Questions from '../static/json/questions.json';
 import { imageFiles } from './mediaFile';
 import { apiManager } from "./apiManager";
+import Util from './util';
 
 const hostname = window.location.hostname;
 
@@ -19,15 +20,17 @@ const QuestionManager = {
       img.id = item[0];
       img.src = item[1];
       this.preloadedImagesItem.push(img);
+      Util.updateLoadingStatus("Loading Images");
     });
 
     console.log("preloadedImagesItem", this.preloadedImagesItem);
   },
 
-  loadQuestionData: async function (jwt = null, levelkey = null, onCompleted = null) {
+  loadQuestionData: async function (jwt = null, levelkey = null, onCompleted = null, onError = null) {
     try {
-      await apiManager.postGameSetting(jwt, () => this.loadQuestionFromJson(levelkey, onCompleted));
+      await apiManager.postGameSetting(jwt, () => this.loadQuestionFromJson(levelkey, onCompleted), () => onError());
     } catch (error) {
+      if (onError) onError();
       console.error('Error loading JSON data:', error);
     }
   },
@@ -96,4 +99,3 @@ const QuestionManager = {
 };
 
 export default QuestionManager;
-

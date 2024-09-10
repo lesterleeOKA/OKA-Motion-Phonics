@@ -7,7 +7,7 @@ const apiManager = {
   loginName: null,
   GameDataAPI: "https://dev.openknowledge.hk/RainbowOne/index.php/PHPGateway/proxy/2.8/?api=ROGame.get_game_setting&json=[1]&jwt=",
 
-  async postGameSetting(jwt, onCompleted = null) {
+  async postGameSetting(jwt, onCompleted = null, onError = null) {
     const api = this.GameDataAPI + jwt;
     const formData = new FormData();
     let retryCount = 0;
@@ -26,6 +26,7 @@ const apiManager = {
         });
 
         if (!response.ok) {
+          if (onError) onError();
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
@@ -63,10 +64,12 @@ const apiManager = {
           requestSuccessful = true;
 
         } else {
+          if (onError) onError();
           console.error("JSON data not found in the response.");
         }
 
       } catch (error) {
+        if (onError) onError();
         console.error("Error:", error.message);
         retryCount++;
         console.log(`Retrying... Attempt ${retryCount}`);
@@ -75,6 +78,7 @@ const apiManager = {
     }
 
     if (!requestSuccessful) {
+      if (onError) onError();
       console.error(`Failed to get a successful response after ${maxRetries} attempts.`);
     }
   },
