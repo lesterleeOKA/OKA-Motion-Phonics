@@ -166,207 +166,42 @@ async function renderPrediction() {
   rafId = requestAnimationFrame(renderPrediction);
 };
 
-function init() {
+
+async function init() {
   console.log('in init()');
   Util.loadingStart();
-  Sound.init();
-  View.preloadUsedImages();
-  Util.updateLoadingStatus("Download Questions");
-  QuestionManager.loadQuestionData(jwt, levelKey, () => View.setPlayerIcon(apiManager.iconDataUrl), () => {
-    View.showLoginErrorPopup();
+  // Initialize sounds and preload images concurrently
+  await Promise.all([
+    Sound.init(),
+    View.preloadUsedImages()
+  ]);
+
+  Util.updateLoadingStatus("Loading Data");
+  // Load question data and handle callbacks
+  await new Promise((resolve, reject) => {
+    QuestionManager.loadQuestionData(
+      jwt,
+      levelKey,
+      () => {
+        View.setPlayerIcon(apiManager.iconDataUrl);
+        resolve();
+      },
+      () => {
+        View.showLoginErrorPopup();
+        reject();
+      }
+    );
   });
+
   State.gameTime = gameTime;
-  //因應iPad及手機browser的nav bar會扣掉高度，在這裡將hv用innerHiehgt重新計算
+  // Calculate viewport height for mobile
   let vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);
 
-  //  const clickHandler = ('ontouchstart' in document.documentElement ? "touchend" : "click");
-  const clickHandler = 'click';
-  function handleButtonClick(e) {
-    if (State.isSoundOn) Sound.play('btnClick');
-    switch (e.currentTarget) {
-      case View.startBtn:
-        if (State.isSoundOn) {
-          Sound.play('btnClick');
-        }
-        State.changeState('prepare');
-        break;
-      case View.exitBtn:
-        if (State.isSoundOn) {
-          Sound.play('btnClick');
-        }
-        State.gamePauseData.state = State.state;
-        State.gamePauseData.stateType = State.stateType;
-        //State.changeState('pause');
-        setTimeout(() => {
-          State.changeState('leave');
-        }, 100);
-        break;
-      case View.musicBtn:
-        if (State.state !== 'showMusicOnOff') {
-          if (State.isSoundOn) {
-            Sound.play('btnClick');
-          }
-          State.gamePauseData.state = State.state;
-          State.gamePauseData.stateType = State.stateType;
-          State.changeState('showMusicOnOff');
-        }
-        //toggleSound();
-        break;
-      case View.reloadBtn:
-        if (State.isSoundOn) {
-          Sound.play('btnClick');
-        }
-        location.reload();
-        break;
-      case View.instructionBtn:
-        if (State.isSoundOn) {
-          Sound.play('btnClick');
-        }
-        break;
-      case View.backHomeBtnOfFinished:
-        if (State.isSoundOn) {
-          Sound.play('btnClick');
-        }
-        State.state = '';
-        setTimeout(() => {
-          State.changeState('leave');
-        }, 200);
-        break;
-      case View.playAgainBtn:
-        if (State.isSoundOn) {
-          Sound.play('btnClick');
-          Sound.play('bgm', true);
-        }
-        State.state = '';
-        State.changeState('prepare');
-        break;
-      case View.backHomeBtnOfExit:
-        if (State.isSoundOn) {
-          Sound.play('btnClick');
-        }
-        View.hideExit();
-        State.state = '';
-        setTimeout(() => {
-          State.changeState('leave');
-        }, 200);
-        break;
-      case View.continuebtn:
-        if (State.isSoundOn) {
-          Sound.play('btnClick');
-        }
-        View.hideExit();
-        State.changeState(State.gamePauseData.state, State.gamePauseData.stateType);
-        break;
-      case View.offBtn:
-        if (State.isSoundOn) {
-          Sound.play('btnClick');
-        }
-        View.hideMusicOnOff();
-        State.changeState(State.gamePauseData.state, State.gamePauseData.stateType);
-        State.setSound(false);
-        break;
-      case View.onBtn:
-        if (State.isSoundOn) {
-          Sound.play('btnClick');
-        }
-        View.hideMusicOnOff();
-        State.changeState(State.gamePauseData.state, State.gamePauseData.stateType);
-        State.setSound(true);
-        break;
-    }
-  }
+  // Set up event listeners
+  setupEventListeners();
 
-  function handleButtonTouch(e) {
-    switch (e.currentTarget) {
-      case View.startBtn:
-        View.startBtn.classList.add('touched');
-        break;
-      case View.exitBtn:
-        View.exitBtn.classList.add('touched');
-        break;
-      case View.musicBtn:
-        View.musicBtn.classList.add('touched');
-        break;
-      case View.onBtn:
-        View.onBtn.classList.add('touched')
-        break;
-      case View.offBtn:
-        View.offBtn.classList.add('touched')
-        break;
-      case View.backHomeBtnOfFinished:
-        View.backHomeBtnOfFinished.classList.add('touched');
-        break;
-      case View.playAgainBtn:
-        View.playAgainBtn.classList.add('touched');
-        break;
-      case View.reloadBtn:
-        View.reloadBtn.classList.add('touched');
-        break;
-    }
-  }
-
-  function handleButtonTouchLeave(e) {
-    switch (e.currentTarget) {
-      case View.startBtn:
-        View.startBtn.classList.remove('touched');
-        break;
-      case View.exitBtn:
-        View.exitBtn.classList.remove('touched');
-        break;
-      case View.musicBtn:
-        View.musicBtn.classList.remove('touched');
-        break;
-      case View.onBtn:
-        View.onBtn.classList.remove('touched');
-        break;
-      case View.offBtn:
-        View.offBtn.classList.remove('touched');
-        break;
-      case View.backHomeBtnOfFinished:
-        View.backHomeBtnOfFinished.classList.remove('touched');
-        break;
-      case View.playAgainBtn:
-        View.playAgainBtn.classList.remove('touched');
-        break;
-      case View.reloadBtn:
-        View.reloadBtn.classList.remove('touched');
-        break;
-    }
-  }
-
-  View.startBtn.addEventListener('pointerdown', handleButtonTouch);
-  View.exitBtn.addEventListener('pointerdown', handleButtonTouch);
-  View.musicBtn.addEventListener('pointerdown', handleButtonTouch);
-  View.backHomeBtnOfFinished.addEventListener('pointerdown', handleButtonTouch);
-  View.playAgainBtn.addEventListener('pointerdown', handleButtonTouch);
-  View.onBtn.addEventListener('pointerdown', handleButtonTouch);
-  View.offBtn.addEventListener('pointerdown', handleButtonTouch);
-  View.reloadBtn.addEventListener('pointerdown', handleButtonTouch);
-
-  View.startBtn.addEventListener('pointerup', handleButtonTouchLeave);
-  View.exitBtn.addEventListener('pointerup', handleButtonTouchLeave);
-  View.musicBtn.addEventListener('pointerup', handleButtonTouchLeave);
-  View.backHomeBtnOfFinished.addEventListener('pointerup', handleButtonTouchLeave);
-  View.playAgainBtn.addEventListener('pointerup', handleButtonTouchLeave);
-  View.onBtn.addEventListener('pointerup', handleButtonTouchLeave);
-  View.offBtn.addEventListener('pointerup', handleButtonTouchLeave);
-  View.reloadBtn.addEventListener('pointerup', handleButtonTouchLeave);
-
-  // Attach the click/touchend event listeners to the buttons
-  View.startBtn.addEventListener(clickHandler, handleButtonClick);
-  View.exitBtn.addEventListener(clickHandler, handleButtonClick);
-  View.musicBtn.addEventListener(clickHandler, handleButtonClick);
-  //View.instructionBtn.addEventListener(clickHandler, handleButtonClick);
-  View.backHomeBtnOfFinished.addEventListener(clickHandler, handleButtonClick);
-  View.playAgainBtn.addEventListener(clickHandler, handleButtonClick);
-  View.backHomeBtnOfExit.addEventListener(clickHandler, handleButtonClick);
-  View.continuebtn.addEventListener(clickHandler, handleButtonClick);
-  View.offBtn.addEventListener(clickHandler, handleButtonClick);
-  View.onBtn.addEventListener(clickHandler, handleButtonClick);
-  View.reloadBtn.addEventListener(clickHandler, handleButtonClick);
-
-  return Promise.all([
+  await Promise.all([
     Sound.preloadAudios([
       ['bgm', require('./audio/bgm.mp3'), false, 0.5],
       ['btnClick', require('./audio/btnClick.wav')],
@@ -387,6 +222,178 @@ function init() {
     ]),
     Camera.getVideo()
   ]);
+}
+
+function handleButtonClick(e) {
+  if (State.isSoundOn) Sound.play('btnClick');
+  switch (e.currentTarget) {
+    case View.startBtn:
+      if (State.isSoundOn) {
+        Sound.play('btnClick');
+      }
+      State.changeState('prepare');
+      break;
+    case View.exitBtn:
+      if (State.isSoundOn) {
+        Sound.play('btnClick');
+      }
+      State.gamePauseData.state = State.state;
+      State.gamePauseData.stateType = State.stateType;
+      //State.changeState('pause');
+      setTimeout(() => {
+        State.changeState('leave');
+      }, 100);
+      break;
+    case View.musicBtn:
+      if (State.state !== 'showMusicOnOff') {
+        if (State.isSoundOn) {
+          Sound.play('btnClick');
+        }
+        State.gamePauseData.state = State.state;
+        State.gamePauseData.stateType = State.stateType;
+        State.changeState('showMusicOnOff');
+      }
+      //toggleSound();
+      break;
+    case View.reloadBtn:
+      if (State.isSoundOn) {
+        Sound.play('btnClick');
+      }
+      location.reload();
+      break;
+    case View.instructionBtn:
+      if (State.isSoundOn) {
+        Sound.play('btnClick');
+      }
+      break;
+    case View.backHomeBtnOfFinished:
+      if (State.isSoundOn) {
+        Sound.play('btnClick');
+      }
+      State.state = '';
+      setTimeout(() => {
+        State.changeState('leave');
+      }, 200);
+      break;
+    case View.playAgainBtn:
+      if (State.isSoundOn) {
+        Sound.play('btnClick');
+        Sound.play('bgm', true);
+      }
+      State.state = '';
+      State.changeState('prepare');
+      break;
+    case View.backHomeBtnOfExit:
+      if (State.isSoundOn) {
+        Sound.play('btnClick');
+      }
+      View.hideExit();
+      State.state = '';
+      setTimeout(() => {
+        State.changeState('leave');
+      }, 200);
+      break;
+    case View.continuebtn:
+      if (State.isSoundOn) {
+        Sound.play('btnClick');
+      }
+      View.hideExit();
+      State.changeState(State.gamePauseData.state, State.gamePauseData.stateType);
+      break;
+    case View.offBtn:
+      if (State.isSoundOn) {
+        Sound.play('btnClick');
+      }
+      View.hideMusicOnOff();
+      State.changeState(State.gamePauseData.state, State.gamePauseData.stateType);
+      State.setSound(false);
+      break;
+    case View.onBtn:
+      if (State.isSoundOn) {
+        Sound.play('btnClick');
+      }
+      View.hideMusicOnOff();
+      State.changeState(State.gamePauseData.state, State.gamePauseData.stateType);
+      State.setSound(true);
+      break;
+  }
+}
+
+function handleButtonTouch(e) {
+  switch (e.currentTarget) {
+    case View.startBtn:
+      View.startBtn.classList.add('touched');
+      break;
+    case View.exitBtn:
+      View.exitBtn.classList.add('touched');
+      break;
+    case View.musicBtn:
+      View.musicBtn.classList.add('touched');
+      break;
+    case View.onBtn:
+      View.onBtn.classList.add('touched')
+      break;
+    case View.offBtn:
+      View.offBtn.classList.add('touched')
+      break;
+    case View.backHomeBtnOfFinished:
+      View.backHomeBtnOfFinished.classList.add('touched');
+      break;
+    case View.playAgainBtn:
+      View.playAgainBtn.classList.add('touched');
+      break;
+    case View.reloadBtn:
+      View.reloadBtn.classList.add('touched');
+      break;
+  }
+}
+
+function handleButtonTouchLeave(e) {
+  switch (e.currentTarget) {
+    case View.startBtn:
+      View.startBtn.classList.remove('touched');
+      break;
+    case View.exitBtn:
+      View.exitBtn.classList.remove('touched');
+      break;
+    case View.musicBtn:
+      View.musicBtn.classList.remove('touched');
+      break;
+    case View.onBtn:
+      View.onBtn.classList.remove('touched');
+      break;
+    case View.offBtn:
+      View.offBtn.classList.remove('touched');
+      break;
+    case View.backHomeBtnOfFinished:
+      View.backHomeBtnOfFinished.classList.remove('touched');
+      break;
+    case View.playAgainBtn:
+      View.playAgainBtn.classList.remove('touched');
+      break;
+    case View.reloadBtn:
+      View.reloadBtn.classList.remove('touched');
+      break;
+  }
+}
+
+function setupEventListeners() {
+  const buttons = [
+    View.startBtn,
+    View.exitBtn,
+    View.musicBtn,
+    View.backHomeBtnOfFinished,
+    View.playAgainBtn,
+    View.onBtn,
+    View.offBtn,
+    View.reloadBtn
+  ];
+
+  buttons.forEach(button => {
+    button.addEventListener('pointerdown', handleButtonTouch);
+    button.addEventListener('pointerup', handleButtonTouchLeave);
+    button.addEventListener('click', handleButtonClick);
+  });
 }
 
 
@@ -422,42 +429,9 @@ async function app() {
           });
         })
       });
-    }, 2000);
+    }, 1000);
   });
 
-  /* init().then(() => {
-     Util.loadingStart();
-     setTimeout(async () => {
-       (new FPSMeter({ ui: true })).start();
-       await Camera.setup();
-       await tf.setBackend('wasm');
-       await tf.ready();
-
-       await createDetector().then((detector) => {
-         console.log(detector);
-         //var poses = detector.estimatePoses(Camera.video);
-         //console.log(poses[0]);
-         //const canvas = document.getElementById('output');
-         //View.renderer = new RendererCanvas2d(View.canvas);
-
-         renderPrediction().then(() => {
-           Util.loadingComplete().then(() => {
-             State.changeState('instruction');
-           });
-         })
-       });
-       //const poses = await detector.estimatePoses(Camera.video);
-       //console.log(poses[0]);
-       //const canvas = document.getElementById('output');
-       View.renderer = new RendererCanvas2d(View.canvas);
-
-       await renderPrediction(detector);
-
-       Util.loadingComplete().then(() => {
-         State.changeState('instruction');
-       });
-     }, 2000);
-   });*/
 };
 
 //-------------------------------------------------------------------------------------------------

@@ -544,7 +544,7 @@ export default {
   setQuestions() {
     //console.log("this.redBoxWidth", this.redBoxWidth);
     this.questionWord = this.randQuestion();
-    if (this.questionWord.QuestionType === 'Pair') {
+    if (this.questionWord.QuestionType === 'Pair' || this.questionWord.QuestionType === 'Picture') {
       const prefixSuffixPairs = this.generatePrefixesAndSuffixes(this.questionWord.Question);
       this.answerLength = prefixSuffixPairs.length;
       this.randomPair = this.getRandomPair(prefixSuffixPairs);
