@@ -115,7 +115,7 @@ export default {
     this.countImg.classList.add("count", "c" + num);
     //this.countImg.style.opacity = 1;
     //this.countImg.style.maxHeight = "calc(min(60vh, 60vw))";
-    setTimeout(() => this.hideCount(num), 900);
+    setTimeout(() => this.hideCount(num), 750);
   },
   hideCount(num) {
     this.countImg.classList.remove("count", "c" + num);

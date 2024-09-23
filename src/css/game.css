@@ -539,22 +539,22 @@
 }
 .gameWrapper > .count.c0 {
   content: url(../images/phonics/ui_go.png);
-  animation: scaleUp 0.5s forwards;
+  animation: scaleUp 0.75s forwards;
   opacity: 1;
 }
 .gameWrapper > .count.c1 {
   content: url(../images/phonics/ui_1.png);
-  animation: scaleUp 0.5s forwards;
+  animation: scaleUp 0.75s forwards;
   opacity: 1;
 }
 .gameWrapper > .count.c2 {
   content: url(../images/phonics/ui_2.png);
-  animation: scaleUp 0.5s forwards;
+  animation: scaleUp 0.75s forwards;
   opacity: 1;
 }
 .gameWrapper > .count.c3 {
   content: url(../images/phonics/ui_3.png);
-  animation: scaleUp 0.5s forwards;
+  animation: scaleUp 0.75s forwards;
   opacity: 1;
 }
 
