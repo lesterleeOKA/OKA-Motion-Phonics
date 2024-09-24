@@ -18,10 +18,11 @@ export class RendererCanvas2d {
     this.leftLoadingValue = 0;
     this.updateScheduledLeft = false;
     this.updateScheduledLeft = false;
+    this.showSkeleton = false;
   }
 
   draw(rendererParams) {
-    const [video, poses, isModelChanged, bodySegmentationCanvas] = rendererParams;
+    const [video, poses, isFPSMode, bodySegmentationCanvas] = rendererParams;
     this.videoWidth = video.width;
     this.videoHeight = video.height;
     this.ctx.canvas.width = this.videoWidth;
@@ -35,10 +36,11 @@ export class RendererCanvas2d {
     this.drawCtx(video, bodySegmentationCanvas);
     if (['prepare', 'counting3', 'counting2', 'counting1', 'counting0', 'playing', 'outBox'].includes(State.state)) {
       let isCurPoseValid = false;
-      if (poses && poses.length > 0 && !isModelChanged) {
-        this.drawResults(poses, video.width / video.videoWidth);
+      if (poses && poses.length > 0) {
+        let ratio = video.width / video.videoWidth;
+        this.drawResults(poses, ratio, isFPSMode);
         //this.isPoseValid(poses, video.width / video.videoWidth);
-        isCurPoseValid = this.isPoseValid(poses, video.width / video.videoWidth);
+        isCurPoseValid = this.isPoseValid(poses);
         if (isCurPoseValid && State.bodyInsideRedBox.value == true) {
           if (State.state == 'prepare' && State.getStateLastFor() > 3500) {
             State.changeState('counting3');
@@ -84,108 +86,65 @@ export class RendererCanvas2d {
     }
   }
 
+  isOutOfBounds(keypoint) {
+    return (
+      keypoint.x < this.redBoxX ||
+      keypoint.x > (this.redBoxX + this.redBoxWidth) ||
+      keypoint.y < this.redBoxY ||
+      keypoint.y > (this.redBoxY + this.redBoxHeight)
+    );
+  }
+  checkBodyInBounds(pose, passScore) {
+    const isNoseOutBox = pose.keypoints
+      .filter(k => k.name === 'nose' && k.score > passScore)
+      .some(keypoint => this.isOutOfBounds(keypoint));
+    const isShoulderOutBox = this.center_shoulder && this.isOutOfBounds(this.center_shoulder);
+    const isBodyOutBox = this.center_shoulder ? (isShoulderOutBox && isNoseOutBox) : isNoseOutBox;
+
+    State.setPoseState('bodyInsideRedBox', !isBodyOutBox);
+    if (isBodyOutBox && State.state === 'playing') {
+      State.changeState('outBox', 'outBox');
+    }
+
+    return !isBodyOutBox; // Return true if inside the box
+  }
+  updateHandDisplays(checkKeypoints, rightHandImg, leftHandImg) {
+    rightHandImg.style.display = 'none';
+    leftHandImg.style.display = 'none';
+
+    checkKeypoints.forEach(point => {
+      const img = point.name === 'right_wrist' ? rightHandImg : leftHandImg;
+      const xInVw = (point.x / window.innerWidth) * (point.name === 'right_wrist' ? 95 : 105);
+      const yInVw = window.innerWidth / 12;
+      img.style.left = `calc(${xInVw}vw - calc(min(3vh, 3vw)))`;
+      img.style.top = `${point.y - yInVw}px`;
+      img.style.display = 'block';
+    });
+  }
+
   isPoseValid(poses) {
     if (!poses[0]) return false;
     let pose = poses[0];
     let passScore = this.scoreThreshold;
-    let isBodyOutBox;
 
     if (pose.keypoints != null) {
       //我建議膊頭兩點，腰兩點，膝頭兩點，手肘兩點，手腕兩點入框就可以玩
       //nose, left_eye_inner, left_eye, left_eye_outer, right_eye_inner, right_eye, right_eye_outer, left_ear, right_ear, mouth_left, mouth_right, left_shoulder, right_shoulder, left_elbow, right_elbow, left_wrist, right_wrist, left_pinky, right_pinky, left_index, right_index, left_thumb, right_thumb, left_hip, right_hip, left_knee, right_knee, left_ankle, right_ankle, left_heel, right_heel, left_foot_index, right_foot_index
       //let checkKeypoints = pose.keypoints.filter(k=>['left_shoulder', 'right_shoulder', 'left_elbow', 'right_elbow', 'left_wrist', 'right_wrist', 'left_hip', 'right_hip', 'left_knee', 'right_knee'].includes(k.name) && k.score>0.65);
-      /*let checkKeypoints = pose.keypoints.filter(k => k.name == 'nose' && k.score > passScore);
-      let isBodyOutBox = (
-        checkKeypoints.find(keypoint => (
-          keypoint.x < this.redBoxX ||
-          keypoint.x > (this.redBoxX + this.redBoxWidth) ||
-          keypoint.y < this.redBoxY ||
-          keypoint.y > (this.redBoxY + this.redBoxHeight)
-        )) ? true : false
-      );
 
-      if (this.center_shoulder) {
-        isBodyOutBox = ((this.center_shoulder.x < this.redBoxX ||
-          this.center_shoulder.x > (this.redBoxX + this.redBoxWidth) ||
-          this.center_shoulder.y < this.redBoxX ||
-          this.center_shoulder.y > (this.redBoxY + this.redBoxHeight)) ? true : false);
-      }
-      else {
-        isBodyOutBox = false;
-      }*/
-
-      if (this.center_shoulder) {
-        const isShoulderOutBox = (
-          this.center_shoulder.x < this.redBoxX ||
-          this.center_shoulder.x > (this.redBoxX + this.redBoxWidth) ||
-          this.center_shoulder.y < this.redBoxY ||
-          this.center_shoulder.y > (this.redBoxY + this.redBoxHeight)
-        );
-
-        const isNoseOutBox = pose.keypoints
-          .filter(k => k.name === 'nose' && k.score > passScore)
-          .some(keypoint =>
-            keypoint.x < this.redBoxX ||
-            keypoint.x > (this.redBoxX + this.redBoxWidth) ||
-            keypoint.y < this.redBoxY ||
-            keypoint.y > (this.redBoxY + this.redBoxHeight)
-          );
-
-        isBodyOutBox = isShoulderOutBox && isNoseOutBox;
-      } else {
-        const isNoseOutBox = pose.keypoints
-          .filter(k => k.name === 'nose' && k.score > passScore)
-          .some(keypoint =>
-            keypoint.x < this.redBoxX ||
-            keypoint.x > (this.redBoxX + this.redBoxWidth) ||
-            keypoint.y < this.redBoxY ||
-            keypoint.y > (this.redBoxY + this.redBoxHeight)
-          );
-
-        isBodyOutBox = isNoseOutBox;
-      }
-
-      State.setPoseState('bodyInsideRedBox', !isBodyOutBox);
-      if (isBodyOutBox) {
-        if (State.state == 'playing')
-          State.changeState('outBox', 'outBox');
-        //console.log('outBox', 'outBox');
+      if (!this.checkBodyInBounds(pose, passScore)) {
         return false;
       }
 
       let resetBtn = document.querySelector('.resetBtn');
       const rightHandImg = document.getElementById('right-hand');
       const leftHandImg = document.getElementById('left-hand');
-
-      //檢查是否有選到圖
       let optionWrappers = document.querySelectorAll('.canvasWrapper > .optionArea > .optionWrapper.show');
 
       if (State.state == 'playing' && ['waitAns'].includes(State.stateType)) {
-
-        //console.log(pose.keypoints);
-        let checkKeypoints = pose.keypoints.filter(k => ['right_wrist', 'right_index', 'left_wrist', 'left_index'].includes(k.name) && k.score > passScore);
+        const checkKeypoints = pose.keypoints.filter(k => ['right_wrist', 'left_wrist'].includes(k.name) && k.score > passScore);
+        this.updateHandDisplays(checkKeypoints, rightHandImg, leftHandImg);
         let touchingWord = [];
-
-        rightHandImg.style.display = 'none';
-        leftHandImg.style.display = 'none';
-
-        for (let point of checkKeypoints) {
-          if (point.name === 'right_wrist') {
-            const xInVw = (point.x / window.innerWidth) * 95;
-            const yInVw = (window.innerWidth / 12);
-            rightHandImg.style.left = `calc(${xInVw}vw - calc(min(3vh, 3vw)))`;
-            rightHandImg.style.top = `${point.y - yInVw}px`;
-            rightHandImg.style.display = 'block';
-          }
-
-          if (point.name === 'left_wrist') {
-            const xInVw = (point.x / window.innerWidth) * 105;
-            const yInVw = (window.innerWidth / 12);
-            leftHandImg.style.left = `calc(${xInVw}vw - calc(min(3vh, 3vw)))`;
-            leftHandImg.style.top = `${point.y - yInVw}px`;
-            leftHandImg.style.display = 'block';
-          }
-        }
 
         let isInOptionRight = false;
         let isInOptionLeft = false;
@@ -352,17 +311,17 @@ export class RendererCanvas2d {
     this.ctx.clearRect(0, 0, this.videoWidth, this.videoHeight);
   }
 
-  drawResults(poses, ratio) {
+  drawResults(poses, ratio, isFPSMode) {
     for (const pose of poses) {
-      this.drawResult(pose, ratio);
+      this.drawResult(pose, ratio, isFPSMode);
     }
   }
 
-  drawResult(pose, ratio) {
+  drawResult(pose, ratio, isFPSMode) {
     if (pose.keypoints != null) {
       this.keypointsFitRatio(pose.keypoints, ratio);
-      this.drawKeypoints(pose.keypoints);
-      this.drawSkeleton(pose.keypoints, pose.id);
+      if (isFPSMode || this.showSkeleton) this.drawKeypoints(pose.keypoints);
+      this.drawSkeleton(pose.keypoints, pose.id, isFPSMode);
     }
   }
 
@@ -407,7 +366,7 @@ export class RendererCanvas2d {
     }
   }
 
-  drawSkeleton(keypoints, poseId) {
+  drawSkeleton(keypoints, poseId, isFPSMode) {
     const color = 'White';
     this.ctx.fillStyle = color;
     this.ctx.strokeStyle = color;
@@ -428,7 +387,7 @@ export class RendererCanvas2d {
         this.ctx.beginPath();
         this.ctx.moveTo(kp1.x, kp1.y);
         this.ctx.lineTo(kp2.x, kp2.y);
-        this.ctx.stroke();
+        if (isFPSMode || this.showSkeleton) this.ctx.stroke();
       }
 
       if (kp1.name === 'left_shoulder') left_shoulder = kp1;
@@ -455,8 +414,10 @@ export class RendererCanvas2d {
         this.ctx.lineWidth = 2;
         const circle = new Path2D();
         circle.arc(this.center_shoulder.x, this.center_shoulder.y, 4, 0, 2 * Math.PI);
-        this.ctx.fill(circle);
-        this.ctx.stroke(circle);
+        if (isFPSMode || this.showSkeleton) {
+          this.ctx.fill(circle);
+          this.ctx.stroke(circle);
+        }
       }
     }
 

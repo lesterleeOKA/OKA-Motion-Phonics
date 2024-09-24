@@ -20,7 +20,8 @@ let drawContour = false;
 let foregroundThresold = 0.65;
 const bgImage = require('./images/phonics/bg.jpg');
 const fpsDebug = document.getElementById('stats');
-const { jwt, levelKey, model, removal, fps, gameTime } = parseUrlParams();
+let { jwt, levelKey, model, removal, fps, gameTime } = parseUrlParams();
+let holdTimeout;
 
 async function createDetector() {
   const runtime = 'mediapipe';
@@ -125,11 +126,12 @@ async function renderResult() {
     endEstimatePosesStats();
   }
 
+  let fpsMode = fps === '1' ? true : false;
   if (removal === '1') {
-    if (compositeCanvas) View.renderer.draw([Camera.video, poses, false, compositeCanvas]);
+    if (compositeCanvas) View.renderer.draw([Camera.video, poses, fpsMode, compositeCanvas]);
   }
   else {
-    View.renderer.draw([Camera.video, poses, false, null]);
+    View.renderer.draw([Camera.video, poses, fpsMode, null]);
   }
   Util.updateLoadingStatus("Game is Ready");
 }
@@ -319,6 +321,24 @@ function handleButtonClick(e) {
   }
 }
 
+let isHolding = false;
+function startHold() {
+  if (!isHolding) { // Only set the timeout if not already holding
+    isHolding = true; // Mark as holding
+    holdTimeout = setTimeout(() => {
+      View.renderer.showSkeleton = !View.renderer.showSkeleton;
+      fps = View.renderer.showSkeleton ? '1' : '0';
+      fpsDebug.style.opacity = View.renderer.showSkeleton ? 1 : 0;
+      stats = View.renderer.showSkeleton ? setupStats() : null;
+      console.log(`Show Skeleton ${View.renderer.showSkeleton ? 'enabled' : 'disabled'}`);
+    }, 3000); // 3 seconds
+  }
+}
+function endHold() {
+  clearTimeout(holdTimeout);
+  isHolding = false;
+}
+
 function handleButtonTouch(e) {
   switch (e.currentTarget) {
     case View.startBtn:
@@ -394,6 +414,12 @@ function setupEventListeners() {
     button.addEventListener('pointerup', handleButtonTouchLeave);
     button.addEventListener('click', handleButtonClick);
   });
+
+  View.fpsModeBtn.addEventListener('pointerdown', startHold);
+  View.fpsModeBtn.addEventListener('pointerup', endHold);
+  View.fpsModeBtn.addEventListener('mousedown', startHold);
+  View.fpsModeBtn.addEventListener('mouseup', endHold);
+  View.fpsModeBtn.addEventListener('mouseleave', endHold);
 }
 
 

@@ -14,19 +14,23 @@
  * limitations under the License.
  * =============================================================================
  */
+let stats = null;
 export function setupStats() {
-  const stats = new Stats();
-  stats.customFpsPanel = stats.addPanel(new Stats.Panel('FPS', '#0ff', '#002'));
-  stats.showPanel(stats.domElement.children.length - 1);
+  if (stats === null) {
+    stats = new Stats();
+    stats.customFpsPanel = stats.addPanel(new Stats.Panel('FPS', '#0ff', '#002'));
+    stats.showPanel(stats.domElement.children.length - 1);
 
-  const parent = document.getElementById('stats');
-  parent.appendChild(stats.domElement);
+    const parent = document.getElementById('stats');
 
-  const statsPanes = parent.querySelectorAll('canvas');
+    parent.appendChild(stats.domElement);
 
-  for (let i = 0; i < statsPanes.length; ++i) {
-    statsPanes[i].style.width = '140px';
-    statsPanes[i].style.height = '80px';
+    const statsPanes = parent.querySelectorAll('canvas');
+
+    for (let i = 0; i < statsPanes.length; ++i) {
+      statsPanes[i].style.width = '140px';
+      statsPanes[i].style.height = '80px';
+    }
   }
   return stats;
 }

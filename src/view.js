@@ -51,6 +51,7 @@ export default {
   rightHandImg: document.getElementById('right-hand'),
   leftHandImg: document.getElementById('left-hand'),
   playerIcon: document.getElementById('userIcon'),
+  fpsModeBtn: document.getElementById('fpsButton'),
   //-----------------------------------------------------------------------------------------------
   preloadedFallingImages: [],
   optionImages: [

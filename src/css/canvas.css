@@ -91,8 +91,8 @@
   border: none;
 }
 .resetTextType{
-  top: 36%;
-  right: -4.5%;
+  top: 41%;
+  right: 35%;
 }
 .resetPictureType{
   bottom: -13%;
@@ -100,7 +100,7 @@
 }
 .resetAudioType{
   bottom: 30%;
-  right: -0.5%;
+  right: 35%;
 }
 
 .questionWrapper{

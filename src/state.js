@@ -122,7 +122,7 @@ export default {
           this.allowTouchWord = false;
           setTimeout(() => {
             this.setPoseState('selectedImg', '');
-            Game.resetFillWord();
+            Game.resetFillWord(null, false);
             this.allowTouchWord = true;
           }, 1000);
           break;
