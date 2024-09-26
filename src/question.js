@@ -78,7 +78,7 @@ const QuestionManager = {
     let question = null;
     if (levelKey) {
       question = {
-        questions: this.QUESTION_TYPE.questions.filter(item => item.QID.includes(levelKey)),
+        questions: this.QUESTION_TYPE.questions.filter(item => item.qid.includes(levelKey)),
       };
       this.preloadedImages = imageFiles.filter(img => img[0].includes(levelKey));
     }
