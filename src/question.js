@@ -8,7 +8,7 @@ const hostname = window.location.hostname;
 const QuestionManager = {
   questionField: null,
   QUESTION_TYPE: Object.freeze({
-    QA: [],
+    questions: [],
   }),
   preloadedImages: [],
   preloadedImagesItem: [],
@@ -26,9 +26,9 @@ const QuestionManager = {
     console.log("preloadedImagesItem", this.preloadedImagesItem);
   },
 
-  loadQuestionData: async function (jwt = null, levelkey = null, onCompleted = null, onError = null) {
+  loadQuestionData: async function (jwt = null, appId = null, levelkey = null, onCompleted = null, onError = null) {
     try {
-      await apiManager.postGameSetting(jwt, () => this.loadQuestionFromJson(levelkey, onCompleted), () => onError());
+      await apiManager.postGameSetting(jwt, appId, () => this.loadQuestionFromJson(levelkey, onCompleted), () => onError());
     } catch (error) {
       if (onError) onError();
       console.error('Error loading JSON data:', error);
@@ -43,7 +43,7 @@ const QuestionManager = {
 
     if (apiManager.questionJson && !noAccountInfo) {
       questions = apiManager.questionJson;
-      this.QUESTION_TYPE = { QA: questions };
+      this.QUESTION_TYPE = { questions: questions };
     }
     else {
       console.log("hostname", hostname);
@@ -66,7 +66,7 @@ const QuestionManager = {
       }
 
       this.QUESTION_TYPE = {
-        QA: questions.QA,
+        questions: questions.questions,
       };
     }
 
@@ -78,15 +78,15 @@ const QuestionManager = {
     let question = null;
     if (levelKey) {
       question = {
-        QA: this.QUESTION_TYPE.QA.filter(item => item.QID.includes(levelKey)),
+        questions: this.QUESTION_TYPE.questions.filter(item => item.QID.includes(levelKey)),
       };
       this.preloadedImages = imageFiles.filter(img => img[0].includes(levelKey));
     }
     else {
-      question = { QA: this.QUESTION_TYPE.QA };
+      question = { questions: this.QUESTION_TYPE.questions };
       this.preloadedImages = imageFiles;
     }
-    if (question.QA.length > 0)
+    if (question.questions.length > 0)
       this.questionField = Object.freeze(question);
 
     if (this.preloadedImages !== null && this.preloadedImages !== undefined && this.preloadedImages.length > 0)

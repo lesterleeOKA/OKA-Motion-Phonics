@@ -20,7 +20,7 @@ let drawContour = false;
 let foregroundThresold = 0.65;
 const bgImage = require('./images/phonics/bg.jpg');
 const fpsDebug = document.getElementById('stats');
-let { jwt, levelKey, model, removal, fps, gameTime } = parseUrlParams();
+let { jwt, id, levelKey, model, removal, fps, gameTime } = parseUrlParams();
 let holdTimeout;
 
 async function createDetector() {
@@ -183,6 +183,7 @@ async function init() {
   await new Promise((resolve, reject) => {
     QuestionManager.loadQuestionData(
       jwt,
+      id,
       levelKey,
       () => {
         View.setPlayerIcon(apiManager.iconDataUrl);

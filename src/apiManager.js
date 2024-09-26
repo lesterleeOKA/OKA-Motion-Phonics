@@ -1,14 +1,16 @@
 const apiManager = {
   maxRetries: 10,
-  QuestionDataHeaderName: "Data",
+  QuestionDataHeaderName: "questions",
   questionJson: null,
   accountJson: null,
+  payloads: null,
   iconDataUrl: null,
   loginName: null,
-  GameDataAPI: "https://dev.openknowledge.hk/RainbowOne/index.php/PHPGateway/proxy/2.8/?api=ROGame.get_game_setting&json=[1]&jwt=",
 
-  async postGameSetting(jwt, onCompleted = null, onError = null) {
-    const api = this.GameDataAPI + jwt;
+  async postGameSetting(jwt, appId, onCompleted = null, onError = null) {
+    let loadQAApi = `https://ro2.azurewebsites.net/RainbowOne/index.php/PHPGateway/proxy/2.8/?api=ROGame.get_game_setting&json=["${appId}"]&jwt=`;
+    const api = loadQAApi + jwt;
+    console.log("api:", api);
     const formData = new FormData();
     let retryCount = 0;
     let requestSuccessful = false;
@@ -31,19 +33,21 @@ const apiManager = {
         }
 
         const responseText = await response.text();
-        const jsonStartIndex = responseText.indexOf('{"Data":');
+        const jsonStartIndex = responseText.indexOf(`{"${this.QuestionDataHeaderName}":`);
         if (jsonStartIndex !== -1) {
           const jsonData = responseText.substring(jsonStartIndex);
           console.log("Response:", jsonData);
 
           const jsonNode = JSON.parse(jsonData);
-          this.questionJson = jsonNode.Data;
+          this.questionJson = jsonNode.questions;
           this.accountJson = jsonNode.account;
           const photoJsonUrl = jsonNode.photo;
+          this.payloads = jsonNode.payloads;
 
-          console.log("Data:", JSON.stringify(this.questionJson, null, 2));
-          console.log(`Account: ${JSON.stringify(this.accountJson, null, 2)}`);
-          console.log(`Photo: ${photoJsonUrl}`);
+          console.log("questions:", JSON.stringify(this.questionJson, null, 2));
+          console.log(`account: ${JSON.stringify(this.accountJson, null, 2)}`);
+          console.log(`photo: ${photoJsonUrl}`);
+          console.log("payloads:", JSON.stringify(this.payloads, null, 2));
 
           if (photoJsonUrl) {
             const modifiedPhotoDataUrl = photoJsonUrl.replace(/"/g, "");

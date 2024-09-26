@@ -419,8 +419,11 @@ export default {
     option.classList.add('option');
     //option.type = 'text';
     option.textContent = text;
-    let fontSize = `calc(min(4vh, 2vw))`;
-    option.style.setProperty('--font-size', fontSize);
+    let containerWidth = this.optionSize;
+    let maxFontSize = 45; // Maximum font size in px
+    let minFontSize = 10; // Minimum font size in px
+    let fontSize = Math.max(minFontSize, Math.min(maxFontSize, containerWidth / (text.length * 0.65)));
+    option.style.fontSize = `${fontSize}px`;
     optionWrapper.appendChild(option);
     return optionWrapper;
   },
@@ -513,17 +516,17 @@ export default {
     if (this.questionField === null || this.questionField === undefined)
       return null;
 
-    let questions = this.questionField.QA;
+    let questions = this.questionField.questions;
     if (this.answeredNum === 0) {
       questions = questions.sort(() => Math.random() - 0.5);
       //console.log("questions", questions);
     }
-    const _type = questions[this.answeredNum].QuestionType;
-    const _QID = questions[this.answeredNum].QID;
-    const _question = questions[this.answeredNum].Question;
-    const _answers = questions[this.answeredNum].Answers;
-    const _correctAnswer = questions[this.answeredNum].CorrectAnswer;
-    const _media = questions[this.answeredNum].Media;
+    const _type = questions[this.answeredNum].questionType;
+    const _QID = questions[this.answeredNum].qid;
+    const _question = questions[this.answeredNum].question;
+    const _answers = questions[this.answeredNum].answers;
+    const _correctAnswer = questions[this.answeredNum].correctAnswer;
+    const _media = questions[this.answeredNum].media;
 
     if (this.answeredNum < questions.length - 1) {
       this.answeredNum += 1;
@@ -544,7 +547,7 @@ export default {
   setQuestions() {
     //console.log("this.redBoxWidth", this.redBoxWidth);
     this.questionWord = this.randQuestion();
-    if (this.questionWord.QuestionType === 'Pair' || this.questionWord.QuestionType === 'Picture') {
+    if (this.questionWord.QuestionType === 'pair' || this.questionWord.QuestionType === 'picture') {
       const prefixSuffixPairs = this.generatePrefixesAndSuffixes(this.questionWord.Question);
       this.answerLength = prefixSuffixPairs.length;
       this.randomPair = this.getRandomPair(prefixSuffixPairs);
@@ -563,7 +566,7 @@ export default {
     let questionText = null;
 
     switch (this.questionWord.QuestionType) {
-      case 'Text':
+      case 'text':
         questionText = document.createElement('span');
         questionBg.classList.add('questionImgBg');
         questionText.classList.add('questionText');
@@ -575,7 +578,7 @@ export default {
         this.answerWrapper.classList.add('pictureType');
         resetTouchBtn.style.opacity = 0;
         break;
-      case 'Pair':
+      case 'pair':
         questionText = document.createElement('span');
         questionBg.classList.add('questionBg');
         questionText.classList.add('questionText');
@@ -586,7 +589,7 @@ export default {
         this.answerWrapper.classList.add('textType');
         resetTouchBtn.classList.add('resetTextType');
         break;
-      case 'Picture':
+      case 'picture':
         this.questionWrapper = document.createElement('div');
         this.questionWrapper.classList.add('questionImageWrapper');
         questionBg.classList.add('questionImgBg');
