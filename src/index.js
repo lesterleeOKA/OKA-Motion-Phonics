@@ -181,12 +181,13 @@ async function init() {
   Util.updateLoadingStatus("Loading Data");
   // Load question data and handle callbacks
   await new Promise((resolve, reject) => {
-    QuestionManager.loadQuestionData(
+    QuestionManager.checkIsLogin(
       jwt,
       id,
       levelKey,
       () => {
         View.setPlayerIcon(apiManager.iconDataUrl);
+        View.setPlayerName(apiManager.loginName);
         resolve();
       },
       () => {
@@ -203,6 +204,19 @@ async function init() {
 
   // Set up event listeners
   setupEventListeners();
+
+  // Add onbeforeunload event handler
+  window.onbeforeunload = function (e) {
+    console.log("Calling OnClose from Browser!");
+    apiManager.exitGameRecord(
+      () => {
+        console.log("Quit Game");
+      }
+    );
+    const dialogText = "Your game has been saved! Would you like to continue unloading the page?";
+    e.returnValue = dialogText; // For most browsers
+    return dialogText;
+  };
 
   await Promise.all([
     Sound.preloadAudios([

@@ -26,6 +26,20 @@ const QuestionManager = {
     console.log("preloadedImagesItem", this.preloadedImagesItem);
   },
 
+  checkIsLogin: function (jwt = null, appId = null, levelkey = null, onCompleted = null, onError = null) {
+    if (jwt && typeof jwt === 'string' && jwt.trim() !== '' &&
+      appId && typeof appId === 'string' && appId.trim() !== '') {
+      console.log("JWT and App ID are valid.");
+      apiManager.isLogined = true;
+      this.loadQuestionData(jwt, appId, levelkey, onCompleted, onError);
+    }
+    else {
+      apiManager.isLogined = false;
+      console.log("Missing JWT and App ID.");
+      this.loadQuestionFromJson(levelkey, onCompleted);
+    }
+  },
+
   loadQuestionData: async function (jwt = null, appId = null, levelkey = null, onCompleted = null, onError = null) {
     try {
       await apiManager.postGameSetting(jwt, appId, () => this.loadQuestionFromJson(levelkey, onCompleted), () => onError());
@@ -38,10 +52,9 @@ const QuestionManager = {
   loadQuestionFromJson: async function (levelkey = null, onCompleted = null) {
     let questionsJsonPath;
     let questions;
-    var noAccountInfo = Object.keys(apiManager.accountJson).length === 0;
-    console.log("noAccountInfo", noAccountInfo);
 
-    if (apiManager.questionJson && !noAccountInfo) {
+    console.log("Account Logined", apiManager.isLogined);
+    if (apiManager.questionJson && apiManager.isLogined) {
       questions = apiManager.questionJson;
       this.QUESTION_TYPE = { questions: questions };
     }

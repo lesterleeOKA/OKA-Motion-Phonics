@@ -5,9 +5,12 @@ import QuestionManager from './question';
 
 export default {
   randPositions: [],
-  questionWord: null,
-  questionField: null,
+  randomQuestion: null,
+  questionType: null,
+  randomQuestionId: 0,
   answeredNum: 0,
+  correctedAnswerNumber: 0,
+  totalQuestions: 0,
   score: 0,
   time: 0,
   remainingTime: 0,
@@ -31,14 +34,15 @@ export default {
   starNum: 0,
   touchResetBtn: false,
   usableCells: null,
+  apiManager: null,
 
   init(gameTime = null) {
     this.remainingTime = gameTime !== null ? gameTime : 60;
     this.updateTimerDisplay(this.remainingTime);
     this.randPositions = [];
     //View.showTips('tipsReady');
-    this.questionWord = null;
-    this.questionField = QuestionManager.questionField;
+    this.randomQuestion = null;
+    this.questionType = QuestionManager.questionField;
     this.score = 0;
     this.time = 0;
     this.timerRunning = false;
@@ -74,6 +78,7 @@ export default {
     this.starNum = 0;
     this.touchResetBtn = false;
     this.usableCells = null;
+    this.apiManager = State.apiManager;
   },
 
   getProgressColor(value) {
@@ -262,9 +267,7 @@ export default {
       }
 
       if (this.time <= 0) {
-        this.stopCountTime();
-        View.timeText.classList.remove('lastTen');
-        State.changeState('finished');
+        this.finishedGame();
       }
       else {
         this.timer = setTimeout(this.countTime.bind(this), 1000);
@@ -513,27 +516,43 @@ export default {
 
 
   randQuestion() {
-    if (this.questionField === null || this.questionField === undefined)
+    if (this.questionType === null || this.questionType === undefined)
       return null;
 
-    let questions = this.questionField.questions;
-    if (this.answeredNum === 0) {
+    let questions = this.questionType.questions;
+    this.totalQuestions = questions.length;
+    if (this.randomQuestionId === 0) {
       questions = questions.sort(() => Math.random() - 0.5);
       //console.log("questions", questions);
     }
-    const _type = questions[this.answeredNum].questionType;
-    const _QID = questions[this.answeredNum].qid;
-    const _question = questions[this.answeredNum].question;
-    const _answers = questions[this.answeredNum].answers;
-    const _correctAnswer = questions[this.answeredNum].correctAnswer;
-    const _media = questions[this.answeredNum].media;
+    const _type = questions[this.randomQuestionId].questionType;
+    const _QID = questions[this.randomQuestionId].qid;
+    const _question = questions[this.randomQuestionId].question;
+    const _answers = questions[this.randomQuestionId].answers;
+    const _correctAnswer = questions[this.randomQuestionId].correctAnswer;
+    const _star = questions[this.randomQuestionId].star;
+    const _score = questions[this.randomQuestionId].score;
+    const _correctAnswerIndex = questions[this.randomQuestionId].correctAnswerIndex;
+    const _media = questions[this.randomQuestionId].media;
 
-    if (this.answeredNum < questions.length - 1) {
+    if (this.randomQuestionId < this.totalQuestions - 1) {
+      this.randomQuestionId += 1;
+    }
+    else {
+      this.randomQuestionId = 0;
+    }
+
+    if (this.answeredNum < this.totalQuestions) {
       this.answeredNum += 1;
     }
     else {
-      this.answeredNum = 0;
+      if (this.apiManager.isLogined) {
+        console.log("finished question");
+        this.finishedGame();
+        return null;
+      }
     }
+
     //console.log("answered count", this.answeredNum);
     return {
       QuestionType: _type,
@@ -541,20 +560,23 @@ export default {
       Question: _question,
       Answers: _answers,
       CorrectAnswer: _correctAnswer,
+      Star: _star,
+      Score: _score,
+      CorrectAnswerId: _correctAnswerIndex,
       Media: _media,
     };
   },
   setQuestions() {
     //console.log("this.redBoxWidth", this.redBoxWidth);
-    this.questionWord = this.randQuestion();
-    if (this.questionWord.QuestionType === 'pair' || this.questionWord.QuestionType === 'picture') {
-      const prefixSuffixPairs = this.generatePrefixesAndSuffixes(this.questionWord.Question);
+    this.randomQuestion = this.randQuestion();
+    if (this.randomQuestion.QuestionType === 'pair' || this.randomQuestion.QuestionType === 'picture') {
+      const prefixSuffixPairs = this.generatePrefixesAndSuffixes(this.randomQuestion.Question);
       this.answerLength = prefixSuffixPairs.length;
       this.randomPair = this.getRandomPair(prefixSuffixPairs);
     }
     else {
       this.answerLength = 1;
-      this.randomPair = this.getRandomAnswersPair(this.questionWord.Answers);
+      this.randomPair = this.getRandomAnswersPair(this.randomQuestion.Answers);
     }
 
     let questionBg = document.createElement('div');
@@ -565,15 +587,15 @@ export default {
     resetTouchBtn.classList.add('resetBtn');
     let questionText = null;
 
-    switch (this.questionWord.QuestionType) {
+    switch (this.randomQuestion.QuestionType) {
       case 'text':
         questionText = document.createElement('span');
         questionBg.classList.add('questionImgBg');
         questionText.classList.add('questionText');
-        questionText.textContent = this.questionWord.Question;
+        questionText.textContent = this.randomQuestion.Question;
         View.stageImg.appendChild(questionBg);
         View.stageImg.appendChild(questionText);
-        //var fontSize = `calc(min(max(4vh, 6vh - ${this.questionWord.Question.length} * 0.1vh), 6vh))`;
+        //var fontSize = `calc(min(max(4vh, 6vh - ${this.randomQuestion.Question.length} * 0.1vh), 6vh))`;
         //this.questionWrapper.style.setProperty('--question-font-size', fontSize);
         this.answerWrapper.classList.add('pictureType');
         resetTouchBtn.style.opacity = 0;
@@ -582,7 +604,7 @@ export default {
         questionText = document.createElement('span');
         questionBg.classList.add('questionBg');
         questionText.classList.add('questionText');
-        questionText.textContent = this.questionWord.CorrectAnswer;
+        questionText.textContent = this.randomQuestion.CorrectAnswer;
         //this.questionWrapper.classList.add('questionWrapper');
         View.stageImg.appendChild(questionBg);
         View.stageImg.appendChild(questionText);
@@ -596,11 +618,11 @@ export default {
         View.stageImg.appendChild(questionBg);
 
         if (QuestionManager.preloadedImagesItem && QuestionManager.preloadedImagesItem.length > 0) {
-          //let imageFile = imageFiles.find(([name]) => name === this.questionWord.QID);
+          //let imageFile = imageFiles.find(([name]) => name === this.randomQuestion.QID);
           let currentImagePath = '';
           let imageFile = null;
           QuestionManager.preloadedImagesItem.forEach((img) => {
-            if (img.id === this.questionWord.QID) {
+            if (img.id === this.randomQuestion.QID) {
               imageFile = img.src;
               //console.log("imageFile", imageFile);
             }
@@ -654,6 +676,12 @@ export default {
     View.stageImg.style.display = status ? '' : 'none';
     View.optionArea.style.display = status ? '' : 'none';
   },
+  finishedGame() {
+    this.stopCountTime();
+    View.timeText.classList.remove('lastTen');
+    State.changeState('finished');
+    this.startedGame = false;
+  },
   ///////////////////////////////////////////Merge words//////////////////////////////////
 
   mergeWord(option) {
@@ -689,21 +717,6 @@ export default {
       this.fillwordTime = 0;
     }
   },
-  checkAnswer(answer) {
-    if (this.answerWrapper) {
-      if (answer === this.questionWord.CorrectAnswer) {
-        //答岩1分，答錯唔扣分
-        this.addScore(this.eachQAMark);
-        this.answerWrapper.classList.add('correct');
-        State.changeState('playing', 'ansCorrect');
-        View.showCorrectEffect(true);
-      } else {
-        //this.addScore(-1);
-        this.answerWrapper.classList.add('wrong');
-        State.changeState('playing', 'ansWrong');
-      }
-    }
-  },
   moveToNextQuestion() {
     this.resetFillWord(null, false);
     this.nextQuestion = true;
@@ -711,6 +724,80 @@ export default {
     View.stageImg.innerHTML = '';
     this.wordParts.splice(0);
     this.usableCells = null;
+  },
+  ////////////////////////////Added Submit Answer API/////////////////////////////////////////////////////
+  checkAnswer(answer) {
+    if (this.answerWrapper === null) return;
+    const isCorrect = answer.toLowerCase() === this.randomQuestion.CorrectAnswer.toLowerCase();
+    const eachQAScore = this.getScoreForQuestion();
+
+    if (isCorrect) {
+      //答岩1分，答錯唔扣分
+      this.addScore(eachQAScore);
+      this.answerWrapper.classList.add('correct');
+      State.changeState('playing', 'ansCorrect');
+      View.showCorrectEffect(true);
+    } else {
+      //this.addScore(-1);
+      this.answerWrapper.classList.add('wrong');
+      State.changeState('playing', 'ansWrong');
+    }
+
+    this.uploadAnswerToAPI(answer, this.randomQuestion, eachQAScore); ////submit answer api//////
+  },
+  getScoreForQuestion() {
+    return this.randomQuestion.Score ? this.randomQuestion.Score : this.eachQAMark;
+  },
+  answeredPercentage() {
+    if (this.totalQuestions === 0) return 0;
+    return (this.correctedAnswerNumber / this.totalQuestions) * 100;
+  },
+  uploadAnswerToAPI(answer, currentQuestion, eachMark) {
+    if (!this.apiManager || !this.apiManager.isLogined || answer === '') return;
+    console.log(`Game Time: ${this.remainingTime}, Remaining Time: ${this.time}`);
+    const currentTime = this.calculateCurrentTime();
+    const progress = this.calculateProgress();
+    const { correctId, score, currentQAPercent } = this.calculateAnswerMetrics(answer, currentQuestion, eachMark);
+    const answeredPercentage = this.calculateAnsweredPercentage();
+    this.apiManager.SubmitAnswer(
+      currentTime,
+      this.score,
+      answeredPercentage,
+      progress,
+      correctId,
+      currentTime,
+      currentQuestion.QID,
+      currentQuestion.CorrectAnswerId,
+      answer,
+      currentQuestion.CorrectAnswer,
+      score,
+      currentQAPercent
+    );
+  },
+  calculateCurrentTime() {
+    return Math.floor(((this.remainingTime - this.time) / this.remainingTime) * 100);
+  },
+  calculateProgress() {
+    return Math.floor((this.answeredNum / this.totalQuestions) * 100);
+  },
+  calculateAnswerMetrics(answer, currentQuestion, eachMark) {
+    let correctId = 0;
+    let score = 0;
+    let currentQAPercent = 0;
+
+    if (answer === currentQuestion.CorrectAnswer) {
+      this.correctedAnswerNumber = Math.min(this.correctedAnswerNumber + 1, this.totalQuestions);
+      correctId = 2;
+      score = eachMark;
+      currentQAPercent = 100;
+    }
+    console.log("Corrected Answer Number: ", this.correctedAnswerNumber);
+    return { correctId, score, currentQAPercent };
+  },
+  calculateAnsweredPercentage() {
+    return this.correctedAnswerNumber < this.totalQuestions
+      ? this.answeredPercentage(this.totalQuestions)
+      : 100;
   }
 
 }

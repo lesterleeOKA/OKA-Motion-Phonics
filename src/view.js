@@ -42,6 +42,9 @@ export default {
   stageStar: document.querySelector('.gameWrapper > .topLeftControl > .stageWrapper > .stageStar'),
   scoreBoard: document.querySelector('.gameWrapper > .topLeftControl > .scoreWrapper > .scoreBoard'),
   scoreText: document.querySelector('.gameWrapper > .topLeftControl > .scoreWrapper > .scoreText'),
+  playerName: document.querySelector('.gameWrapper > .topLeftControl > .scoreWrapper > .playerName'),
+  playerNameText: document.querySelector('.gameWrapper > .topLeftControl > .scoreWrapper > .playerName > .playerNameText'),
+
   timeText: document.querySelector('.gameWrapper > .topLeftControl > .timeWrapper > .timeText'),
   finishedScore: document.querySelector('.finishedWrapper > .finishedBoardWrapper > .scoreTimeWrapper > .row.score > .value'),
   finishedTime: document.querySelector('.finishedWrapper > .finishedBoardWrapper > .scoreTimeWrapper > .row.time > .value'),
@@ -251,6 +254,17 @@ export default {
   setPlayerIcon(iconUrl = null) {
     if (iconUrl) {
       this.playerIcon.src = iconUrl;
+    }
+  },
+
+  setPlayerName(name = null) {
+    if (name && name !== '') {
+      this.playerName.style.display = 'block';
+      this.playerNameText.textContent = name;
+    }
+    else {
+      this.playerName.style.display = 'none';
+      this.playerNameText.textContent = '';
     }
   }
 };

@@ -246,6 +246,35 @@
   align-items: center;
   justify-content: center;
 }
+.gameWrapper > .topLeftControl > .scoreWrapper > .playerName {
+  position: absolute;
+  top: calc(min(9.5vh, 6.8vw));
+  right: calc(min(1.5vh, 1.5vw));
+  width: calc(min(12.2vh, 12.2vw));
+  height: auto;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gameWrapper > .topLeftControl > .scoreWrapper > .playerName > .playerNameBox {
+  content: url(../images/phonics/btn_jump_board.png);
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  filter: brightness(0.5);
+}
+.gameWrapper > .topLeftControl > .scoreWrapper > .playerName > .playerNameText {
+  position: absolute;
+  color: #ffffff;
+  font-size: calc(min(2.8vh, 2.8vw));
+  top: calc(min(0.5vh, 0.5vw));
+  right: calc(min(2vh, 2vw));
+  font-family: 'Kaiu', sans-serif;
+  font-weight: normal;
+}
 .gameWrapper > .topLeftControl > .scoreWrapper > .playerIcon img {
   width: 100%;
   height: auto;
@@ -318,6 +347,11 @@
 @font-face {
   font-family: 'PoetsenOne';
   src: url('../font/PoetsenOne-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Kaiu';
+  src: url('../font/kaiu.ttf') format('truetype');
 }
 /*-----------------------------------------------------------------------------------------------*/
 .gameWrapper > .topRightControl {
