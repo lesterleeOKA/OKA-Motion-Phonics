@@ -1,4 +1,5 @@
 import Util from './util';
+import { logController } from './logController';
 
 export default {
   videoStream: document.getElementById('videoStream'),
@@ -16,13 +17,13 @@ export default {
   },
   //-----------------------------------------------------------------------------------------------
   getVideo() {
-    //console.log('in getVideo()');
-    console.log('in getting videoStream....................................');
+    //logController.log('in getVideo()');
+    logController.log('in getting videoStream....................................');
     Util.updateLoadingStatus("Setting Camera");
     return new Promise((resolve, reject) => {
       if (!navigator.mediaDevices.getUserMedia && !navigator.mediaDevices) {
         const errMsg = 'Browser API navigator.mediaDevices.getUserMedia not available';
-        console.log(errMsg);
+        logController.log(errMsg);
         alert(errMsg);
         reject(errMsg);
       } else {
@@ -32,14 +33,14 @@ export default {
           try {
             this.videoStream.play();
             this.video.play();
-            console.log('videoStream is ready..............................');
+            logController.log('videoStream is ready..............................');
             Util.updateLoadingStatus("Camera Ready");
           } catch (e) {
-            console.log(e);
+            logController.log(e);
           }
           resolve(this.video);
         }).catch((e) => {
-          console.log(e);
+          logController.log(e);
           if (e.message.toLowerCase().indexOf('permission denied') == 0) {
             alert("沒有攝影機使用權限，請於瀏覽器設定此網站的攝影機使用權限");
             reject('permissionDenied');

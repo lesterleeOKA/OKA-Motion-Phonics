@@ -1,3 +1,5 @@
+import { logController } from './logController';
+
 const HostName = {
   dev: 'https://dev.openknowledge.hk',
   prod: 'https://www.rainbowone.app/'
@@ -20,7 +22,7 @@ const apiManager = {
     let loadQAApi = `${this.currentHostName}/RainbowOne/index.php/PHPGateway/proxy/2.8/?api=ROGame.get_game_setting&json=["${appId}"]&jwt=`;
     this.jwt = jwt;
     const api = loadQAApi + this.jwt;
-    console.log("api:", api);
+    logController.log("api:", api);
     const formData = new FormData();
     let retryCount = 0;
     let requestSuccessful = false;
@@ -46,7 +48,7 @@ const apiManager = {
         const jsonStartIndex = responseText.indexOf(`{"${this.QuestionDataHeaderName}":`);
         if (jsonStartIndex !== -1) {
           const jsonData = responseText.substring(jsonStartIndex);
-          console.log("Response:", jsonData);
+          logController.log("Response:", jsonData);
 
           const jsonNode = JSON.parse(jsonData);
           this.questionJson = jsonNode.questions;
@@ -57,10 +59,10 @@ const apiManager = {
           const photoJsonUrl = jsonNode.photo;
           this.payloads = jsonNode.payloads;
 
-          console.log("questions:", JSON.stringify(this.questionJson, null, 2));
-          console.log(`account: ${JSON.stringify(this.accountJson, null, 2)}`);
-          console.log(`photo: ${photoJsonUrl}`);
-          console.log("payloads:", JSON.stringify(this.payloads, null, 2));
+          logController.log("questions:", JSON.stringify(this.questionJson, null, 2));
+          logController.log(`account: ${JSON.stringify(this.accountJson, null, 2)}`);
+          logController.log(`photo: ${photoJsonUrl}`);
+          logController.log("payloads:", JSON.stringify(this.payloads, null, 2));
 
           if (photoJsonUrl) {
             const modifiedPhotoDataUrl = photoJsonUrl.replace(/"/g, "");
@@ -68,14 +70,14 @@ const apiManager = {
               ? modifiedPhotoDataUrl
               : "https:" + modifiedPhotoDataUrl;
 
-            console.log(`Downloaded People Icon!! ${this.iconDataUrl}`);
+            logController.log(`Downloaded People Icon!! ${this.iconDataUrl}`);
             //this.peopleIcon = await this.loadPeopleIcon(imageUrl);
           }
 
           if (this.accountJson) {
             if (this.accountJson.display_name) {
               this.loginName = this.accountJson.display_name.replace(/"/g, "");
-              console.log(`login Name: ${this.loginName}`);
+              logController.log(`login Name: ${this.loginName}`);
             }
             else {
               var first_name = this.accountJson.first_name.replace(/"/g, "");
@@ -96,7 +98,7 @@ const apiManager = {
         if (onError) onError();
         console.error("Error:", error.message);
         retryCount++;
-        console.log(`Retrying... Attempt ${retryCount}`);
+        logController.log(`Retrying... Attempt ${retryCount}`);
         await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for 2 seconds before retrying
       }
     }
@@ -117,7 +119,7 @@ const apiManager = {
     var answer = new Answer(answerState, currentQA);
 
     if (!this.payloads || this.accountUid === -1 || !this.jwt || !this.isLogined) {
-      console.log("Invalid parameters: payloads, accountUid, or jwt is null or empty or login out.");
+      logController.log("Invalid parameters: payloads, accountUid, or jwt is null or empty or login out.");
       return;
     }
 
@@ -144,7 +146,7 @@ const apiManager = {
         }
 
         const responseText = await response.json();
-        console.log("Success to submit answers: ", JSON.stringify(responseText, null, 2));
+        logController.log("Success to submit answers: ", JSON.stringify(responseText, null, 2));
         requestSuccessful = true;
         if (onCompleted) onCompleted();
 
@@ -164,7 +166,7 @@ const apiManager = {
   async exitGameRecord(onCompleted = null) {
     // Check for invalid parameters
     if (!this.payloads || this.accountUid === -1 || !this.jwt || !this.isLogined) {
-      console.log("Invalid parameters: payloads, accountUid, or jwt is null or empty, quit game");
+      logController.log("Invalid parameters: payloads, accountUid, or jwt is null or empty, quit game");
       return;
     }
 
@@ -194,7 +196,7 @@ const apiManager = {
         // Format the JSON response for better readability
         try {
           const parsedJson = JSON.parse(responseText);
-          console.log("Success to post end game api:", JSON.stringify(parsedJson, null, 2));
+          logController.log("Success to post end game api:", JSON.stringify(parsedJson, null, 2));
           requestSuccessful = true;
           if (onCompleted) {
             onCompleted();

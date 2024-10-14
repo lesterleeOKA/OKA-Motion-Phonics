@@ -3,6 +3,7 @@ import State from './state';
 import Sound from './sound';
 import Camera from './camera';
 import Game from './phonics';
+//import { logController } from './logController';
 
 
 export class RendererCanvas2d {
@@ -188,12 +189,12 @@ export class RendererCanvas2d {
 
         if (resetBtn) {
           for (let point of checkKeypoints) {
-            //console.log(point);
+            //logController.log(point);
             switch (point.name) {
               case 'right_wrist':
               case 'left_wrist':
                 const offsetX = (window.innerWidth / 7.68); // 10% of the viewport width
-                //console.log("offsetX: ", offsetX);
+                //logController.log("offsetX: ", offsetX);
                 if (
                   point.x > resetBtn.offsetLeft * 2 + offsetX &&
                   point.x < (resetBtn.offsetLeft * 2 + resetBtn.offsetWidth * 2) + (offsetX / 2) &&
@@ -216,7 +217,7 @@ export class RendererCanvas2d {
         if (isInOptionRight && touchingOptionRight && !touchingOptionRight.classList.contains('touch') && State.allowTouchWord) {
           if (this.rightLoadingValue < 100) {
             this.rightLoadingValue += 8;
-            //console.log("right", this.rightLoadingValue);
+            //logController.log("right", this.rightLoadingValue);
             this.scheduleUpdateHandLoading_right();
           } else {
             touchingWord.push(touchingOptionRight);

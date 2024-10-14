@@ -1,4 +1,5 @@
 import Util from './util';
+import { logController } from './logController';
 
 export default {
   audioContext: null,
@@ -10,11 +11,11 @@ export default {
       // Check if the Web Audio API is supported
       if (window.AudioContext || window.webkitAudioContext) {
         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        console.log("Your browser supports the Web Audio API");
+        logController.log("Your browser supports the Web Audio API");
         this.useAudioElement = false;
       } else {
         // Fallback to an alternative audio solution, such as the <audio> element
-        console.log("Your browser does not support the Web Audio API. Using the <audio> element instead.");
+        logController.log("Your browser does not support the Web Audio API. Using the <audio> element instead.");
         this.useAudioElement = true;
       }
     } catch (error) {
@@ -56,7 +57,7 @@ export default {
     });
   },
   play(key, loop = false, volume = null) {
-    //console.log('Play sound: ' + key);
+    //logController.log('Play sound: ' + key);
     if (!this.audios[key]) return;
     let audio = this.audios[key];
     if (!audio.audioBuffer) return false;
@@ -120,13 +121,13 @@ export default {
 
   //-----------------------------------------------------------------------------------------------
   preloadAudio_old(key, url, loop = false) {
-    console.log('in preloadAudio(' + key + ')');
+    logController.log('in preloadAudio(' + key + ')');
     return new Promise((resolve, reject) => {
       let audio = new Audio(url);
       audio.preload = "auto";
       audio.loop = loop;
       audio.oncanplaythrough = () => {
-        console.log('audio(' + key + ') loaded.');
+        logController.log('audio(' + key + ') loaded.');
         resolve(audio);
       }
       audio.load();
@@ -135,7 +136,7 @@ export default {
   },
   //-----------------------------------------------------------------------------------------------
   preloadAudios(paramArray) {
-    console.log('in preloading audios....................................');
+    logController.log('in preloading audios....................................');
     Util.updateLoadingStatus("Loading Audio");
     let pArray = [];
     for (let [key, url, createAudioContext, volume] of paramArray) {

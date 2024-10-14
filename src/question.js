@@ -2,6 +2,7 @@ import Questions from '../static/json/questions.json';
 import { imageFiles } from './mediaFile';
 import { apiManager } from "./apiManager";
 import Util from './util';
+import { logController } from './logController';
 
 const hostname = window.location.hostname;
 
@@ -14,7 +15,7 @@ const QuestionManager = {
   preloadedImagesItem: [],
 
   preloadImagesFile() {
-    console.log("preloadedImages", this.preloadedImages);
+    logController.log("preloadedImages", this.preloadedImages);
     this.preloadedImages.forEach((item) => {
       const img = new Image();
       img.id = item[0];
@@ -23,19 +24,19 @@ const QuestionManager = {
       Util.updateLoadingStatus("Loading Images");
     });
 
-    console.log("preloadedImagesItem", this.preloadedImagesItem);
+    logController.log("preloadedImagesItem", this.preloadedImagesItem);
   },
 
   checkIsLogin: function (jwt = null, appId = null, levelkey = null, onCompleted = null, onError = null) {
     if (jwt && typeof jwt === 'string' && jwt.trim() !== '' &&
       appId && typeof appId === 'string' && appId.trim() !== '') {
-      console.log("JWT and App ID are valid.");
+      logController.log("JWT and App ID are valid.");
       apiManager.isLogined = true;
       this.loadQuestionData(jwt, appId, levelkey, onCompleted, onError);
     }
     else {
       apiManager.isLogined = false;
-      console.log("Missing JWT and App ID.");
+      logController.log("Missing JWT and App ID.");
       this.loadQuestionFromJson(levelkey, onCompleted);
     }
   },
@@ -53,13 +54,13 @@ const QuestionManager = {
     let questionsJsonPath;
     let questions;
 
-    console.log("Account Logined", apiManager.isLogined);
+    logController.log("Account Logined", apiManager.isLogined);
     if (apiManager.questionJson && apiManager.isLogined) {
       questions = apiManager.questionJson;
       this.QUESTION_TYPE = { questions: questions };
     }
     else {
-      console.log("hostname", hostname);
+      logController.log("hostname", hostname);
 
       if (hostname.includes('dev.openknowledge.hk') ||
         hostname.includes('www.rainbowone.app')
@@ -71,11 +72,11 @@ const QuestionManager = {
           throw new Error(`Failed to fetch ${questionsJsonPath}: ${response.statusText}`);
         }
         questions = await response.json();
-        console.log(questions);
+        logController.log(questions);
       } else {
         // We're in the development context, use the relative path
         questions = Questions;
-        console.log(questions);
+        logController.log(questions);
       }
 
       this.QUESTION_TYPE = {
@@ -105,7 +106,7 @@ const QuestionManager = {
     if (this.preloadedImages !== null && this.preloadedImages !== undefined && this.preloadedImages.length > 0)
       this.preloadImagesFile();
 
-    console.log("Filtered: ", this.questionField);
+    logController.log("Filtered: ", this.questionField);
   },
 
 

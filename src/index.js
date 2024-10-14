@@ -10,6 +10,7 @@ import { setupStats } from './stats_panel';
 import { parseUrlParams } from './level';
 import QuestionManager from './question';
 import { apiManager } from './apiManager';
+import { logController } from './logController';
 
 let detector
 let rafId;
@@ -73,7 +74,7 @@ async function renderResult() {
       Util.updateLoadingStatus("Setup Viewer");
       if (removal === '1')
         segmentation = poses.map(singleSegmentation => singleSegmentation.segmentation);
-      //console.log(poses[0]);
+      //logController.log(poses[0]);
     } catch (error) {
       detector.dispose();
       detector = null;
@@ -170,7 +171,7 @@ async function renderPrediction() {
 
 
 async function init() {
-  console.log('in init()');
+  logController.log('in init()');
   Util.loadingStart();
   // Initialize sounds and preload images concurrently
   await Promise.all([
@@ -207,10 +208,10 @@ async function init() {
 
   // Add onbeforeunload event handler
   window.onbeforeunload = function (e) {
-    console.log("Calling OnClose from Browser!");
+    logController.log("Calling OnClose from Browser!");
     apiManager.exitGameRecord(
       () => {
-        console.log("Quit Game");
+        logController.log("Quit Game");
       }
     );
     const dialogText = "Your game has been saved! Would you like to continue unloading the page?";
@@ -348,7 +349,7 @@ function startHold() {
       fps = View.renderer.showSkeleton ? '1' : '0';
       fpsDebug.style.opacity = View.renderer.showSkeleton ? 1 : 0;
       stats = View.renderer.showSkeleton ? setupStats() : null;
-      console.log(`Show Skeleton ${View.renderer.showSkeleton ? 'enabled' : 'disabled'}`);
+      logController.log(`Show Skeleton ${View.renderer.showSkeleton ? 'enabled' : 'disabled'}`);
     }, 3000); // 3 seconds
   }
 }
@@ -442,7 +443,7 @@ function setupEventListeners() {
 
 
 async function app() {
-  //console.log('in app()');
+  //logController.log('in app()');
   if (location.protocol !== 'https:') {
     location.replace(`https:${location.href.substring(location.protocol.length)}`);
   }
@@ -463,7 +464,7 @@ async function app() {
       Camera.initSetup();
       //(new FPSMeter({ ui: true })).start();
       createDetector().then((detector) => {
-        console.log('initial detector model............................');
+        logController.log('initial detector model............................');
         Util.updateLoadingStatus("Loading Model");
         //const canvas = document.getElementById('output');
         View.renderer = new RendererCanvas2d(View.canvas);
@@ -494,7 +495,7 @@ async function cleanup() {
   if (State.isSoundOn) {
     Sound.stopAll();
   }
-  console.log("Cleanup completed.");
+  logController.log("Cleanup completed.");
 }
 
 //-------------------------------------------------------------------------------------------------

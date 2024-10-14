@@ -1,3 +1,5 @@
+import { logController } from './logController';
+
 function parseUrlParams() {
   const currentURL = window.location.href;
   if (currentURL.includes('?')) {
@@ -8,25 +10,25 @@ function parseUrlParams() {
     // Extract the required parameters
     const jwtParam = params.find(param => param.startsWith('jwt='));
     const jwtValue = jwtParam ? jwtParam.split('=')[1] : null;
-    console.log("jwt:", jwtValue);
+    logController.log("jwt:", jwtValue);
     const idParam = params.find(param => param.startsWith('id='));
     const idValue = idParam ? idParam.split('=')[1] : null;
-    console.log("App/Book id:", idValue);
+    logController.log("App/Book id:", idValue);
     const levelParam = params.find(param => param.startsWith('unit='));
     const levelValue = levelParam ? levelParam.split('=')[1] : null;
-    console.log("level:", levelValue);
+    logController.log("level:", levelValue);
     const gameTimeParam = params.find(param => param.startsWith('gameTime='));
     const gameTimeValue = gameTimeParam ? gameTimeParam.split('=')[1] : null;
-    console.log("game Time:", gameTimeValue);
+    logController.log("game Time:", gameTimeValue);
     const removalParam = params.find(param => param.startsWith('removal='));
     const removalValue = removalParam ? removalParam.split('=')[1] : null;
-    console.log("removal:", removalValue);
+    logController.log("removal:", removalValue);
     const modelParam = params.find(param => param.startsWith('model='));
     const modelValue = modelParam ? modelParam.split('=')[1] : null;
-    console.log("modelValue:", modelValue);
+    logController.log("modelValue:", modelValue);
     const fpsParam = params.find(param => param.startsWith('fps='));
     const fpsValue = fpsParam ? fpsParam.split('=')[1] : null;
-    console.log("fpsValue:", fpsValue);
+    logController.log("fpsValue:", fpsValue);
 
     return {
       jwt: jwtValue,
