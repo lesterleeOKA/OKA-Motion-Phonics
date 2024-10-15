@@ -5,6 +5,16 @@ const HostName = {
   prod: 'https://www.rainbowone.app/'
 };
 
+class Settings {
+  constructor() {
+    this.chapterUnit = ""; // Default to an empty string
+    this.previewGameImageUrl = ""; // Default to an empty string
+    this.backgroundImageUrl = ""; // Default to an empty string
+    this.instructionContent = ""; // Default to an empty string
+    this.gameTime = 0.0; // Default to 0
+  }
+}
+
 const apiManager = {
   currentHostName: HostName.dev,
   isLogined: false,
@@ -17,6 +27,7 @@ const apiManager = {
   iconDataUrl: null,
   loginName: null,
   jwt: null,
+  settings: new Settings(),
 
   async postGameSetting(jwt, appId, onCompleted = null, onError = null) {
     let loadQAApi = `${this.currentHostName}/RainbowOne/index.php/PHPGateway/proxy/2.8/?api=ROGame.get_game_setting&json=["${appId}"]&jwt=`;
