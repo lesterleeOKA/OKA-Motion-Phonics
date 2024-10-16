@@ -17,6 +17,8 @@ export default {
   stageImg: document.querySelector('.gameWrapper > .questionBoard'),
   startBtn: document.querySelector('.startBtn'),
   //instructionBtn: document.querySelector('.gameWrapper > .topRightControl > .instructionBtn'),
+  motionBtn: document.querySelector('.gameWrapper > .topRightControl  > .motionBtn'),
+
   musicBtn: document.querySelector('.gameWrapper > .topRightControl > .musicBtn'),
   exitBtn: document.querySelector('.gameWrapper > .topRightControl > .exitBtn'),
   tips: document.querySelector('.gameWrapper > .topRightControl > .tips'),
