@@ -20,6 +20,7 @@ const apiManager = {
   isLogined: false,
   maxRetries: 10,
   QuestionDataHeaderName: "questions",
+  gameSettingJson: null,
   questionJson: null,
   accountJson: null,
   accountUid: -1,
@@ -68,12 +69,22 @@ const apiManager = {
           this.accountUid = parseInt(accountUidString, 10);
 
           const photoJsonUrl = jsonNode.photo;
+          this.gameSettingJson = jsonNode.setting;
           this.payloads = jsonNode.payloads;
 
           logController.log("questions:", JSON.stringify(this.questionJson, null, 2));
           logController.log(`account: ${JSON.stringify(this.accountJson, null, 2)}`);
           logController.log(`photo: ${photoJsonUrl}`);
+          logController.log(`setting: ${this.gameSettingJson}`);
           logController.log("payloads:", JSON.stringify(this.payloads, null, 2));
+
+          if (this.gameSettingJson && JSON.stringify(this.gameSettingJson) !== '{}') {
+            const bgImagUrl = this.gameSettingJson.background_image_url.replace(/"/g, "");
+            this.settings.backgroundImageUrl = bgImagUrl.startsWith("https://")
+              ? bgImagUrl
+              : "https:" + bgImagUrl;
+            logController.log(`Downloaded BgImage: ${this.settings.backgroundImageUrl}`);
+          }
 
           if (photoJsonUrl) {
             const modifiedPhotoDataUrl = photoJsonUrl.replace(/"/g, "");
