@@ -169,6 +169,24 @@ async function renderPrediction() {
   rafId = requestAnimationFrame(renderPrediction);
 };
 
+function setAPIImage(imageElement, url) {
+  if (imageElement === null || url === null) return;
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.blob(); // Get the image as a Blob
+    })
+    .then(blob => {
+      const objectUrl = URL.createObjectURL(blob); // Create a URL for the Blob
+      imageElement.style.backgroundImage = `url(${objectUrl})`; // Set the body background
+      logController.log("load image set successfully.");
+    })
+    .catch(error => {
+      console.error("Error loading image:", error);
+    });
+}
 
 async function init() {
   logController.log('in init()');
@@ -180,6 +198,7 @@ async function init() {
   ]);
 
   Util.updateLoadingStatus("Loading Data");
+  State.gameTime = gameTime;
   // Load question data and handle callbacks
   await new Promise((resolve, reject) => {
     QuestionManager.checkIsLogin(
@@ -187,14 +206,22 @@ async function init() {
       id,
       levelKey,
       () => {
-        if (removal === '1') {
-          const bgImageElement = document.getElementById('bgImage');
-          let bgUrl = apiManager.settings.backgroundImageUrl && apiManager.settings.backgroundImageUrl !== '' ? apiManager.settings.backgroundImageUrl : bgImage;
-          bgImageElement.style.backgroundImage = `url(${bgUrl})`;
+        if (apiManager.isLogined) {
+          let previewImageUrl = (apiManager.settings.previewGameImageUrl && apiManager.settings.previewGameImageUrl) !== '' ? apiManager.settings.previewGameImageUrl : null;
+          State.gameTime = apiManager.settings.gameTime;
+          logController.log("gameTime:", State.gameTime);
+          if (apiManager.settings.removal && apiManager.settings.detectionModel) {
+            removal = apiManager.settings.removal === 0 ? '0' : '1';
+            model = apiManager.settings.detectionModel === 0 ? 'lite' : 'full';
+          }
+          if (removal === '1') {
+            let bgUrl = (apiManager.settings.backgroundImageUrl && apiManager.settings.backgroundImageUrl) !== '' ? apiManager.settings.backgroundImageUrl : bgImage;
+            setAPIImage(document.getElementById('bgImage'), bgUrl);
+          }
+          setAPIImage(document.getElementById('previewImg'), previewImageUrl);
+          View.setPlayerIcon(apiManager.iconDataUrl);
+          View.setPlayerName(apiManager.loginName);
         }
-
-        View.setPlayerIcon(apiManager.iconDataUrl);
-        View.setPlayerName(apiManager.loginName);
         resolve();
       },
       () => {
@@ -203,8 +230,6 @@ async function init() {
       }
     );
   });
-
-  State.gameTime = gameTime;
   // Calculate viewport height for mobile
   let vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);

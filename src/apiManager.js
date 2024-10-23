@@ -2,7 +2,8 @@ import { logController } from './logController';
 
 const HostName = {
   dev: 'https://dev.openknowledge.hk',
-  prod: 'https://www.rainbowone.app/'
+  prod: 'https://www.rainbowone.app/',
+  blobMedia: 'https://oka.blob.core.windows.net/media/',
 };
 
 class Settings {
@@ -11,7 +12,9 @@ class Settings {
     this.previewGameImageUrl = ""; // Default to an empty string
     this.backgroundImageUrl = ""; // Default to an empty string
     this.instructionContent = ""; // Default to an empty string
-    this.gameTime = 0.0; // Default to 0
+    this.gameTime = 0; // Default to 0
+    this.removal = null;
+    this.detectionModel = null;
   }
 }
 
@@ -79,11 +82,27 @@ const apiManager = {
           logController.log("payloads:", JSON.stringify(this.payloads, null, 2));
 
           if (this.gameSettingJson && JSON.stringify(this.gameSettingJson) !== '{}') {
-            const bgImagUrl = this.gameSettingJson.background_image_url.replace(/"/g, "");
-            this.settings.backgroundImageUrl = bgImagUrl.startsWith("https://")
-              ? bgImagUrl
-              : "https:" + bgImagUrl;
-            logController.log(`Downloaded BgImage: ${this.settings.backgroundImageUrl}`);
+            if (this.gameSettingJson.background_image_url) {
+              const bgImagUrl = this.gameSettingJson.background_image_url.replace(/"/g, "");
+              this.settings.backgroundImageUrl = bgImagUrl.startsWith("https://")
+                ? bgImagUrl
+                : HostName.blobMedia + bgImagUrl;
+              logController.log(`Downloaded BgImage: ${this.settings.backgroundImageUrl}`);
+            }
+
+            if (this.gameSettingJson.game_preview_image) {
+              const previewImagUrl = this.gameSettingJson.game_preview_image.replace(/"/g, "");
+              this.settings.previewGameImageUrl = previewImagUrl.startsWith("https://")
+                ? previewImagUrl
+                : HostName.blobMedia + previewImagUrl;
+              logController.log(`Downloaded preview image: ${this.settings.previewGameImageUrl}`);
+            }
+
+
+            if (this.gameSettingJson.game_time) this.settings.gameTime = this.gameSettingJson.game_time;
+            if (this.gameSettingJson.background_removal) this.settings.removal = this.gameSettingJson.background_removal;
+            if (this.gameSettingJson.detection_model) this.settings.detectionModel = this.gameSettingJson.detection_model;
+
           }
 
           if (photoJsonUrl) {

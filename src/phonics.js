@@ -132,7 +132,7 @@ export default {
     //View.scoreText.innerText = this.score;
     this.countUp(View.scoreText, currentScore, this.score, 1000);
   },
-  countUp(displayElement, start, end, duration, playEffect = true, unit = "") {
+  countUp(displayElement, start, end, duration, playEffect = true, unit = "", updateTextColor = true) {
     let startTime = null;
     let lastSoundTime = 0;
     const soundInterval = 200;
@@ -140,7 +140,7 @@ export default {
     function animate(timestamp) {
       if (!startTime) {
         startTime = timestamp;
-        displayElement.style.color = 'yellow';
+        if (updateTextColor) displayElement.style.color = 'yellow';
       }
       const progress = timestamp - startTime;
       // Calculate the current value based on the start value
@@ -155,7 +155,7 @@ export default {
         requestAnimationFrame(animate);
       }
       else {
-        displayElement.style.color = 'white';
+        if (updateTextColor) displayElement.style.color = 'white';
       }
     }
     requestAnimationFrame(animate);
@@ -732,6 +732,7 @@ export default {
       //this.addScore(-1);
       this.answerWrapper.classList.add('wrong');
       State.changeState('playing', 'ansWrong');
+      View.showWrongEffect(true);
     }
 
     this.updateAnsweredProgressBar(() => {
@@ -816,7 +817,7 @@ export default {
         progressColorBar.style.setProperty('--progress-right', rightPosition);
 
         const targetPercentage = Math.round(progress * 100);
-        this.countUp(progressText, Number(progressText.innerText.replace('%', '')) || 0, targetPercentage, 500, false, "%");
+        this.countUp(progressText, Number(progressText.innerText.replace('%', '')) || 0, targetPercentage, 500, false, "%", false);
 
         if (progress >= 1) {
           setTimeout(() => {

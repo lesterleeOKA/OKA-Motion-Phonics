@@ -113,6 +113,20 @@
   animation: dropAndDisappear 1s forwards;
   z-index: 5;
 }
+
+.gameWrapper > .ansResult > .incorrect{
+  position: absolute;
+  opacity: 0;
+  content: url(../images/phonics/ans_wrong_en.png);
+  width: calc(min(25.44vh, 25.44vw));
+  height: auto;
+ /* animation: dropAndDisappear 2s forwards; */
+}
+.gameWrapper > .ansResult > .incorrect.show{
+  animation: dropAndDisappear 1s forwards;
+  z-index: 5;
+}
+
 :root {
   --size-in-px: 80px;
   --dropStartPoint: calc(var(--size-in-px) / var(--viewport-height) * 100vh);
@@ -206,10 +220,11 @@
   position: relative;
 }
 .gameWrapper > .topLeftControl > .scoreWrapper > .scoreBoard {
-  height: calc(min(11.7vh, 11.7vw));
+  /*height: calc(min(11.7vh, 11.7vw));*/
+  width: calc(min(25.7vh, 25.7vw));
   margin-left: calc(min(2vh, 2vw));
-  content: url(../images/phonics/p1_score.png);
-  margin-bottom: -0.5vh;
+  content: url(../images/phonics/p1_score_name.png);
+  margin-bottom: -4.8vh;
   filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.5));
 }
 /*-----------------------------------------------------------------------------------------------*/
@@ -217,8 +232,8 @@
   position: absolute;
   color: #fff;
   font-size: calc(min(3.5vh, 3.5vw));
-  top: calc(min(4vh, 4vw));
-  right: calc(min(5.7vh, 5.7vw));
+  top: calc(min(5.7vh, 5.7vw));
+  right: calc(min(7vh, 7vw));
   font-family: 'BoinkLETPlain', sans-serif;
   font-weight: normal;
   text-shadow: calc(min(0.2vh, 0.2vw)) calc(min(0.2vh, 0.2vw)) #000;
@@ -227,17 +242,17 @@
 .gameWrapper > .topLeftControl > .scoreWrapper > .playerText {
   position: absolute;
   color: #3cadee;
-  font-size: calc(min(2.8vh, 2.8vw));
-  top: calc(min(0.5vh, 0.5vw));
-  right: calc(min(7.2vh, 7.2vw));
+  font-size: calc(min(2.7vh, 2.7vw));
+  top: calc(min(2.5vh, 2.5vw));
+  right: calc(min(10.1vh, 10.1vw));
   font-family: 'BoinkLETPlain', sans-serif;
   font-weight: normal;
 }
 /*-----------------------------------------------------------------------------------------------*/
 .gameWrapper > .topLeftControl > .scoreWrapper > .playerIcon {
   position: absolute;
-  top: calc(min(2vh, 2vw));
-  right: calc(min(11.5vh, 11vw));
+  top: calc(min(3.5vh, 3.5vw));
+  right: calc(min(14vh, 14vw));
   width: calc(min(8.2vh, 8.2vw));
   height: auto;
   border-radius: 50%;
@@ -248,48 +263,49 @@
 }
 .gameWrapper > .topLeftControl > .scoreWrapper > .playerName {
   position: absolute;
-  top: calc(min(9.5vh, 6.8vw));
-  right: calc(min(1.5vh, 1.5vw));
-  width: calc(min(12.2vh, 12.2vw));
-  height: auto;
+  top: calc(min(11.3vh, 11.3vw));
+  right: calc(min(6.6vh, 6.6vw));
+  width: calc(min(7.8vh, 7.8vw));
+  height: calc(min(2.9vh, 2.9vw));
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .gameWrapper > .topLeftControl > .scoreWrapper > .playerName > .playerNameBox {
-  content: url(../images/phonics/btn_jump_board.png);
+  /*content: url(../images/fruitNinja/name_box.png);*/
   position: relative;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  filter: brightness(0.5);
+  background:
+  url(../images/phonics/name_box.png) no-repeat center,
+  #3cadee; /* The background color */
+  background-size: cover; /* Ensure the image covers the element */
+  background-blend-mode: multiply; /* Blend the color with the image */
+  border-radius: 0 0 calc(min(1vh, 1vw)) calc(min(1vh, 1vw));
 }
 .gameWrapper > .topLeftControl > .scoreWrapper > .playerName > .playerNameText {
   position: absolute;
   color: #ffffff;
-  font-size: calc(min(2.8vh, 2.8vw));
-  top: calc(min(0.5vh, 0.5vw));
-  right: calc(min(2vh, 2vw));
+  font-size: calc(min(1vh, 2.3vw));
+  top: 0;
   font-family: 'Kaiu', sans-serif;
   font-weight: normal;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .gameWrapper > .topLeftControl > .scoreWrapper > .playerIcon img {
   width: 100%;
   height: auto;
   object-fit: cover;
-}
-/*-----------------------------------------------------------------------------------------------*/
-.gameWrapper > .topLeftControl > .scoreWrapper > .scoreText {
-  position: absolute;
-  color: #fff;
-  font-size: calc(min(3.5vh, 3.5vw));
-  top: calc(min(4vh, 4vw));
-  right: calc(min(5.7vh, 5.7vw));
-  font-family: 'BoinkLETPlain', sans-serif;
-  font-weight: normal;
-  text-shadow: calc(min(0.2vh, 0.2vw)) calc(min(0.2vh, 0.2vw)) #000;
 }
 /*-----------------------------------------------------------------------------------------------*/
 .gameWrapper > .topLeftControl > .timeWrapper {
@@ -685,20 +701,22 @@
   display: flex;
   flex-direction: column;
   position: absolute;
-  width: calc(min(35vh, 35vw) - 20px);
-  height: calc(min(3vh, 3vw));
+  width: calc(min(45vh, 45vw) - 20px);
+  height: calc(min(4.5vh, 4.5vw));
   top: calc(min(92vh, 92vw));
   justify-content: center;
   align-items: center;
-  background-image: url(../images/phonics/progress_bar_null.png);
-  background-size: cover; /* Make the background image cover the entire area */
-  background-repeat: no-repeat; /* Prevent the image from repeating */
-  background-position: center; /* Center the image */
+  background-color: white;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: calc(min(5vh, 5vw));
 }
 .progressBar {
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 80%;
+  height: 80%;
+  margin: calc(min(0.5vh, 0.5vw));
 }
 .progressColorBar, .progressOutterBorder, .progressInnerBorder {
   width:100%;
@@ -706,27 +724,27 @@
   position: absolute;
   top: 0px;
   left: 0px;
-  border-radius: 5vw;
+  border-radius: 20vw;
 }
 .progressBrownBar {
   background-color:#000000;
 }
 .progressColorBar {
   background: none;
-  width: 101%;
-  height: 101%;
+  width:100%;
+  height:100%;
   position: relative;
   overflow: hidden;
 }
-.progressColorBar > .progressText {
+.progressText {
   position: absolute;
   top: 50%;
-  left: 50%;
-  font-family: "Arzachel", system-ui;
+  left: 110%;
+  font-family: 'BoinkLETPlain', sans-serif;
   transform: translate(-50%, -50%);
-  color: #ffffff;
+  color:  #7C5729;
   font-weight: bold;
-  font-size: calc(min(1.5vh, 1.5vw));
+  font-size: calc(min(2.5vh, 2.5vw));
   z-index: 1;
 }
 .progressColorBar::after {
@@ -749,3 +767,4 @@
 .progressInnerBorder {
   box-shadow: inset 0 0 10px rgba(84, 83, 83, 0.2);
 }
+

@@ -245,6 +245,14 @@ export default {
       result.addEventListener('animationend', () => result.classList.remove('show'));
     }
   },
+
+  showWrongEffect(status) {
+    let result = document.querySelector('.gameWrapper .ansResult .incorrect');
+    if (status) {
+      result.classList.add('show');
+      result.addEventListener('animationend', () => result.classList.remove('show'));
+    }
+  },
   //-----------------------------------------------------------------------------------------------
   setSelectCount(value) {
     for (let selectCount of this.selectCounts) selectCount.innerHTML = value;
@@ -265,7 +273,13 @@ export default {
   setPlayerName(name = null) {
     if (name && name !== '') {
       this.playerName.style.display = 'block';
+      const textLength = name.length;
+      const baseSize = this.playerName.getBoundingClientRect().width / textLength;
       this.playerNameText.textContent = name;
+      if (baseSize > 10) {
+        const containerWidth = (baseSize) - (textLength);
+        this.playerNameText.style.fontSize = `${containerWidth}px`;
+      }
     }
     else {
       this.playerName.style.display = 'none';

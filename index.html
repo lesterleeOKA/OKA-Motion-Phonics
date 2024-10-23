@@ -71,7 +71,7 @@
     <!--<img class="schoolLogo"></img>-->
     <div class="instructionBoard">
       <div class="gameTitle"></div>
-      <div class="previewImage"></div>
+      <div class="previewImage" id="previewImg"></div>
       <div class="instructionRule">
         <div class="icon"></div>
         <div class="instructionContent">Use your hands to pair the prefix and suffix!</div>
@@ -89,9 +89,8 @@
       <div class="rule-3">3) Please do not leave your current position during the game.</div>-->
     </div>
     <div class="ansResult">
-      <!--<div class="ans correct">答對了！</div>
-      <div class="ans wrong">還需努力！</div>-->
       <div class="wellDone"></div>
+      <div class="incorrect"></div>
     </div>
     <!--<div class="outBoxBoardWrapper"><img class="outBoxBoard"></img></div>-->
     <div class="topLeftControl hide">
@@ -162,9 +161,8 @@
 
   <div class="progressBarWrapper" style="display: none;">
     <div id="progressBar" class="progressBar">
-      <div class="progressColorBar" id="progressColorBar">
-        <div class="progressText" id="progressText">0%</div>
-      </div>
+      <div class="progressColorBar" id="progressColorBar"></div>
+      <div class="progressText" id="progressText">0%</div>
       <div class="progressOutterBorder"></div>
       <div class="progressInnerBorder"></div>
     </div>
