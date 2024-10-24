@@ -181,7 +181,7 @@ function setAPIImage(imageElement, url) {
     .then(blob => {
       const objectUrl = URL.createObjectURL(blob); // Create a URL for the Blob
       imageElement.style.backgroundImage = `url(${objectUrl})`; // Set the body background
-      logController.log("load image set successfully.");
+      logController.log("load " + imageElement.id + " set successfully.");
     })
     .catch(error => {
       console.error("Error loading image:", error);
@@ -207,20 +207,27 @@ async function init() {
       levelKey,
       () => {
         if (apiManager.isLogined) {
-          let previewImageUrl = (apiManager.settings.previewGameImageUrl && apiManager.settings.previewGameImageUrl) !== '' ? apiManager.settings.previewGameImageUrl : null;
+          let previewImageUrl = (apiManager.settings.previewGameImageUrl && apiManager.settings.previewGameImageUrl !== '') ? apiManager.settings.previewGameImageUrl : null;
           State.gameTime = apiManager.settings.gameTime;
-          logController.log("gameTime:", State.gameTime);
-          if (apiManager.settings.removal && apiManager.settings.detectionModel) {
-            removal = apiManager.settings.removal === 0 ? '0' : '1';
-            model = apiManager.settings.detectionModel === 0 ? 'lite' : 'full';
-          }
+          logController.log("settings gameTime:", State.gameTime);
+          logController.log("settings removal:", apiManager.settings.removal);
+          logController.log("settings detectionModel:", apiManager.settings.detectionModel);
+
+          removal = apiManager.settings.removal === 1 ? '1' : '0';
+          model = apiManager.settings.detectionModel === 1 ? 'full' : 'lite';
+
           if (removal === '1') {
-            let bgUrl = (apiManager.settings.backgroundImageUrl && apiManager.settings.backgroundImageUrl) !== '' ? apiManager.settings.backgroundImageUrl : bgImage;
+            let bgUrl = (apiManager.settings.backgroundImageUrl && apiManager.settings.backgroundImageUrl !== '') ? apiManager.settings.backgroundImageUrl : bgImage;
             setAPIImage(document.getElementById('bgImage'), bgUrl);
           }
           setAPIImage(document.getElementById('previewImg'), previewImageUrl);
           View.setPlayerIcon(apiManager.iconDataUrl);
           View.setPlayerName(apiManager.loginName);
+        }
+        else {
+          if (removal === '1') {
+            setAPIImage(document.getElementById('bgImage'), bgImage);
+          }
         }
         resolve();
       },
