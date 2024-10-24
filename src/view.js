@@ -47,6 +47,7 @@ export default {
   scoreText: document.querySelector('.gameWrapper > .topLeftControl > .scoreWrapper > .scoreText'),
   playerName: document.querySelector('.gameWrapper > .topLeftControl > .scoreWrapper > .playerName'),
   playerNameText: document.querySelector('.gameWrapper > .topLeftControl > .scoreWrapper > .playerName > .playerNameText'),
+  playerNameBox: document.querySelector('.gameWrapper > .topLeftControl > .scoreWrapper > .playerName > .playerNameBox'),
 
   timeText: document.querySelector('.gameWrapper > .topLeftControl > .timeWrapper > .timeText'),
   finishedScore: document.querySelector('.finishedWrapper > .finishedBoardWrapper > .scoreTimeWrapper > .row.score > .value'),
@@ -273,6 +274,7 @@ export default {
   setPlayerName(name = null) {
     if (name && name !== '') {
       this.playerName.style.display = 'block';
+      this.playerNameBox.style.opacity = 1;
       const textLength = name.length;
       const baseSize = this.playerName.getBoundingClientRect().width / textLength;
       this.playerNameText.textContent = name;
@@ -282,6 +284,7 @@ export default {
       }
     }
     else {
+      this.playerNameBox.style.opacity = 0;
       this.playerName.style.display = 'none';
       this.playerNameText.textContent = '';
     }

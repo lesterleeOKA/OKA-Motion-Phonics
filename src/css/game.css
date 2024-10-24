@@ -275,6 +275,7 @@
 .gameWrapper > .topLeftControl > .scoreWrapper > .playerName > .playerNameBox {
   /*content: url(../images/fruitNinja/name_box.png);*/
   position: relative;
+  opacity: 0;
   top: 0;
   left: 0;
   width: 100%;
