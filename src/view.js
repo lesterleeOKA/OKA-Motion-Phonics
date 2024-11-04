@@ -61,6 +61,7 @@ export default {
   fpsModeBtn: document.getElementById('fpsButton'),
 
   progressBarWrapper: document.querySelector('.progressBarWrapper'),
+  instructionContent: document.querySelector('.instructionBoard > .instructionRule > .instructionContent'),
   //-----------------------------------------------------------------------------------------------
   preloadedFallingImages: [],
   optionImages: [
@@ -292,5 +293,9 @@ export default {
 
   setProgressBar(status = null) {
     this.progressBarWrapper.style.display = status ? 'block' : 'none';
+  },
+
+  setInstructionContent(content = null) {
+    this.instructionContent.textContent = content;
   }
 };

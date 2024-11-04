@@ -24,6 +24,7 @@ export default {
   answerLength: 0,
   questionWrapper: null,
   answerWrapper: null,
+  answerTextField: null,
   startedGame: false,
   fillwordTime: 0,
   redBoxX: 0,
@@ -44,6 +45,7 @@ export default {
     //View.showTips('tipsReady');
     this.randomQuestion = null;
     this.questionType = QuestionManager.questionField;
+    this.totalQuestions = this.questionType.questions ? this.questionType.questions.length : 0;
     this.score = 0;
     this.time = 0;
     this.timerRunning = false;
@@ -55,7 +57,8 @@ export default {
     View.scoreBoard.className = "scoreBoard";
     this.questionWrapper = null;
     this.answerWrapper = null;
-    this.fillwordTime = 0;
+    this.answerTextField = null,
+      this.fillwordTime = 0;
     View.stageImg.innerHTML = '';
     View.optionArea.innerHTML = '';
     this.startedGame = false;
@@ -531,11 +534,15 @@ export default {
     const _QID = questions[this.randomQuestionId].qid;
     const _question = questions[this.randomQuestionId].question;
     const _answers = questions[this.randomQuestionId].answers;
-    const _correctAnswer = questions[this.randomQuestionId].correctAnswer;
+    let _correctAnswer = questions[this.randomQuestionId].correctAnswer;
     const _star = questions[this.randomQuestionId].star;
     const _score = questions[this.randomQuestionId].score;
     const _correctAnswerIndex = questions[this.randomQuestionId].correctAnswerIndex;
     const _media = questions[this.randomQuestionId].media;
+
+    if ((_correctAnswer === null || _correctAnswer === undefined) && _correctAnswerIndex !== null && _answers.length > 0) {
+      _correctAnswer = _answers[_correctAnswerIndex];
+    }
 
     if (this.randomQuestionId < this.totalQuestions - 1) {
       this.randomQuestionId += 1;
@@ -571,7 +578,7 @@ export default {
     }
 
     let questionBg = document.createElement('div');
-    this.answerWrapper = document.createElement('span');
+    this.answerTextField = document.createElement('span');
     let resetBtn = document.createElement('div');
     //resetBtn.classList.add('resetBtn');
     let resetTouchBtn = document.createElement('button');
@@ -588,7 +595,7 @@ export default {
         View.stageImg.appendChild(questionText);
         //var fontSize = `calc(min(max(4vh, 6vh - ${this.randomQuestion.Question.length} * 0.1vh), 6vh))`;
         //this.questionWrapper.style.setProperty('--question-font-size', fontSize);
-        this.answerWrapper.classList.add('pictureType');
+        this.answerTextField.classList.add('pictureType');
         resetTouchBtn.style.opacity = 0;
         break;
       case 'pair':
@@ -599,7 +606,7 @@ export default {
         //this.questionWrapper.classList.add('questionWrapper');
         View.stageImg.appendChild(questionBg);
         View.stageImg.appendChild(questionText);
-        this.answerWrapper.classList.add('textType');
+        this.answerTextField.classList.add('textType');
         resetTouchBtn.classList.add('resetTextType');
         break;
       case 'picture':
@@ -628,7 +635,7 @@ export default {
             this.questionWrapper.appendChild(imageElement);
           }
         }
-        this.answerWrapper.classList.add('pictureType');
+        this.answerTextField.classList.add('pictureType');
         resetTouchBtn.classList.add('resetPictureType');
         View.stageImg.appendChild(this.questionWrapper);
         break;
@@ -657,9 +664,12 @@ export default {
 
     resetBtn.appendChild(resetTouchBtn);
 
-    this.answerWrapper.classList.add('answerWrapper');
+    this.answerTextField.classList.add('answerWrapper');
+    this.answerWrapper = document.createElement('span');
+    this.answerWrapper.classList.add('answerText');
+    this.answerTextField.appendChild(this.answerWrapper);
     View.stageImg.appendChild(resetBtn);
-    View.stageImg.appendChild(this.answerWrapper);
+    View.stageImg.appendChild(this.answerTextField);
     View.stageImg.classList.add('fadeIn');
     View.stageImg.style.opacity = 1;
   },
@@ -673,12 +683,33 @@ export default {
     State.changeState('finished');
     this.startedGame = false;
   },
+  adjustAnswerTextFontSize(answer) {
+    if (this.answerWrapper) {
+      const textLength = answer.length;
+      let fontSize;
+      // Base font size
+      const baseFontSize = 26; // Adjust this value as needed
+
+      // Set font size based on text length
+      if (textLength <= 10) {
+        fontSize = baseFontSize; // Maximum size for short text
+      } else if (textLength <= 20) {
+        fontSize = baseFontSize * 0.8; // Scale down for medium-length text
+      } else if (textLength <= 30) {
+        fontSize = baseFontSize * 0.6; // Further scale down for longer text
+      } else {
+        fontSize = baseFontSize * 0.4; // Minimum size for very long text
+      }
+      this.answerWrapper.style.fontSize = `${fontSize}px`;
+    }
+  },
   ///////////////////////////////////////////Merge words//////////////////////////////////
 
   mergeWord(option) {
     if (this.answerWrapper) {
       if (this.fillwordTime < this.answerLength) {
         this.answerWrapper.textContent += option.value;
+        this.adjustAnswerTextFontSize(this.answerWrapper.textContent);
         option.classList.add('touch');
         this.fillwordTime += 1;
         if (State.isSoundOn) {
@@ -702,8 +733,8 @@ export default {
       }
       let optionWrappers = document.querySelectorAll('.canvasWrapper > .optionArea > .optionWrapper.show');
       for (let option of optionWrappers) option.classList.remove('touch');
-      this.answerWrapper.classList.remove('correct');
-      this.answerWrapper.classList.remove('wrong');
+      this.answerTextField.classList.remove('correct');
+      this.answerTextField.classList.remove('wrong');
       this.answerWrapper.textContent = '';
       this.fillwordTime = 0;
     }
@@ -725,12 +756,12 @@ export default {
     if (isCorrect) {
       //答岩1分，答錯唔扣分
       this.addScore(eachQAScore);
-      this.answerWrapper.classList.add('correct');
+      this.answerTextField.classList.add('correct');
       State.changeState('playing', 'ansCorrect');
       View.showCorrectEffect(true);
     } else {
       //this.addScore(-1);
-      this.answerWrapper.classList.add('wrong');
+      this.answerTextField.classList.add('wrong');
       State.changeState('playing', 'ansWrong');
       View.showWrongEffect(true);
     }
@@ -798,7 +829,7 @@ export default {
       : 100;
   },
 
-  updateAnsweredProgressBar(onCompleted = null) {
+  /*updateAnsweredProgressBar(onCompleted = null) {
     if (this.apiManager.isLogined) {
       let progress = 0;
       if (this.answeredNum < this.totalQuestions) {
@@ -839,6 +870,52 @@ export default {
 
       if (progressText) {
         progressText.textContent = "0%"; // Reset text
+      }
+    }
+  }*/
+
+  updateAnsweredProgressBar(onCompleted = null) {
+    if (this.apiManager.isLogined) {
+      let progress = 0;
+
+      // Increment answered questions and calculate progress
+      if (this.answeredNum < this.totalQuestions) {
+        this.answeredNum += 1;
+        progress = this.answeredNum / this.totalQuestions;
+      } else {
+        progress = 1;
+      }
+
+      let progressColorBar = document.getElementById("progressColorBar");
+      let progressText = document.querySelector('.progressText');
+
+      if (progressColorBar) {
+        let rightPosition = (100 - (progress * 100)) + "%";
+        progressColorBar.style.setProperty('--progress-right', rightPosition);
+        // Show the progress in the format "answered/total"
+        progressText.innerText = `${this.answeredNum}/${this.totalQuestions}`;
+
+        if (progress >= 1) {
+          setTimeout(() => {
+            if (onCompleted) onCompleted();
+          }, 500);
+        }
+      }
+    }
+  },
+
+  resetProgressBar() {
+    if (this.apiManager.isLogined) {
+      this.answeredNum = 0; // Reset answered questions
+      let progressColorBar = document.getElementById("progressColorBar");
+      let progressText = document.querySelector('.progressText');
+
+      if (progressColorBar) {
+        progressColorBar.style.setProperty('--progress-right', "100%"); // Reset position
+      }
+
+      if (progressText) {
+        progressText.textContent = "0/" + this.totalQuestions; // Reset text to show answered/total format
       }
     }
   }

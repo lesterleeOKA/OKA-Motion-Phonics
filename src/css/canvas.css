@@ -207,29 +207,42 @@
 }
 
 .answerWrapper{
+    /*background-color: rgb(192 134 97);
+  border-radius: 4%;*/
+  /*font-family: "Arzachel", system-ui;*/
   position: absolute;
   left: 50%;
   transform: translate(-50%, 50%);
   transition: opacity 0.1s ease;
   text-align: center;
-  /*background-color: rgb(192 134 97);
-  border-radius: 4%;*/
-  font-size: calc(min(3.5vh, 3.5vw));
-  /*font-family: "Arzachel", system-ui;*/
+  font-size: calc(min(4vh, 4vw)); /* Responsive font size */
   font-family: 'PoetsenOne', sans-serif;
   font-weight: 100;
-  width: calc(min(30.7vh, 30.7vw));
-  /*height: calc(min(4.7vh, 4.7vw));*/
-  color: white;
   padding: calc(min(0.2vh, 0.2vw));
-  /*padding-bottom: 8px;
-  filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.5));*/
+  width: calc(min(32.7vh, 32.7vw));
+  height: calc(min(4.7vh, 4.7vw));
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.answerText {
+  line-height: 0.9;
+  max-width: 100%;
+  height: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  align-content: center;
 }
 .textType{
   top: calc(min(9.7vh, 9.7vw));
 }
 .pictureType{
   top: calc(min(27.7vh, 27.7vw));
+}
+.audioType{
+  top: 32.5%;
 }
 
 .correct {

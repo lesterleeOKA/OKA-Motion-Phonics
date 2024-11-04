@@ -1,8 +1,8 @@
 import Questions from '../static/json/questions.json';
 import { imageFiles } from './mediaFile';
-import { apiManager } from "./apiManager";
-import Util from './util';
+import { apiManager, HostName } from "./apiManager";
 import { logController } from './logController';
+import Util from './util';
 
 const hostname = window.location.hostname;
 
@@ -13,6 +13,9 @@ const QuestionManager = {
   }),
   preloadedImages: [],
   preloadedImagesItem: [],
+  apiMedia: [],
+  mediaType: '',
+  questionType: '',
 
   preloadImagesFile() {
     logController.log("preloadedImages", this.preloadedImages);
@@ -46,17 +49,36 @@ const QuestionManager = {
       await apiManager.postGameSetting(jwt, appId, () => this.loadQuestionFromJson(levelkey, onCompleted), () => onError());
     } catch (error) {
       if (onError) onError();
-      console.error('Error loading JSON data:', error);
+      logController.error('Error loading JSON data:', error);
     }
   },
 
   loadQuestionFromJson: async function (levelkey = null, onCompleted = null) {
     let questionsJsonPath;
     let questions;
+    let mediaFiles;
 
     logController.log("Account Logined", apiManager.isLogined);
     if (apiManager.questionJson && apiManager.isLogined) {
       questions = apiManager.questionJson;
+      this.questionType = questions[0].questionType;
+      mediaFiles = questions[0].media;
+
+      if (mediaFiles[0]) {
+        this.mediaType = getMediaType(mediaFiles[0]);
+        logController.log("mediaType:", this.mediaType);
+      }
+      logController.log("question Type:", this.questionType);
+      if (mediaFiles.length > 0) {
+        questions.forEach((question) => {
+          const key = question.qid;
+          const url = HostName.blobMedia + question.media;
+          this.apiMedia.push([key, url]);
+          Util.updateLoadingStatus("Loading Medias");
+        });
+        logController.log("apiMedia files:", this.apiMedia);
+      }
+
       this.QUESTION_TYPE = { questions: questions };
     }
     else {
@@ -98,7 +120,13 @@ const QuestionManager = {
     }
     else {
       question = { questions: this.QUESTION_TYPE.questions };
-      this.preloadedImages = imageFiles;
+      if (apiManager.isLogined) {
+        if (this.mediaType === 'picture')
+          this.preloadedImages = this.apiMedia;
+      }
+      else {
+        this.preloadedImages = imageFiles;
+      }
     }
     if (question.questions.length > 0)
       this.questionField = Object.freeze(question);
@@ -109,7 +137,21 @@ const QuestionManager = {
     logController.log("Filtered: ", this.questionField);
   },
 
-
 };
+
+function getMediaType(mediaPath) {
+  // Get the file extension
+  const extension = mediaPath.split('.').pop().toLowerCase();
+  const audioExtensions = ['mp3', 'wav', 'ogg', 'm4a'];
+  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'];
+
+  if (audioExtensions.includes(extension)) {
+    return 'audio';
+  } else if (imageExtensions.includes(extension)) {
+    return 'picture';
+  } else {
+    return 'unknown';
+  }
+}
 
 export default QuestionManager;

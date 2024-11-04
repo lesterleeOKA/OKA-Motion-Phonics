@@ -15,6 +15,7 @@ class Settings {
     this.gameTime = 0; // Default to 0
     this.removal = null;
     this.detectionModel = null;
+    this.fallSpeed = 0;
   }
 }
 
@@ -98,11 +99,11 @@ const apiManager = {
               logController.log(`Downloaded preview image: ${this.settings.previewGameImageUrl}`);
             }
 
-
-            if (this.gameSettingJson.game_time) this.settings.gameTime = this.gameSettingJson.game_time;
-            if (this.gameSettingJson.background_removal) this.settings.removal = this.gameSettingJson.background_removal;
-            if (this.gameSettingJson.detection_model) this.settings.detectionModel = this.gameSettingJson.detection_model;
-
+            this.settings.instructionContent = this.gameSettingJson.description;
+            this.settings.gameTime = this.gameSettingJson.game_time;
+            this.settings.fallSpeed = this.gameSettingJson.object_speed;
+            this.settings.removal = this.gameSettingJson.background_removal;
+            this.settings.detectionModel = this.gameSettingJson.detection_model;
           }
 
           if (photoJsonUrl) {
@@ -132,12 +133,12 @@ const apiManager = {
 
         } else {
           if (onError) onError();
-          console.error("JSON data not found in the response.");
+          logController.error("JSON data not found in the response.");
         }
 
       } catch (error) {
         if (onError) onError();
-        console.error("Error:", error.message);
+        logController.error("Error:", error.message);
         retryCount++;
         logController.log(`Retrying... Attempt ${retryCount}`);
         await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for 2 seconds before retrying
@@ -146,7 +147,7 @@ const apiManager = {
 
     if (!requestSuccessful) {
       if (onError) onError();
-      console.error(`Failed to get a successful response after ${maxRetries} attempts.`);
+      logController.error(`Failed to get a successful response after ${this.maxRetries} attempts.`);
     }
   },
 
@@ -193,7 +194,7 @@ const apiManager = {
 
       } catch (error) {
         retryCount++;
-        console.error("Error: " + error.message + " Retrying... " + retryCount);
+        logController.error("Error: " + error.message + " Retrying... " + retryCount);
         await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for 2 seconds before retrying
       }
     }
@@ -208,6 +209,9 @@ const apiManager = {
     // Check for invalid parameters
     if (!this.payloads || this.accountUid === -1 || !this.jwt || !this.isLogined) {
       logController.log("Invalid parameters: payloads, accountUid, or jwt is null or empty, quit game");
+      if (onCompleted) {
+        onCompleted();
+      }
       return;
     }
 
@@ -243,17 +247,17 @@ const apiManager = {
             onCompleted();
           }
         } catch (ex) {
-          console.error("Failed to parse JSON:", ex.message);
+          logController.error("Failed to parse JSON:", ex.message);
         }
       } catch (error) {
         retryCount++;
-        console.error("Error:", error.message, "Retrying...", retryCount);
+        logController.error("Error:", error.message, "Retrying...", retryCount);
         await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for 2 seconds before retrying
       }
     }
 
     if (!requestSuccessful) {
-      console.error("Failed to call endgame api after", maxRetries, "attempts.");
+      logController.error("Failed to call endgame api after", maxRetries, "attempts.");
       if (onCompleted) {
         onCompleted(); // Call onCompleted even if it failed
       }
@@ -335,4 +339,4 @@ class Answer {
   }
 }
 
-export { apiManager };
+export { apiManager, HostName };
