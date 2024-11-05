@@ -209,9 +209,10 @@ function gameSetup() {
     View.setPlayerIcon(apiManager.iconDataUrl);
     View.setPlayerName(apiManager.loginName);
     View.setInstructionContent(apiManager.settings.instructionContent);
-    logController.log("Completed load files!!!!!!!!!!!!!!!!");
+    View.preloadUsedImages(apiManager.settings.option_item_images);
   }
   else {
+    View.preloadUsedImages(null);
     if (removal === '1') {
       setAPIImage(document.getElementById('bgImage'), bgImage);
     }
@@ -223,8 +224,7 @@ async function init() {
   Util.loadingStart();
   // Initialize sounds and preload images concurrently
   await Promise.all([
-    Sound.init(),
-    View.preloadUsedImages()
+    Sound.init()
   ]);
 
   Util.updateLoadingStatus("Loading Data");

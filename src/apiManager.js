@@ -16,6 +16,7 @@ class Settings {
     this.removal = null;
     this.detectionModel = null;
     this.fallSpeed = 0;
+    this.option_item_images = null;
   }
 }
 
@@ -79,8 +80,9 @@ const apiManager = {
           logController.log("questions:", JSON.stringify(this.questionJson, null, 2));
           logController.log(`account: ${JSON.stringify(this.accountJson, null, 2)}`);
           logController.log(`photo: ${photoJsonUrl}`);
-          logController.log(`setting: ${this.gameSettingJson}`);
+          logController.log(`setting: ${JSON.stringify(this.gameSettingJson, null, 2)}`);
           logController.log("payloads:", JSON.stringify(this.payloads, null, 2));
+
 
           if (this.gameSettingJson && JSON.stringify(this.gameSettingJson) !== '{}') {
             if (this.gameSettingJson.background_image_url) {
@@ -99,6 +101,18 @@ const apiManager = {
               logController.log(`Downloaded preview image: ${this.settings.previewGameImageUrl}`);
             }
 
+            if (this.gameSettingJson.fall_item_images) {
+              let optionImages = [];
+              this.gameSettingJson.fall_item_images.forEach((url) => {
+                const optionImage = url.replace(/"/g, "");
+                let optionImageUpdated = optionImage.startsWith("https://")
+                  ? optionImage
+                  : HostName.blobMedia + optionImage;
+                optionImages.push(optionImageUpdated);
+              });
+              this.settings.option_item_images = optionImages;
+              logController.log(`Final option_item_images:`, this.settings.option_item_images); // Debug final output
+            }
             this.settings.instructionContent = this.gameSettingJson.description;
             this.settings.gameTime = this.gameSettingJson.game_time;
             this.settings.fallSpeed = this.gameSettingJson.object_speed;
@@ -133,7 +147,7 @@ const apiManager = {
 
         } else {
           if (onError) onError();
-          logController.error("JSON data not found in the response.");
+          console.error("JSON data not found in the response.");
         }
 
       } catch (error) {
@@ -147,7 +161,7 @@ const apiManager = {
 
     if (!requestSuccessful) {
       if (onError) onError();
-      logController.error(`Failed to get a successful response after ${this.maxRetries} attempts.`);
+      logController.error(`Failed to get a successful response after ${maxRetries} attempts.`);
     }
   },
 
@@ -166,7 +180,7 @@ const apiManager = {
     }
 
     const api = this.submitAnswerAPI(answer, this.payloads, this.accountUid, this.jwt);
-    console.debug("Called submit marks API: " + api);
+    logController.log("Called submit marks API: " + api);
     const maxRetries = this.maxRetries;
     let retryCount = 0;
     let requestSuccessful = false;
@@ -200,7 +214,7 @@ const apiManager = {
     }
 
     if (!requestSuccessful) {
-      console.error("Failed to call upload marks response after " + maxRetries + " attempts.");
+      logController.error("Failed to call upload marks response after " + maxRetries + " attempts.");
       if (onCompleted) onCompleted();
     }
   },

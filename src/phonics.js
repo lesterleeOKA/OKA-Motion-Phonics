@@ -418,7 +418,7 @@ export default {
     optionWrapper.classList.add('fadeIn');
     //logController.log(optionImage);
     if (optionImage !== '' && optionImage !== 'undefined')
-      optionWrapper.style.backgroundImage = `url(${optionImage.src})`;
+      optionWrapper.style.backgroundImage = `url(${optionImage})`;
     optionWrapper.style.width = `${this.optionSize}px`;
     optionWrapper.style.height = `${this.optionSize}px`;
     optionWrapper.id = id;

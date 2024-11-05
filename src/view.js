@@ -71,17 +71,33 @@ export default {
     require("./images/phonics/candy4.png"),
     require("./images/phonics/candy5.png"),
   ],
-
-  preloadUsedImages() {
-    this.optionImages.forEach((path) => {
-      const img = new Image();
-      img.src = path;
-      this.preloadedFallingImages.push(img);
-    });
-
-    logController.log("preloading UsedImages....................", this.preloadedFallingImages);
-    Util.updateLoadingStatus("Loading Images");
+  toAPIImageUrl(url) {
+    if (url === null) return;
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.blob(); // Get the image as a Blob
+      })
+      .then(blob => {
+        Util.updateLoadingStatus("Loading Images");
+        let successUrl = URL.createObjectURL(blob);
+        logController.log("success blob", successUrl);
+        this.preloadedFallingImages.push(successUrl);
+      })
+      .catch(error => {
+        logController.error("Error loading image:", error);
+      });
   },
+  preloadUsedImages(option_images = null) {
+    let logined = option_images !== null ? true : false;
+    let _optionImages = logined ? option_images : this.optionImages;
+    _optionImages.forEach((path) => {
+      this.toAPIImageUrl(path);
+    });
+  },
+
   //-----------------------------------------------------------------------------------------------
   showInstruction() {
     this.instructionWrapper.style.top = 0;
