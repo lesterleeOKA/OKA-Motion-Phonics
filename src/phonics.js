@@ -535,10 +535,10 @@ export default {
     const _question = questions[this.randomQuestionId].question;
     const _answers = questions[this.randomQuestionId].answers;
     let _correctAnswer = questions[this.randomQuestionId].correctAnswer;
-    const _star = questions[this.randomQuestionId].star;
-    const _score = questions[this.randomQuestionId].score;
-    const _correctAnswerIndex = questions[this.randomQuestionId].correctAnswerIndex;
-    const _media = questions[this.randomQuestionId].media;
+    const _star = this.apiManager.isLogined ? questions[this.randomQuestionId].star : null;
+    const _score = this.apiManager.isLogined ? questions[this.randomQuestionId].score.full : null;
+    const _correctAnswerIndex = this.apiManager.isLogined ? questions[this.randomQuestionId].correctAnswerIndex : null;
+    const _media = this.apiManager.isLogined ? questions[this.randomQuestionId].media : null;
 
     if ((_correctAnswer === null || _correctAnswer === undefined) && _correctAnswerIndex !== null && _answers.length > 0) {
       _correctAnswer = _answers[_correctAnswerIndex];
