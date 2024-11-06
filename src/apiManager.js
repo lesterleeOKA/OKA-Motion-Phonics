@@ -147,7 +147,7 @@ const apiManager = {
 
         } else {
           if (onError) onError();
-          console.error("JSON data not found in the response.");
+          logController.error("JSON data not found in the response.");
         }
 
       } catch (error) {
@@ -161,7 +161,7 @@ const apiManager = {
 
     if (!requestSuccessful) {
       if (onError) onError();
-      logController.error(`Failed to get a successful response after ${maxRetries} attempts.`);
+      logController.error(`Failed to get a successful response after ${this.maxRetries} attempts.`);
     }
   },
 

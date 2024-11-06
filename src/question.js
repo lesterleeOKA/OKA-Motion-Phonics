@@ -62,23 +62,25 @@ const QuestionManager = {
     if (apiManager.questionJson && apiManager.isLogined) {
       questions = apiManager.questionJson;
       this.questionType = questions[0].questionType;
-      mediaFiles = questions[0].media;
-
-      if (mediaFiles[0]) {
-        this.mediaType = getMediaType(mediaFiles[0]);
-        logController.log("mediaType:", this.mediaType);
-      }
       logController.log("question Type:", this.questionType);
-      if (mediaFiles.length > 0) {
-        questions.forEach((question) => {
-          const key = question.qid;
-          const url = HostName.blobMedia + question.media;
-          this.apiMedia.push([key, url]);
-          Util.updateLoadingStatus("Loading Medias");
-        });
-        logController.log("apiMedia files:", this.apiMedia);
+      if (questions[0].media && Array.isArray(questions[0].media)) {
+        mediaFiles = questions[0].media;
+        if (mediaFiles.length > 0) {
+          this.mediaType = getMediaType(mediaFiles[0]);
+          logController.log("mediaType:", this.mediaType);
+          questions.forEach((question) => {
+            const key = question.qid;
+            const url = HostName.blobMedia + question.media;
+            this.apiMedia.push([key, url]);
+            Util.updateLoadingStatus("Loading Medias");
+          });
+          logController.log("apiMedia files:", this.apiMedia);
+        } else {
+          logController.log("No media files available for the first question");
+        }
+      } else {
+        logController.log("No media property or not an array for the first question");
       }
-
       this.QUESTION_TYPE = { questions: questions };
     }
     else {

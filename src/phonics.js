@@ -540,8 +540,8 @@ export default {
     const _correctAnswerIndex = this.apiManager.isLogined ? questions[this.randomQuestionId].correctAnswerIndex : null;
     const _media = this.apiManager.isLogined ? questions[this.randomQuestionId].media : null;
 
-    if ((_correctAnswer === null || _correctAnswer === undefined) && _correctAnswerIndex !== null && _answers.length > 0) {
-      _correctAnswer = _answers[_correctAnswerIndex];
+    if ((_correctAnswer === null || _correctAnswer === undefined) && _correctAnswerIndex && _answers) {
+      if (_answers.length > 0) _correctAnswer = _answers[_correctAnswerIndex];
     }
 
     if (this.randomQuestionId < this.totalQuestions - 1) {
