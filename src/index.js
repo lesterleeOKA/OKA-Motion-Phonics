@@ -533,20 +533,19 @@ async function app() {
 
   init().then(() => {
     setTimeout(() => {
-      Camera.initSetup();
-      //(new FPSMeter({ ui: true })).start();
-      createDetector().then((detector) => {
-        logController.log('initial detector model............................');
-        Util.updateLoadingStatus("Loading Model");
-        //const canvas = document.getElementById('output');
-        View.renderer = new RendererCanvas2d(View.canvas);
-        renderPrediction().then(() => {
-          Util.loadingComplete().then(() => {
-            State.changeState('instruction');
-          });
-        })
+      Camera.initSetup(() => {
+        createDetector().then((detector) => {
+          logController.log('initial detector model............................');
+          Util.updateLoadingStatus("Loading Model");
+          View.renderer = new RendererCanvas2d(View.canvas);
+          renderPrediction().then(() => {
+            Util.loadingComplete().then(() => {
+              State.changeState('instruction');
+            });
+          })
+        });
       });
-    }, 1000);
+    }, 2000);
   });
 
 };

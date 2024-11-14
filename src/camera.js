@@ -56,15 +56,22 @@ export default {
     });
   },
 
-  initSetup() {
+  initSetup(onComplete = null) {
     videoStream.width = this.constraints['video'].width;
     videoStream.height = this.constraints['video'].height;
-    this.setup();
+    this.setup(() => {
+      if (onComplete) {
+        onComplete();
+      }
+    });
   },
 
-  setup() {
+  setup(callback = null) {
     this.resetSize(this.video);
     addEventListener("resize", (event) => this.resetSize(this.video));
+    if (callback) {
+      callback();
+    }
     return this;
   },
 
