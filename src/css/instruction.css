@@ -74,7 +74,8 @@
 .instructionWrapper > .instructionBoard > .instructionRule {
   display: flex;
   align-items: center;
-  width: calc(min(52vh, 52vw));
+  /*width: calc(min(52vh, 52vw));*/
+  /*width: calc(min(38vh, 38vw));*/
   height: calc(min(5vh, 5vw));
   position: absolute;
   margin-top: calc(min(18vh, 18vw));
@@ -104,7 +105,7 @@
 .instructionWrapper > .instructionBoard >.instructionRule > .instructionContent {
   font-family: 'PoetsenOne', sans-serif;
   font-weight: 100;
-  font-size: calc(min(2vh, 2vw));
+  font-size: calc(min(2.5vh, 2.5vw));
   color: #7C5729;
   pointer-events: none;
   text-align: center;

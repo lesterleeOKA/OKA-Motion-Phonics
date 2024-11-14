@@ -575,6 +575,7 @@ export default {
     else {
       this.answerLength = 1;
       this.randomPair = this.getRandomAnswersPair(this.randomQuestion.Answers);
+      this.questionWrapper = document.createElement('div');
     }
 
     let questionBg = document.createElement('div');
@@ -587,15 +588,16 @@ export default {
 
     switch (this.randomQuestion.QuestionType) {
       case 'text':
-        questionText = document.createElement('span');
+        this.questionWrapper.classList.add('questionFillBlankWrapper');
         questionBg.classList.add('questionImgBg');
-        questionText.classList.add('questionText');
-        questionText.textContent = this.randomQuestion.Question;
         View.stageImg.appendChild(questionBg);
-        View.stageImg.appendChild(questionText);
-        //var fontSize = `calc(min(max(4vh, 6vh - ${this.randomQuestion.Question.length} * 0.1vh), 6vh))`;
-        //this.questionWrapper.style.setProperty('--question-font-size', fontSize);
+        questionText = document.createElement('span');
+        questionText.textContent = this.randomQuestion.Question;
+        this.questionWrapper.appendChild(questionText);
+        var fontSize = `calc(min(max(4vh, 6vh - ${this.randomQuestion.Question.length} * 0.1vh), 6vh))`;
+        this.questionWrapper.style.setProperty('--question-font-size', fontSize);
         this.answerTextField.classList.add('pictureType');
+        View.stageImg.appendChild(this.questionWrapper);
         resetTouchBtn.style.opacity = 0;
         break;
       case 'pair':

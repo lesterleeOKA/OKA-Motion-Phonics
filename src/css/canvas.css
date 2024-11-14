@@ -156,12 +156,6 @@
   text-align: left;
   font-size: var(--question-font-size);
   padding: calc(min(0.5vh, 0.5vw));
-  line-height: calc(min(4vh, 4vw));
-  /*font-family: "Arzachel", system-ui;*/
-  font-family: 'PoetsenOne', sans-serif;
-  font-weight: 100;
-  /*font-family: Arial, sans-serif;
-  font-weight: 600;*/
   width: calc(min(34.7vh, 34.7vw));
   height: calc(min(15vh, 15vw));
   color: rgb(98 48 16);
@@ -169,6 +163,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  /*font-family: "Arzachel", system-ui;*/
+  font-family: 'PoetsenOne', sans-serif;
+  font-weight: 100;
+  line-height: calc(min(3.5vh, 3.5vw));
 }
 .questionAudioWrapper{
   position: absolute;

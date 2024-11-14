@@ -113,7 +113,7 @@ const apiManager = {
               this.settings.option_item_images = optionImages;
               logController.log(`Final option_item_images:`, this.settings.option_item_images); // Debug final output
             }
-            this.settings.instructionContent = this.gameSettingJson.description;
+            this.settings.instructionContent = this.gameSettingJson.hint;
             this.settings.gameTime = this.gameSettingJson.game_time;
             this.settings.fallSpeed = this.gameSettingJson.object_speed;
             this.settings.removal = this.gameSettingJson.background_removal;

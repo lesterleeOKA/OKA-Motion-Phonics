@@ -217,6 +217,7 @@ function gameSetup() {
       setAPIImage(document.getElementById('bgImage'), bgImage);
     }
   }
+  if (gameTime) State.gameTime = gameTime;
 }
 
 async function init() {
@@ -228,7 +229,6 @@ async function init() {
   ]);
 
   Util.updateLoadingStatus("Loading Data");
-  State.gameTime = gameTime;
   // Load question data and handle callbacks
   await new Promise((resolve, reject) => {
     QuestionManager.checkIsLogin(

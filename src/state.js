@@ -12,7 +12,7 @@ export default {
   stateLastFor: 0,
   stateType: '',
   isSoundOn: true,
-  gameTime: 0,
+  gameTime: null,
   allowTouchWord: true,
   gamePauseData: {
     state: '',
