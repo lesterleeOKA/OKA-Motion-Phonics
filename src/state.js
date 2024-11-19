@@ -181,7 +181,7 @@ export default {
           //logController.log("Play.........................f");
         }
       }
-      Game.countUp(View.finishedScore, 0, Game.score, 2000);
+      Game.countUp(View.finishedScore, 0, Game.score, 2000, true, "", true, 'yellow', '#684f38');
       Game.showFinalStars();
       Game.stopCountTime();
       return;
