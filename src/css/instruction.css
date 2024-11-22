@@ -74,8 +74,7 @@
 .instructionWrapper > .instructionBoard > .instructionRule {
   display: flex;
   align-items: center;
-  /*width: calc(min(52vh, 52vw));*/
-  /*width: calc(min(38vh, 38vw));*/
+  width: calc(min(60vh, 60vw));
   height: calc(min(5vh, 5vw));
   position: absolute;
   margin-top: calc(min(18vh, 18vw));
@@ -86,7 +85,7 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  width: calc(min(5vh, 5vw));
+  width: 15%;
   height: calc(min(5vh, 5vw));
   margin-right: 0.5rem;
 }
@@ -98,7 +97,7 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
   /*-webkit-text-stroke: 2px #797979;*/
   pointer-events: none;
-  text-align: center;
+  text-align: left;
   height: fit-content;
   transform: translateY(5%);
 }
@@ -108,7 +107,7 @@
   font-size: calc(min(2.5vh, 2.5vw));
   color: #7C5729;
   pointer-events: none;
-  text-align: center;
+  text-align: left;
   height: fit-content;
 }
 
