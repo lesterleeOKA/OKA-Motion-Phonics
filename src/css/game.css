@@ -118,7 +118,7 @@
   position: absolute;
   opacity: 0;
   content: url(../images/phonics/ans_wrong_en.png);
-  width: calc(min(25.44vh, 25.44vw));
+  width: calc(min(40.44vh, 40.44vw));
   height: auto;
  /* animation: dropAndDisappear 2s forwards; */
 }
