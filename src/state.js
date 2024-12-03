@@ -204,7 +204,7 @@ export default {
           window.open(homePageUrl, '_self');
         }
       }
-      else if (hostname.includes('www.rainbowone.app')) {
+      else if (hostname.includes('rainbowone.app')) {
         if (this.apiManager.isLogined) {
           this.apiManager.exitGameRecord(
             () => {
