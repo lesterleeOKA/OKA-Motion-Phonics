@@ -218,6 +218,10 @@ export default {
           window.open(homePageUrl, '_self');
         }
       }
+      /*else if (hostname.includes('localhost')) {
+        homePageUrl ='https://localhost/SelectGames/';
+        window.open(homePageUrl, '_self');
+      }*/
       else if (hostname.includes('localhost')) {
         location.reload();
       }
