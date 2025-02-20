@@ -48,7 +48,7 @@
     <div class="optionArea"></div>
 
     <div id="right-hand" class="handCursor">
-      <img src="./src/images/phonics/ui_lefthand.png" class="handCursorImage"/>
+      <img src="./src/images/normal/ui_lefthand.png" class="handCursorImage"/>
       <div class="progress-container">
         <svg class="progress-bar" id="progressBarRight">
           <rect x="0" y="0" width="0" height="100%" fill="#4CAF50" rx="10" ry="10" />
@@ -57,7 +57,7 @@
     </div>
 
     <div id="left-hand" class="handCursor">
-      <img src="./src/images/phonics/ui_righthand.png" class="handCursorImage"/>
+      <img src="./src/images/normal/ui_righthand.png" class="handCursorImage"/>
       <div class="progress-container">
         <svg class="progress-bar" id="progressBarLeft">
           <rect x="0" y="0" width="0" height="100%" fill="#4CAF50" rx="10" ry="10" />
@@ -74,7 +74,7 @@
       <div class="previewImage" id="previewImg"></div>
       <div class="instructionRule">
         <div class="icon"></div>
-        <div class="instructionContent">Use your hands to pair the prefix and suffix!</div>
+        <div class="instructionContent">Use your hands to pair the prefix and suffix.</div>
       </div>
       <div class="startBtn" alt="Start Button"></div>
     </div>
@@ -109,7 +109,7 @@
         <div class="playerText">P1</div>
         <div class="scoreText"></div>
         <div class="playerIcon">
-          <img src="./src/images/phonics/p1_icon.png" alt="Player Icon" id="userIcon">
+          <img src="./src/images/normal/p1_icon.png" alt="Player Icon" id="userIcon">
         </div>
         <div class="playerName">
           <div class="playerNameBox"></div>
@@ -120,8 +120,14 @@
     <div class="topRightControl">
       <img class="tips hide"></img>
       <img class="motionBtn off"></img>
+      <img class="ruleBtn on"></img>
       <img class="musicBtn on"></img>
       <img class="exitBtn"></img>
+      <div class="ruleBox">
+        <span class="hintTitle">Hint</span>
+        <img class="closeBtn"></img>
+        <span class="hints">Use both hands to pair the prefix and suffix.</span>
+      </div>
     </div>
     <img class="count"></img>
     <div class="questionBoard"></div>
@@ -190,7 +196,7 @@
     </div>
   </div>
 
-  <div class="version">Ver:1.07</div>
+  <div class="version">Ver:1.08</div>
   <!--<div class="debug"></div>-->
   <div class="debug" id="stats"></div>
 </body>

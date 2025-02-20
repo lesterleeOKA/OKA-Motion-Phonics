@@ -408,6 +408,20 @@ function handleButtonClick(e) {
       State.changeState(State.gamePauseData.state, State.gamePauseData.stateType);
       State.setSound(true);
       break;
+    case View.ruleBtn:
+      View.ruleBtn.style.pointerEvents = 'none';
+      if (State.isSoundOn) {
+        Sound.play('btnClick');
+      }
+      View.showRuleBox(true);
+      break;
+    case View.ruleCloseBtn:
+      View.ruleBtn.style.pointerEvents = 'auto';
+      if (State.isSoundOn) {
+        Sound.play('btnClick');
+      }
+      View.showRuleBox(false);
+      break;
   }
 }
 
@@ -458,6 +472,12 @@ function handleButtonTouch(e) {
     case View.reloadBtn:
       View.reloadBtn.classList.add('touched');
       break;
+    case View.ruleBtn:
+      View.ruleBtn.classList.add('touched');
+      break;
+    case View.ruleCloseBtn:
+      View.ruleCloseBtn.classList.add('touched');
+      break;
   }
 }
 
@@ -490,6 +510,12 @@ function handleButtonTouchLeave(e) {
     case View.reloadBtn:
       View.reloadBtn.classList.remove('touched');
       break;
+    case View.ruleBtn:
+      View.ruleBtn.classList.remove('touched');
+      break;
+    case View.ruleCloseBtn:
+      View.ruleCloseBtn.classList.remove('touched');
+      break;
   }
 }
 
@@ -503,7 +529,9 @@ function setupEventListeners() {
     View.playAgainBtn,
     View.onBtn,
     View.offBtn,
-    View.reloadBtn
+    View.reloadBtn,
+    View.ruleBtn,
+    View.ruleCloseBtn
   ];
 
   buttons.forEach(button => {

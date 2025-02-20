@@ -80,6 +80,7 @@ export default {
       }
     } else if (state == 'prepare') {
       Game.init(this.gameTime);
+      View.showRuleBox(false);
       View.hideFinished();
       View.showCanvas();
       View.hideInstruction();
@@ -201,7 +202,8 @@ export default {
         }
         else {
           homePageUrl = window.location.origin + '/RainbowOne/webapp/OKAGames/SelectGames/';
-          window.open(homePageUrl, '_self');
+          //window.open(homePageUrl, '_self');
+          window.location.replace(homePageUrl);
         }
       }
       else if (hostname.includes('rainbowone.app')) {
@@ -215,7 +217,8 @@ export default {
         }
         else {
           homePageUrl = 'https://www.starwishparty.com';
-          window.open(homePageUrl, '_self');
+          //window.open(homePageUrl, '_self');
+          window.location.replace(homePageUrl);
         }
       }
       /*else if (hostname.includes('localhost')) {
