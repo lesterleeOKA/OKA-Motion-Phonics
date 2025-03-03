@@ -42,7 +42,6 @@ export default {
     this.remainingTime = gameTime !== null ? gameTime : 60;
     this.updateTimerDisplay(this.remainingTime);
     this.randPositions = [];
-    //View.showTips('tipsReady');
     this.randomQuestion = null;
     this.questionType = QuestionManager.questionField;
     this.totalQuestions = this.questionType.questions ? this.questionType.questions.length : 0;
@@ -58,11 +57,11 @@ export default {
     this.questionWrapper = null;
     this.answerWrapper = null;
     this.answerTextField = null,
-      this.fillwordTime = 0;
+    this.fillwordTime = 0;
     View.stageImg.innerHTML = '';
     View.optionArea.innerHTML = '';
     this.startedGame = false;
-    this.optionSize = View.canvas.width / 8;
+    this.optionSize = View.canvas.width / 12;
     this.answerLength = 0;
     this.answeredNum = 0;
     this.redBoxX = View.canvas.width / 3;
@@ -98,41 +97,32 @@ export default {
   trackingWord(value, hand) {
     requestAnimationFrame(() => {
       var elementName = "progressBar" + hand;
-      // logController.log(elementName);
       const progressBar = document.getElementById(elementName);
       const progressRect = progressBar.getElementsByTagName("rect")[0];
-
-      // Map the value to a percentage (0-100)
       const percentage = Math.min(Math.max(value, 0), 100);
-      // Update the width and color of the progress bar
       progressRect.setAttribute("width", `${percentage}%`);
       progressRect.setAttribute("fill", "#4CAF50");
     });
   },
 
   addScore(mark) {
-    let currentScore = this.score;
+    const currentScore = this.score;
     let newScore = this.score + mark;
 
-    if (newScore < 0)
-      newScore = 0;
+    newScore = Math.max(newScore, 0);
 
     if (newScore >= 30 && newScore < 60) {
       this.starNum = 1;
       View.showSuccess();
-    }
-    else if (newScore >= 60 && newScore <= 90) {
+    } else if (newScore >= 60 && newScore <= 90) {
       this.starNum = 2;
-    }
-    else if (newScore > 90) {
+    } else if (newScore > 90) {
       this.starNum = 3;
-    }
-    else {
+    } else {
       View.showFailure();
     }
 
     this.score = newScore;
-    //View.scoreText.innerText = this.score;
     this.countUp(View.scoreText, currentScore, this.score, 1000);
   },
   countUp(displayElement, start, end, duration, playEffect = true, unit = "", updateTextColor = true, updateColor = 'yellow', originalColor = 'white') {
@@ -140,71 +130,46 @@ export default {
     let lastSoundTime = 0;
     const soundInterval = 200;
 
-    function animate(timestamp) {
+    const animate = (timestamp) => {
       if (!startTime) {
         startTime = timestamp;
         if (updateTextColor) displayElement.style.color = updateColor;
       }
       const progress = timestamp - startTime;
-      // Calculate the current value based on the start value
       const current = Math.min(Math.floor((progress / duration) * (end - start) + start), end);
       displayElement.innerText = current + unit;
 
       if (current < end) {
         if (State.isSoundOn && (timestamp - lastSoundTime >= soundInterval) && playEffect) {
           Sound.play('score');
-          lastSoundTime = timestamp; // Update the last sound time
+          lastSoundTime = timestamp;
         }
         requestAnimationFrame(animate);
-      }
-      else {
+      } else {
         if (updateTextColor) displayElement.style.color = originalColor;
       }
-    }
+    };
     requestAnimationFrame(animate);
   },
-
   showFinalStars() {
     const delayPerStar = 200;
-    const star1 = document.getElementById("star1");
-    const star2 = document.getElementById("star2");
-    const star3 = document.getElementById("star3");
+    const stars = [document.getElementById("star1"), document.getElementById("star2"), document.getElementById("star3")];
 
-    if (this.starNum === 1) {
-      star1.classList.add('show');
-      this.scaleStarUp(star1, 500);
-    }
-    else if (this.starNum === 2) {
-      star1.classList.add('show');
-      this.scaleStarUp(star1, 500, () => {
+    stars.forEach((star, index) => {
+      if (this.starNum > index) {
         setTimeout(() => {
-          star2.classList.add('show');
-          this.scaleStarUp(star2, 500);
-        }, delayPerStar);
-      });
-    }
-    else if (this.starNum === 3) {
-      star1.classList.add('show');
-      this.scaleStarUp(star1, 500, () => {
-        setTimeout(() => {
-          star2.classList.add('show');
-          this.scaleStarUp(star2, 500, () => {
-            setTimeout(() => {
-              star3.classList.add('show');
-              this.scaleStarUp(star3, 500);
-            }, delayPerStar);
-          });
-        }, delayPerStar);
-      });
-    }
+          star.classList.add('show');
+          this.scaleStarUp(star, 1000);
+        }, delayPerStar * index);
+      }
+    });
   },
-
   scaleStarUp(starElement, duration, callback = null) {
     let start = null;
     const initialScale = 0;
     const finalScale = 1;
 
-    function animate(timestamp) {
+    const animate = (timestamp) => {
       if (!start) start = timestamp;
       const progress = timestamp - start;
       const scale = Math.min(initialScale + (progress / duration), finalScale);
@@ -216,11 +181,10 @@ export default {
       } else if (callback) {
         callback();
       }
-    }
+    };
 
     requestAnimationFrame(animate);
   },
-
   startCountTime() {
     if (!this.startedGame) {
       this.time = this.remainingTime;
@@ -240,44 +204,40 @@ export default {
         this.nextQuestion = false;
       }
 
-      //this.wordParts.splice(0);
-      //View.optionArea.innerHTML = '';
       if (this.wordParts.length === 0) {
-        View.preloadedFallingImages = View.preloadedFallingImages.sort(() => Math.random() - 0.5);
-        const halfLength = Math.floor(this.randomPair.length / 2);
-        for (let i = 0; i < this.randomPair.length; i++) {
-          const optionImageIndex = i % View.preloadedFallingImages.length;
-          let isLeft;
-          if (i < halfLength) {
-            isLeft = true;
-          } else if (i < this.randomPair.length - (this.randomPair.length % 2)) {
-            isLeft = false;
-          } else {
-            isLeft = Math.random() < 0.5; // Randomly assign left or right
-          }
-          this.createRandomPartWord(this.randomPair[i], isLeft, View.preloadedFallingImages[optionImageIndex]);
-        }
+        this.populateWordParts();
       }
 
       this.time--;
       this.updateTimerDisplay(this.time);
 
       if (this.time <= 10 && !this.isPlayLastTen) {
-        if (State.isSoundOn) {
-          Sound.play('lastTen', true);
-          logController.log('play last ten!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-        }
-        View.timeText.classList.add('lastTen');
-        this.isPlayLastTen = true;
+        this.playLastTenSound();
       }
 
       if (this.time <= 0) {
         this.finishedGame();
-      }
-      else {
+      } else {
         this.timer = setTimeout(this.countTime.bind(this), 1000);
       }
     }
+  },
+  populateWordParts() {
+    View.preloadedFallingImages = View.preloadedFallingImages.sort(() => Math.random() - 0.5);
+    const halfLength = Math.floor(this.randomPair.length / 2);
+    for (let i = 0; i < this.randomPair.length; i++) {
+      const optionImageIndex = i % View.preloadedFallingImages.length;
+      const isLeft = i < halfLength || (i >= this.randomPair.length - (this.randomPair.length % 2) && Math.random() < 0.5);
+      this.createRandomPartWord(this.randomPair[i], isLeft, View.preloadedFallingImages[optionImageIndex]);
+    }
+  },
+  playLastTenSound() {
+    if (State.isSoundOn) {
+      Sound.play('lastTen', true);
+      logController.log('play last ten!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    }
+    View.timeText.classList.add('lastTen');
+    this.isPlayLastTen = true;
   },
   stopCountTime() {
     if (this.timerRunning) {
@@ -299,7 +259,6 @@ export default {
   createRandomPartWord(char, isLeft, optionImage, id = null, _optionWrapper = null) {
     if (char && char.length !== 0) {
       const localId = id || this.generateUniqueId();
-      //let position = this.randPosition(isLeft, localId);
       if (!this.usableCells) {
         const grid = this.generateGrid();
         this.usableCells = this.getUsableCells(grid);
@@ -319,51 +278,16 @@ export default {
           optionWrapper,
           id: localId,
         };
-        // Check for collisions with existing items
-        /*let collision = this.checkCollisionWithExistingItems(newPartWord);
-        let attempts = 0;
-        const maxAttempts = 20;
-
-        while (collision && attempts < maxAttempts) {
-          this.wordParts = this.wordParts.filter((item) => item.id !== localId);
-          position = this.randPosition(isLeft, localId);
-          newPartWord.x = position.x;
-          newPartWord.y = position.y;
-          collision = this.checkCollisionWithExistingItems(newPartWord);
-          attempts++;
-        }
-
-        if (!collision) {
-          this.wordParts.push(newPartWord);
-          this.renderPartItem(newPartWord);
-        } else {
-          //this.wordParts = this.wordParts.filter((item) => item.id !== localId);
-          console.warn('Could not find a valid position for the new part word.');
-          newPartWord.x = 0;
-          newPartWord.y = 0;
-          this.wordParts.push(newPartWord);
-          this.renderPartItem(newPartWord);
-          //this.createRandomPartWord(char, isLeft, optionImage, localId, optionWrapper);
-        }*/
-
         this.wordParts.push(newPartWord);
         this.renderPartItem(newPartWord);
       }
       else {
-        console.warn('No usable cells available for the new part word.');
+        alert('No usable cells available for the new part word.');
       }
     }
   },
   checkCollisionWithExistingItems(newPartWord) {
-    let collision = false;
-    for (let i = 0; i < this.wordParts.length; i++) {
-      const existingPart = this.wordParts[i];
-      if (this.checkCollision(newPartWord, existingPart)) {
-        collision = true;
-        break;
-      }
-    }
-    return collision;
+    return this.wordParts.some(existingPart => this.checkCollision(newPartWord, existingPart));
   },
   checkCollision(item1, item2) {
     return (
@@ -373,13 +297,12 @@ export default {
       item1.y + item1.size > item2.y
     );
   },
-
   generateGrid() {
     const cellSize = this.optionSize;
-    const margin = 15;
+    const margin = 45;
     const grid = [];
     for (let x = margin; x < View.canvas.width; x += cellSize + margin) {
-      for (let y = 150; y < View.canvas.height - (cellSize * 1.6); y += cellSize + margin) {
+      for (let y = 210; y < View.canvas.height - (cellSize * 1.6); y += cellSize + margin) {
         grid.push({ x, y });
       }
     }
@@ -391,11 +314,10 @@ export default {
     const rightCells = grid.filter(cell => cell.x > this.redBoxX + this.redBoxWidth && cell.x < View.canvas.width - this.optionSize);
     return { left: leftCells, right: rightCells };
   },
-
   getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   },
-  randPosition(isLeft, id) {
+  /*randPosition(isLeft, id) {
     if (isLeft) {
       return {
         x: Math.round(this.getRandomInt(0, this.redBoxX - this.optionSize)),
@@ -411,7 +333,7 @@ export default {
         id,
       }
     }
-  },
+  },*/
   createOptionWrapper(text, id, optionImage) {
     let optionWrapper = document.createElement('div');
     optionWrapper.classList.add('optionWrapper');
