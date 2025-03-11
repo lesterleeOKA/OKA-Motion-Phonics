@@ -21,7 +21,7 @@ let drawContour = false;
 let foregroundThresold = 0.65;
 const bgImage = require('./images/phonics/bg.jpg');
 const fpsDebug = document.getElementById('stats');
-let { jwt, id, levelKey, model, removal, fps, gameTime } = parseUrlParams();
+let { jwt, id, levelKey, model, removal, fps, gameTime, engFontSize} = parseUrlParams();
 let holdTimeout;
 
 async function createDetector() {
@@ -218,6 +218,7 @@ function gameSetup() {
     }
   }
   if (gameTime) State.gameTime = gameTime;
+  if  (engFontSize) State.engFontSize = engFontSize;
 }
 
 async function init() {

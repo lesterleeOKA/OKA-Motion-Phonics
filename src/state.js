@@ -13,6 +13,7 @@ export default {
   stateType: '',
   isSoundOn: true,
   gameTime: null,
+  engFontSize: null,
   allowTouchWord: true,
   gamePauseData: {
     state: '',
@@ -63,7 +64,7 @@ export default {
     if (state == 'instruction') {
       //const bgImageElement = document.getElementById('bgImage');
       //bgImageElement.style.backgroundColor = 'black';
-      Game.init(this.gameTime);
+      Game.init(this.gameTime, this.engFontSize);
       View.setProgressBar(false);
       View.hideTopLeftControl();
       View.hideTips();
@@ -79,7 +80,7 @@ export default {
         //Sound.play('instruction');
       }
     } else if (state == 'prepare') {
-      Game.init(this.gameTime);
+      Game.init(this.gameTime, this.engFontSize);
       View.showRuleBox(false);
       View.hideFinished();
       View.showCanvas();

@@ -37,9 +37,11 @@ export default {
   touchResetBtn: false,
   usableCells: null,
   apiManager: null,
+  engFontSize: null,
 
-  init(gameTime = null) {
+  init(gameTime = null, engFontSize=null) {
     this.remainingTime = gameTime !== null ? gameTime : 60;
+    this.engFontSize = engFontSize !== null ? engFontSize : 50;
     this.updateTimerDisplay(this.remainingTime);
     this.randPositions = [];
     this.randomQuestion = null;
@@ -349,10 +351,12 @@ export default {
     option.classList.add('option');
     //option.type = 'text';
     option.textContent = text;
-    let containerWidth = this.optionSize;
-    let maxFontSize = 45; // Maximum font size in px
-    let minFontSize = 10; // Minimum font size in px
-    let fontSize = Math.max(minFontSize, Math.min(maxFontSize, containerWidth / (text.length * 0.65)));
+    //let containerWidth = this.optionSize;
+    //let maxFontSize = 45; // Maximum font size in px
+    //let minFontSize = 10; // Minimum font size in px
+    //let fontSize = Math.max(minFontSize, Math.min(maxFontSize, containerWidth / (text.length * 0.65)));
+    let fontSize = this.engFontSize;
+    //console.log("option font size:" , fontSize);
     option.style.fontSize = `${fontSize}px`;
     optionWrapper.appendChild(option);
     return optionWrapper;
