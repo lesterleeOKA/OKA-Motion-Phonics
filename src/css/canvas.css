@@ -8,17 +8,17 @@
 .canvasWrapper > .handCursor{
   position: absolute;
   display: none;
-  width: calc(min(10vh, 10vw));
+  width: calc(min(8vh, 8vw));
   height: auto;
 }
 .canvasWrapper > .handCursor > .handCursorImage {
   position: absolute;
-  width: calc(min(8vh, 8vw));
+  width: 100%;
   height: auto;
   z-index: 2;
-  left: 50%;
+  /*left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);*/
 }
 
 .progress-container {
@@ -26,7 +26,7 @@
   background-color: #f0f0f0;
   border-radius: calc(min(2vh, 2vw));
   height: 20px;
-  top: calc(min(6vh, 6vw));
+  top: calc(min(10vh, 10vw));
 }
 .progress-bar {
   transition: width 0.25s ease-in-out;

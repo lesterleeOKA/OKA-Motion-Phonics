@@ -120,14 +120,44 @@ export class RendererCanvas2d {
     rightHandImg.style.display = 'none';
     leftHandImg.style.display = 'none';
 
+    const wristPositions = {
+        right_wrist: null,
+        left_wrist: null
+    };
+
     checkKeypoints.forEach(point => {
-      const img = point.name === 'right_wrist' ? rightHandImg : leftHandImg;
-      const xInVw = (point.x / window.innerWidth) * (point.name === 'right_wrist' ? 95 : 105);
-      const yInVw = window.innerWidth / 12;
-      img.style.left = `calc(${xInVw}vw - calc(min(3vh, 3vw)))`;
-      img.style.top = `${point.y - yInVw}px`;
-      img.style.display = 'block';
+        if (point.name === 'right_wrist') {
+            wristPositions.right_wrist = point;
+        } else if (point.name === 'left_wrist') {
+            wristPositions.left_wrist = point;
+        }
     });
+
+    const processHand = (hand, handImg) => {
+        const wristDetected = wristPositions[`${hand}_wrist`] !== null;
+        const indexDetected = checkKeypoints.some(point => point.name === `${hand}_index`);
+
+        if (wristDetected && indexDetected) {
+            checkKeypoints.forEach(point => {
+                if (point.name === `${hand}_index`) {
+                    const xInVw = (point.x / window.innerWidth) * (hand === 'right' ? 100 : 105);
+                    handImg.style.left = `calc(${xInVw}vw - calc(min(5vh, 5vw)))`;
+                    handImg.style.top = `${point.y}px`;
+
+                    const wristPoint = wristPositions[`${hand}_wrist`];
+                    const deltaY = point.y - wristPoint.y;
+                    const deltaX = point.x - wristPoint.x;
+                    let angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI) + 90;
+
+                    handImg.style.transform = `rotate(${angle}deg)`;
+                    handImg.style.display = 'block';
+                }
+            });
+        }
+    };
+
+    processHand('right', rightHandImg);
+    processHand('left', leftHandImg);
   }
 
   isPoseValid(poses) {
@@ -157,7 +187,7 @@ export class RendererCanvas2d {
   }
 
   handleWaitAnsPose(pose, passScore, rightHandImg, leftHandImg, optionWrappers, resetBtn) {
-    const checkKeypoints = pose.keypoints.filter(k => ['right_wrist', 'left_wrist'].includes(k.name) && k.score > passScore);
+    const checkKeypoints = pose.keypoints.filter(k => ['right_index', 'left_index', 'right_wrist', 'left_wrist'].includes(k.name) && k.score > passScore);
     this.updateHandDisplays(checkKeypoints, rightHandImg, leftHandImg);
 
     const touchingWord = [];
